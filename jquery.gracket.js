@@ -1,4 +1,4 @@
-// ItsGosu | Bracket Plugin (jquery.gracket.js)
+// ItsGosu | Bracket Plugin | Gracket (jquery.gracket.js)
 // Erik Zettersten
 // Version 0.1
 
