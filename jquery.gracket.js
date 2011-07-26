@@ -9,10 +9,9 @@
         var methods = {
             init : function(options) {
                 this.gracket.settings = $.extend({}, this.gracket.defaults, options);
-				alert(options.foo);
-                return this.each(function() {
-					console.log(options.foo);
-                });
+                
+                
+                
             },
 
 			// We can call methods publically
@@ -53,6 +52,4 @@
 })(jQuery);
 
 // Call Plugin
-$("[data-gracket]").gracket({
-	foo : "bar"
-});
+$("[data-gracket]").gracket();
