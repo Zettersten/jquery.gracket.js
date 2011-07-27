@@ -5,5 +5,7 @@
 | |__| | | | (_| | (__|   <  __/ |_ 
  \_____|_|  \__,_|\___|_|\_\___|\__|
 
-A more modern approach to handling tournament brackets in jQuery.
+
+A modern approach to handling tournament brackets in jQuery.
+
 Built for http://itsgosu.com! 
