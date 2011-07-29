@@ -9,27 +9,38 @@
         var methods = {
             init : function(options) {
                 this.gracket.settings = $.extend({}, this.gracket.defaults, options);
-                
-                
-                
+                methods.generate();          
             },
+        	generate : function(){
+        		helpers.build.node();
+        	},
 
 			// We can call methods publically
 			// $("[data-gracket]").gracket('foo_public_method');
             foo_public_method: function() {
                alert("public method");
-            }
+        	}
 
         }
 
         // Private methods
         var helpers = {
-			create_tier : function(){
-				alert("create tier");
-			},
-			create_node : function(){
-				
-			}
+        	build : {
+        		node : function(){
+					alert("build node html");
+					alert(helpers.populate.node("data goes here"));
+				}
+        	},
+        	populate : {
+        		node : function(data){
+        			return data;
+        		}
+        	},
+        	design : {
+        		offset : function(){
+        			
+        		}
+        	}
         }
 
         // if a method as the given argument exists
