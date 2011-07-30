@@ -1,1 +1,22 @@
 @import "_vars";
+
+body {
+	font-family: helvetica, verdana, arial, sans-serif;
+	font-size:12px;
+	line-height:100%;
+	
+	> div {
+		margin:25px;
+		height:420px;
+	}
+}
+
+.g_column {
+	border:1px solid red;
+}
+.g_node {
+	border: 1px solid green;
+}
+.g_player {
+	border: 1px solid blue;
+}

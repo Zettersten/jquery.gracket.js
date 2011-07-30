@@ -4,6 +4,9 @@
 
 (function($) {
     $.fn.gracket = function(method) {
+		
+		var container = this;
+		var data = container.data("gracket");
 
         // Public methods
         var methods = {
@@ -12,7 +15,7 @@
                 methods.generate();          
             },
         	generate : function(){
-        		helpers.build.node();
+				container.append(helpers.build.column());
         	},
 
 			// We can call methods publically
@@ -23,24 +26,48 @@
 
         }
 
+
+		
         // Private methods
         var helpers = {
         	build : {
-        		node : function(){
-					alert("build node html");
-					alert(helpers.populate.node("data goes here"));
+        		player : function(){
+					return player = $("<div />", {
+						html : "<h3><span>{{id}}</span>{{name}}</h3>",
+						id : "player_{{id}}",
+						class : "{{class}} g_player"
+					});
+				},
+				node : function(){
+					return node = $("<div />", {
+						id : "node_{{id}}",
+						class : "{{class}} g_node"
+					}).css({
+						width : 120,
+						height : container.height() / data[0].length
+					});
+				},
+				column : function(){
+					// create markup for column
+					return column = $("<div />", {
+						id : "col_{{id}}",
+						class : "{{class}} g_column"
+					}).css({
+						width : 120,
+						height : container.height()
+					});
 				}
         	},
         	populate : {
-        		node : function(data){
-        			return data;
-        		}
+        		node : function(){
+        		},
+				column : function(){
+				},
+				player : function(){
+					
+				}
         	},
-        	design : {
-        		offset : function(){
-        			
-        		}
-        	}
+        	design : {}
         }
 
         // if a method as the given argument exists
@@ -56,7 +83,6 @@
 
     // Defaults
     $.fn.gracket.defaults = {}
-
 	// Defaults => Settings
     $.fn.gracket.settings = {}
 
@@ -64,3 +90,5 @@
 
 // Call Plugin
 $("[data-gracket]").gracket();
+
+

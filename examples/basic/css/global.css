@@ -1,0 +1,26 @@
+/* line 3, ../sass/global.scss */
+body {
+  font-family: helvetica, verdana, arial, sans-serif;
+  font-size: 12px;
+  line-height: 100%;
+}
+/* line 8, ../sass/global.scss */
+body > div {
+  margin: 25px;
+  height: 420px;
+}
+
+/* line 14, ../sass/global.scss */
+.g_column {
+  border: 1px solid red;
+}
+
+/* line 17, ../sass/global.scss */
+.g_node {
+  border: 1px solid green;
+}
+
+/* line 20, ../sass/global.scss */
+.g_player {
+  border: 1px solid blue;
+}
