@@ -12,11 +12,14 @@ body {
 }
 
 .g_column {
-	border:1px solid red;
+	background:red;
+	float:left;
 }
 .g_node {
-	border: 1px solid green;
+	background:green;
 }
 .g_player {
-	border: 1px solid blue;
+	background:blue;
+	color:white;
+	padding:15px;
 }

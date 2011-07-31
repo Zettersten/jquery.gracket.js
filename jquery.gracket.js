@@ -15,7 +15,23 @@
                 methods.generate();          
             },
         	generate : function(){
-				container.append(helpers.build.column());
+        		// build first col // get value/object and send to populate method
+        		for (var i=0; i < data[0].length; i++) {
+        			for (var k=0; k < data[0][i].length; k++) {
+        				// console.log(data[0][i][k]);
+        				var counter = 0;
+        				$.each(data[0][i][k], function(key, value, length, ea){
+        					var item = helpers.build.player();
+        					
+							
+        					// set class
+        					item.attr("class", item.attr("class").replace("{{class}}", "group_" + i + " gteam_" + k + " gitem_" + counter++));
+        					
+        					
+        					container.append(item);
+        				});
+        			};
+        		};
         	},
 
 			// We can call methods publically
@@ -34,13 +50,11 @@
         		player : function(){
 					return player = $("<div />", {
 						html : "<h3><span>{{id}}</span>{{name}}</h3>",
-						id : "player_{{id}}",
 						class : "{{class}} g_player"
 					});
 				},
 				node : function(){
 					return node = $("<div />", {
-						id : "node_{{id}}",
 						class : "{{class}} g_node"
 					}).css({
 						width : 120,
@@ -50,7 +64,6 @@
 				column : function(){
 					// create markup for column
 					return column = $("<div />", {
-						id : "col_{{id}}",
 						class : "{{class}} g_column"
 					}).css({
 						width : 120,

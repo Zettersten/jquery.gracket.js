@@ -12,15 +12,18 @@ body > div {
 
 /* line 14, ../sass/global.scss */
 .g_column {
-  border: 1px solid red;
+  background: red;
+  float: left;
 }
 
-/* line 17, ../sass/global.scss */
+/* line 18, ../sass/global.scss */
 .g_node {
-  border: 1px solid green;
+  background: green;
 }
 
-/* line 20, ../sass/global.scss */
+/* line 21, ../sass/global.scss */
 .g_player {
-  border: 1px solid blue;
+  background: blue;
+  color: white;
+  padding: 15px;
 }
