@@ -7,39 +7,46 @@
 		
 		var container = this;
 		var data = container.data("gracket");
+		var team_count;
+		var round_count;
+		var game_count;
 
         // Public methods
         var methods = {
             init : function(options) {
                 this.gracket.settings = $.extend({}, this.gracket.defaults, options);
-                methods.generate();          
-            },
-        	generate : function(){
-        		// build first col // get value/object and send to populate method
-        		for (var i=0; i < data[0].length; i++) {
-        			for (var k=0; k < data[0][i].length; k++) {
-        				// console.log(data[0][i][k]);
-        				var counter = 0;
-        				$.each(data[0][i][k], function(key, value, length, ea){
-        					var item = helpers.build.player();
-        					
+                
+                round_count = data.length;
+                
+                //  create rounds
+                for (var r=0; r < round_count; r++) {
+					
+                	var round_html = helpers.build.round();
+					container.append(round_html);
+
+					// create games in round
+					game_count = data[r].length;
+					
+					for (var g=0; g < game_count; g++) {
+						
+						var game_html = helpers.build.game();
+						round_html.append(game_html);
+						
+						// create teams in game
+						team_count = data[r][g].length;
+						
+						for (var t=0; t < team_count; t++) {
 							
-        					// set class
-        					item.attr("class", item.attr("class").replace("{{class}}", "group_" + i + " gteam_" + k + " gitem_" + counter++));
-        					
-        					
-        					container.append(item);
-        				});
-        			};
-        		};
-        	},
+							var team_html = helpers.build.team();
+							game_html.append(team_html);
+							
+						};
 
-			// We can call methods publically
-			// $("[data-gracket]").gracket('foo_public_method');
-            foo_public_method: function() {
-               alert("public method");
-        	}
+					};
 
+                };
+                
+            }
         }
 
 
@@ -47,40 +54,27 @@
         // Private methods
         var helpers = {
         	build : {
-        		player : function(){
-					return player = $("<div />", {
+				team : function(){
+					return team = $("<div />", {
 						html : "<h3><span>{{id}}</span>{{name}}</h3>",
-						class : "{{class}} g_player"
+						class : "{{class}} g_team"
 					});
 				},
-				node : function(){
-					return node = $("<div />", {
-						class : "{{class}} g_node"
+				game : function(){
+					return game = $("<div />", {
+						class : "{{class}} g_game"
 					}).css({
-						width : 120,
-						height : container.height() / data[0].length
+						width : 120
 					});
 				},
-				column : function(){
-					// create markup for column
-					return column = $("<div />", {
-						class : "{{class}} g_column"
+				round : function(){
+					return round = $("<div />", {
+						class : "{{class}} g_round"
 					}).css({
-						width : 120,
-						height : container.height()
+						width : 120
 					});
 				}
-        	},
-        	populate : {
-        		node : function(){
-        		},
-				column : function(){
-				},
-				player : function(){
-					
-				}
-        	},
-        	design : {}
+        	}
         }
 
         // if a method as the given argument exists

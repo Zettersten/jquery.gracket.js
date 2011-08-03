@@ -11,19 +11,22 @@ body > div {
 }
 
 /* line 14, ../sass/global.scss */
-.g_column {
+.g_round {
   background: red;
   float: left;
+  margin-right: 20px;
 }
 
-/* line 18, ../sass/global.scss */
-.g_node {
+/* line 19, ../sass/global.scss */
+.g_game {
   background: green;
+  margin-bottom: 20px;
 }
 
-/* line 21, ../sass/global.scss */
-.g_player {
+/* line 23, ../sass/global.scss */
+.g_team {
   background: blue;
   color: white;
-  padding: 15px;
+  padding: 5px;
+  margin: 0 0 10px;
 }

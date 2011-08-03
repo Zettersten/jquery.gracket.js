@@ -11,15 +11,19 @@ body {
 	}
 }
 
-.g_column {
+.g_round {
 	background:red;
 	float:left;
+	margin-right:20px;
 }
-.g_node {
+.g_game {
 	background:green;
+	margin-bottom:20px;
 }
-.g_player {
+.g_team {
 	background:blue;
 	color:white;
-	padding:15px;
+	padding:5px;
+	margin:0 0 10px;
+	
 }
