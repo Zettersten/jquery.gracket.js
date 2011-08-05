@@ -1,0 +1,4 @@
+* { margin:0; padding:0; }
+body { margin:50px; background: #fefefe }
+#bracket { border:1px solid #ccc; padding:15px; background:#efefef; overflow:hidden; }
+#bracket div > div { border: 1px solid #ccc; background:#fefefe; padding:5px; border-radius:4px; box-shadow:1px 1px 1px rgba(0,0,0,.1)}
