@@ -12,21 +12,50 @@ body > div {
 
 /* line 14, ../sass/global.scss */
 .g_round {
-  background: red;
   float: left;
-  margin-right: 20px;
+  margin-right: 30px;
 }
 
-/* line 19, ../sass/global.scss */
+/* line 18, ../sass/global.scss */
 .g_game {
-  background: green;
-  margin-bottom: 20px;
+  background: #efefef;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 10px;
+  position: relative;
 }
 
-/* line 23, ../sass/global.scss */
+/* line 26, ../sass/global.scss */
 .g_team {
-  background: blue;
-  color: white;
-  padding: 5px;
-  margin: 0 0 10px;
+  height: 18px;
+}
+/* line 28, ../sass/global.scss */
+.g_team h3 {
+  position: relative;
+}
+/* line 30, ../sass/global.scss */
+.g_team h3 span {
+  background: none repeat scroll 0 0 #000;
+  border-radius: 10px 10px 10px 10px;
+  display: inline-block;
+  font-size: 8px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 10px;
+  color: #fff;
+}
+
+/* line 46, ../sass/global.scss */
+.g_connector {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 8px;
+  width: 8px;
+  margin-top: -4px;
 }

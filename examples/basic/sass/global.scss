@@ -12,18 +12,44 @@ body {
 }
 
 .g_round {
-	background:red;
 	float:left;
-	margin-right:20px;
+	margin-right:30px;
 }
 .g_game {
-	background:green;
-	margin-bottom:20px;
+	background:#efefef;
+	margin-bottom:10px;
+	border:1px solid #ccc;
+	padding:10px;
+	font-size:10px;
+	position:relative;
 }
 .g_team {
-	background:blue;
-	color:white;
-	padding:5px;
-	margin:0 0 10px;
-	
+	height:18px;
+	h3 {
+		position:relative;
+		span {
+		    background: none repeat scroll 0 0 #000;
+		    border-radius: 10px 10px 10px 10px;
+		    display: inline-block;
+		    font-size: 8px;
+		    overflow: hidden;
+		    padding: 0;
+		    position: absolute;
+		    right: 0;
+		    text-align: center;
+		    top: 0;
+		    width: 10px;
+			color:#fff;
+		}
+	}
 }
+.g_connector {
+	position:absolute;
+	left:0;
+	top:50%;
+	height:8px;
+	width:8px;
+	margin-top:-4px;
+}
+
+
