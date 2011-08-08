@@ -88,9 +88,9 @@ $(document).ready(function () {
    ///Drawing
 
 
-      var bracket = jQuery.parseJSON(matchUp);
+      //var bracket = jQuery.parseJSON(matchUp);
       
-      //var bracket = jQuery.parseJSON('[[["A","B"],["C","D"],["D","E"],["F","G"]]]');
+      var bracket = jQuery.parseJSON('[[["A","B"],["C","D"],["D","E"],["F","G"]]]');
 
       //var bracket = jQuery.parseJSON('[[["A","B"],["C","D"],["D","E"],["F","G"]],[["A","B"],["C","D"]],[["B","C"]],[["C"]]]');
 
@@ -123,7 +123,7 @@ $(document).ready(function () {
             }else{//Calculate spacing
                 spacing = (firstRoundGames / currentGamesCount * (50) / 2) - 12 + "px;";
             }
-            HTML += "<div id='r" + currentRound + "g" + currentGame + "' style='width: 50px; height: 48px; margin-top: " + spacing + "; margin-bottom:10px'>";
+            HTML += "<div id='r" + currentRound + "g" + currentGame + "' style='width: 50px; height: 48px; margin-top: " + spacing + ";'>";
             
             var teamsInGame = games.length;
             $.each(games,function(k,team){
