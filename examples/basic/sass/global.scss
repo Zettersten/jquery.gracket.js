@@ -4,7 +4,6 @@ body {
 	font-family: helvetica, verdana, arial, sans-serif;
 	font-size:12px;
 	line-height:100%;
-	
 	> div {
 		margin:25px;
 		height:420px;
@@ -13,7 +12,7 @@ body {
 
 .g_round {
 	float:left;
-	margin-right:30px;
+	margin-right:10px;
 }
 .g_game {
 	background:#efefef;
@@ -22,25 +21,12 @@ body {
 	padding:10px;
 	font-size:10px;
 	position:relative;
+	width:80px;
 }
 .g_team {
 	height:18px;
-	h3 {
-		position:relative;
-		span {
-		    background: none repeat scroll 0 0 #000;
-		    border-radius: 10px 10px 10px 10px;
-		    display: inline-block;
-		    font-size: 8px;
-		    overflow: hidden;
-		    padding: 0;
-		    position: absolute;
-		    right: 0;
-		    text-align: center;
-		    top: 0;
-		    width: 10px;
-			color:#fff;
-		}
+	span {
+		display:none;
 	}
 }
 .g_connector {

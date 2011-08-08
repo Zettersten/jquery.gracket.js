@@ -5,11 +5,13 @@
 (function($) {
 	$.fn.gracket = function(method) {
 		
-		var container = this;
-		var data = container.data("gracket");
-		var team_count;
-		var round_count;
-		var game_count;
+		var 
+			container = this,
+			data = JSON.parse(container.data("gracket")),
+			team_count,
+			round_count,
+			game_count
+		;
 		
 		
 		// Defaults
@@ -17,7 +19,6 @@
 			gameClass : "g_game",
 			roundClass : "g_round",
 			teamClass : "g_team",
-			nodeWidth : 120,
 			winnerClass : "g_winner",
 			connectorClass : "g_connector"
 		}
@@ -75,10 +76,6 @@
 			}
 		
 		};
-
-		
-
-
 		
 		// Private methods
 		var helpers = {
@@ -93,15 +90,11 @@
 					return game = $("<div />", {
 						class : node.gameClass,
 						html : "<div class="+ node.connectorClass +"></div>"
-					}).css({
-						width : node.nodeWidth
 					});
 				},
 				round : function(node){
 					return round = $("<div />", {
 						class : node.roundClass
-					}).css({
-						width : node.nodeWidth
 					});
 				}
 			},
@@ -117,14 +110,7 @@
 				}
 			}, 
 			listeners : function(){	
-				
-				// example only
-				$(".g_1234").hover(function(){
-					$(".g_1234").css({ background : "yellow" })
-				}, function(){
-					$(".g_1234").css({ background : "none" })
-				});
-				
+				// tbd
 			}
 		};
 	
