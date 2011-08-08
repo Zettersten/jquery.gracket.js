@@ -20,6 +20,7 @@
 			roundClass : "g_round",
 			teamClass : "g_team",
 			winnerClass : "g_winner",
+			spacerClass : "g_winner",
 			connectorClass : "g_connector"
 		}
 		
@@ -96,6 +97,12 @@
 					return round = $("<div />", {
 						class : node.roundClass
 					});
+				},
+				spacer : function(node, yOffset){
+					return spacer = $("<div />", {
+						class : node.spacerClass,
+						marginTop : yOffset
+					});
 				}
 			},
 			align : {
@@ -107,6 +114,13 @@
 				},
 				winner : function(game_html, node, yOffset, r){
 					return game_html.addClass(node.winnerClass).css({ height : game_html.height() * 2, marginTop: yOffset + (Math.pow(2, (r - 3)) * yOffset - (yOffset / 2)) });
+				},
+				spacer : function(required, node, yOffset){
+					if (required) {
+						return helpers.build.spacer()
+					} else {
+						return false;
+					};
 				}
 			}, 
 			listeners : function(){	
