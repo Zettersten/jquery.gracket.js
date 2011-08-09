@@ -13,14 +13,13 @@
 			game_count
 		;
 		
-		
 		// Defaults
 		$.fn.gracket.defaults = {
 			gameClass : "g_game",
 			roundClass : "g_round",
 			teamClass : "g_team",
 			winnerClass : "g_winner",
-			spacerClass : "g_winner",
+			spacerClass : "g_spacer",
 			connectorClass : "g_connector"
 		}
 		
@@ -32,11 +31,9 @@
 			init : function(options) {
 				
 				this.gracket.settings = $.extend({}, this.gracket.defaults, options);
-		
-				// get data length
-				round_count = data.length;
-				
+
 				//  create rounds
+				round_count = data.length;
 				for (var r=0; r < round_count; r++) {
 					
 					var round_html = helpers.build.round(this.gracket.settings);
@@ -46,11 +43,20 @@
 					game_count = data[r].length;		
 					for (var g=0; g < game_count; g++) {
 		
-						var game_html = helpers.build.game(this.gracket.settings);
+						var 
+							game_html = helpers.build.game(this.gracket.settings),
+							outer_height = container.find("." + this.gracket.settings.gameClass).outerHeight(true),
+							spacer = helpers.build.spacer(this.gracket.settings, outer_height, r)
+						;
+						
+						// append spacer
+						if (g % 1 == 0) round_html.append(spacer);
+						
+						// append game
 						round_html.append(game_html);
 						
 						// align game
-						helpers.align.game(game_html, container.find("." + this.gracket.settings.gameClass).outerHeight(true), r);
+						helpers.align.game(game_html, outer_height, r);
 						
 						// create teams in game
 						team_count = data[r][g].length;
@@ -61,7 +67,7 @@
 							
 							// adjust winner
 							if (team_count === 1) {
-								helpers.align.winner(game_html, this.gracket.settings, container.find("." + this.gracket.settings.gameClass).outerHeight(true), r);
+								helpers.align.winner(game_html, this.gracket.settings, outer_height, r);
 								
 								// init the listeners after gracket is built
 								helpers.listeners();
@@ -84,7 +90,7 @@
 				team : function(data, node){
 					return team = $("<div />", {
 						html : "<h3><span>"+ (data.id || 0) +"</span>"+ data.name +"</h3>",
-						class : node.teamClass + " " + data.id
+						class : node.teamClass + " " + (data.id || "id_null")
 					});
 				},
 				game : function(node){
@@ -98,10 +104,11 @@
 						class : node.roundClass
 					});
 				},
-				spacer : function(node, yOffset){
+				spacer : function(node, yOffset, r){
 					return spacer = $("<div />", {
 						class : node.spacerClass,
-						marginTop : yOffset
+					}).css({
+						height : (yOffset * r)
 					});
 				}
 			},
@@ -109,18 +116,12 @@
 				game : function(game_html, yOffset, r){
 					// only get the top of each game so we can move accordingly
 					if (game_html.parent().index() > 0 && game_html.index() === 0) {
-						return game_html.css({ marginTop: yOffset + (Math.pow(2, (r - 2)) * yOffset - (yOffset / 2)) });
+						//return game_html.css({ marginTop: yOffset + (Math.pow(2, (r - 2)) * yOffset - (yOffset / 2)) });
+						return game_html.css({ marginTop: yOffset * r });
 					};
 				},
 				winner : function(game_html, node, yOffset, r){
-					return game_html.addClass(node.winnerClass).css({ height : game_html.height() * 2, marginTop: yOffset + (Math.pow(2, (r - 3)) * yOffset - (yOffset / 2)) });
-				},
-				spacer : function(required, node, yOffset){
-					if (required) {
-						return helpers.build.spacer()
-					} else {
-						return false;
-					};
+					// return game_html.addClass(node.winnerClass).css({ height : game_html.height() * 2, marginTop: yOffset + (Math.pow(2, (r - 3)) * yOffset - (yOffset / 2)) });
 				}
 			}, 
 			listeners : function(){	
