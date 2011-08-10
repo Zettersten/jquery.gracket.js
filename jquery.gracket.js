@@ -97,7 +97,7 @@
 			build : {
 				team : function(data, node){
 					return team = $("<div />", {
-						html : "<h3><span>"+ (data.id || 0) +"</span>"+ data.name +"</h3>",
+						html : "<h3><span>"+ (data.seed || 0) +"</span>"+ data.name +"</h3>",
 						class : node.teamClass + " " + (data.id || "id_null")
 					});
 				},

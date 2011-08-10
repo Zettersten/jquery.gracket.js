@@ -3,51 +3,23 @@
 body {
   font-family: helvetica, verdana, arial, sans-serif;
   font-size: 12px;
-  line-height: 100%;
-}
-/* line 8, ../sass/global.scss */
-body > div {
-  margin: 25px;
-  height: 420px;
-}
-/* line 12, ../sass/global.scss */
-body #code {
-  padding: 10px;
-  position: fixed;
-  right: 25px;
-  top: 25px;
-  width: 720px;
-  overflow: hidden;
-  height: 720px;
-  border: none;
-  background: #FFFFCE;
+  background: #333333 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern16.png);
 }
 
 /* basic - barebone */
-/* line 26, ../sass/global.scss */
+/* line 11, ../sass/global.scss */
 .g_round {
   float: left;
-  margin-right: 25px;
+  margin-right: 75px;
 }
 
-/* line 30, ../sass/global.scss */
+/* line 15, ../sass/global.scss */
 .g_game {
-  background: #efefef;
   position: relative;
-  width: 50px;
-  margin-bottom: 25px;
+  margin-bottom: 45px;
 }
 
-/* line 36, ../sass/global.scss */
-.g_team {
-  height: 18px;
-}
-/* line 38, ../sass/global.scss */
-.g_team span {
-  display: none;
-}
-
-/* line 40, ../sass/global.scss */
+/* line 19, ../sass/global.scss */
 .g_connector {
   position: absolute;
   left: 0;
@@ -55,4 +27,88 @@ body #code {
   height: 8px;
   width: 8px;
   margin-top: -4px;
+}
+
+/* my stuff */
+/* line 29, ../sass/global.scss */
+#gracket {
+  overflow: hidden;
+  border: 5px solid #111;
+  width: 1065px;
+  padding: 35px 20px 10px;
+  margin: 15px auto;
+  background: #222222 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern14.png);
+}
+/* line 37, ../sass/global.scss */
+#gracket h3 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 2px;
+  width: 200px;
+  position: relative;
+  text-indent: 25px;
+}
+/* line 46, ../sass/global.scss */
+#gracket h3 span {
+  background: #000;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: normal;
+  height: 16px;
+  line-height: 16px;
+  position: absolute;
+  text-align: center;
+  top: 3px;
+  width: 16px;
+  text-indent: 0;
+  left: 3px;
+}
+/* line 62, ../sass/global.scss */
+#gracket .g_team {
+  -moz-border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px 4px 0 0;
+  -o-border-radius: 4px 4px 0 0;
+  -ms-border-radius: 4px 4px 0 0;
+  -khtml-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+  background: orange;
+}
+/* line 66, ../sass/global.scss */
+#gracket .g_team:last-child {
+  -moz-border-radius: 0 0 4px 4px;
+  -webkit-border-radius: 0 0 4px 4px;
+  -o-border-radius: 0 0 4px 4px;
+  -ms-border-radius: 0 0 4px 4px;
+  -khtml-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+  background: #444;
+}
+/* line 71, ../sass/global.scss */
+#gracket .g_round:last-child {
+  margin-right: 20px;
+}
+/* line 75, ../sass/global.scss */
+#gracket .g_winner {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -o-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+  background: #444;
+}
+/* line 78, ../sass/global.scss */
+#gracket .g_winner .g_team {
+  background: none;
+}
+/* line 83, ../sass/global.scss */
+#gracket .g_current {
+  cursor: pointer;
+  background: #000!important;
 }
