@@ -4,14 +4,7 @@
 
 (function($) {
 	$.fn.gracket = function(method) {
-		
-		var 
-			container = this,
-			data = JSON.parse(container.data("gracket")),
-			team_count,
-			round_count,
-			game_count
-		;
+
 		
 		// Defaults
 		$.fn.gracket.defaults = {
@@ -20,8 +13,19 @@
 			teamClass : "g_team",
 			winnerClass : "g_winner",
 			spacerClass : "g_spacer",
-			connectorClass : "g_connector"
+			connectorClass : "g_connector",
+			currentClass : "g_current",
+			src : null
 		}
+		
+		// global
+		var 
+			container = this,
+			data = JSON.parse(container.data("gracket")) || JSON.parse(this.gracket.defaults.src),
+			team_count,
+			round_count,
+			game_count
+		;
 		
 		// Defaults => Settings
 		$.fn.gracket.settings = {}
@@ -42,21 +46,20 @@
 					// create games in round
 					game_count = data[r].length;		
 					for (var g=0; g < game_count; g++) {
-		
+						
+					
 						var 
 							game_html = helpers.build.game(this.gracket.settings),
 							outer_height = container.find("." + this.gracket.settings.gameClass).outerHeight(true),
-							spacer = helpers.build.spacer(this.gracket.settings, outer_height, r)
+							spacer = helpers.build.spacer(this.gracket.settings, outer_height, r, (r !== 0 && g === 0) ? true : false)
 						;
 						
+						
 						// append spacer
-						if (g % 1 == 0) round_html.append(spacer);
+						if (g % 1 == 0 && r !== 0) round_html.append(spacer);
 						
 						// append game
 						round_html.append(game_html);
-						
-						// align game
-						helpers.align.game(game_html, outer_height, r);
 						
 						// create teams in game
 						team_count = data[r][g].length;
@@ -67,10 +70,15 @@
 							
 							// adjust winner
 							if (team_count === 1) {
-								helpers.align.winner(game_html, this.gracket.settings, outer_height, r);
+								
+								// remove spacer
+								game_html.prev().remove()
+								
+								// align winner
+								helpers.align.winner(game_html, this.gracket.settings, game_html.parent().prev().children().eq(0).height());
 								
 								// init the listeners after gracket is built
-								helpers.listeners();
+								helpers.listeners(this.gracket.settings);
 							}
 		
 						};
@@ -104,28 +112,38 @@
 						class : node.roundClass
 					});
 				},
-				spacer : function(node, yOffset, r){
+				spacer : function(node, yOffset, r, isFirst){
 					return spacer = $("<div />", {
 						class : node.spacerClass,
 					}).css({
-						height : (yOffset * r)
+						height : (isFirst) ?  (((Math.pow(2, r)) - 1) * (yOffset / 2)) : ((Math.pow(2, r) -1) * yOffset)
 					});
 				}
 			},
 			align : {
-				game : function(game_html, yOffset, r){
-					// only get the top of each game so we can move accordingly
-					if (game_html.parent().index() > 0 && game_html.index() === 0) {
-						//return game_html.css({ marginTop: yOffset + (Math.pow(2, (r - 2)) * yOffset - (yOffset / 2)) });
-						return game_html.css({ marginTop: yOffset * r });
-					};
-				},
-				winner : function(game_html, node, yOffset, r){
-					// return game_html.addClass(node.winnerClass).css({ height : game_html.height() * 2, marginTop: yOffset + (Math.pow(2, (r - 3)) * yOffset - (yOffset / 2)) });
+				winner : function(game_html, node, yOffset){
+					return game_html.addClass(node.winnerClass).css({ 
+						height : game_html.height() * 2,
+						marginTop : yOffset
+					});
 				}
 			}, 
-			listeners : function(){	
-				// tbd
+			listeners : function(node){	
+				
+				// set hover
+				var _gameSelector = "." + node.teamClass + " > h3";
+				$.each($(_gameSelector), function(e){
+					var id = "." + $(this).parent().attr("class").split(" ")[1];
+					if (id !== undefined) {
+						$(id).hover(function(){
+							$(id).addClass(node.currentClass);
+						}, function(){
+							$(id).removeClass(node.currentClass);
+						});
+					};
+				});
+				
+				
 			}
 		};
 	
