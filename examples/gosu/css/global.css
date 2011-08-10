@@ -32,6 +32,7 @@ body {
 /* my stuff */
 /* line 29, ../sass/global.scss */
 #gracket {
+  position: relative;
   overflow: hidden;
   border: 5px solid #111;
   width: 1065px;
@@ -39,7 +40,7 @@ body {
   margin: 15px auto;
   background: #222222 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern14.png);
 }
-/* line 37, ../sass/global.scss */
+/* line 38, ../sass/global.scss */
 #gracket h3 {
   color: #fff;
   font-weight: bold;
@@ -49,7 +50,7 @@ body {
   position: relative;
   text-indent: 25px;
 }
-/* line 46, ../sass/global.scss */
+/* line 47, ../sass/global.scss */
 #gracket h3 span {
   background: #000;
   -moz-border-radius: 10px;
@@ -69,7 +70,7 @@ body {
   text-indent: 0;
   left: 3px;
 }
-/* line 62, ../sass/global.scss */
+/* line 63, ../sass/global.scss */
 #gracket .g_team {
   -moz-border-radius: 4px 4px 0 0;
   -webkit-border-radius: 4px 4px 0 0;
@@ -79,7 +80,7 @@ body {
   border-radius: 4px 4px 0 0;
   background: orange;
 }
-/* line 66, ../sass/global.scss */
+/* line 67, ../sass/global.scss */
 #gracket .g_team:last-child {
   -moz-border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
@@ -89,11 +90,11 @@ body {
   border-radius: 0 0 4px 4px;
   background: #444;
 }
-/* line 71, ../sass/global.scss */
+/* line 72, ../sass/global.scss */
 #gracket .g_round:last-child {
   margin-right: 20px;
 }
-/* line 75, ../sass/global.scss */
+/* line 76, ../sass/global.scss */
 #gracket .g_winner {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -103,11 +104,17 @@ body {
   border-radius: 4px;
   background: #444;
 }
-/* line 78, ../sass/global.scss */
+/* line 79, ../sass/global.scss */
 #gracket .g_winner .g_team {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -o-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
   background: none;
 }
-/* line 83, ../sass/global.scss */
+/* line 85, ../sass/global.scss */
 #gracket .g_current {
   cursor: pointer;
   background: #000!important;

@@ -27,6 +27,7 @@ body {
 
 /* my stuff */
 #gracket {
+	position: relative;
 	overflow:hidden;
 	border:5px solid #111;
 	width: 1065px;
@@ -76,6 +77,7 @@ body {
 		@include border-radius(4px);
 		background:#444;
 		.g_team {
+			@include border-radius(4px);
 			background:none;
 		}
 	}
