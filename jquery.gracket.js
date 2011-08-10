@@ -15,6 +15,11 @@
 			spacerClass : "g_spacer",
 			connectorClass : "g_connector",
 			currentClass : "g_current",
+			canvasId : "g_canvas",
+			canvasClass : "g_canvas",
+			canvasLineColor : "white",
+			canvasLineWidth : 1,
+			canvasLineCap : "round",
 			src : null
 		}
 		
@@ -35,7 +40,12 @@
 			init : function(options) {
 				
 				this.gracket.settings = $.extend({}, this.gracket.defaults, options);
-
+				
+				// build empty canvas
+				var $canvas = $("<canvas id='"+ this.gracket.settings.canvasId +"' />").css({ position: "absolute", top: 0, left: 0});
+				$canvas.appendTo(container);
+				var ctx = document.getElementById(this.gracket.settings.canvasId).getContext("2d");
+				
 				//  create rounds
 				round_count = data.length;
 				for (var r=0; r < round_count; r++) {
@@ -58,6 +68,11 @@
 						// append spacer
 						if (g % 1 == 0 && r !== 0) round_html.append(spacer);
 						
+						// draw line
+						helpers.build.canvas.draw(g, r, game_html, outer_height, ctx);
+						
+					
+						
 						// append game
 						round_html.append(game_html);
 						
@@ -79,6 +94,7 @@
 								
 								// init the listeners after gracket is built
 								helpers.listeners(this.gracket.settings);
+								
 							}
 		
 						};
@@ -118,13 +134,33 @@
 					}).css({
 						"height" : (isFirst) ?  (((Math.pow(2, r)) - 1) * (yOffset / 2)) : ((Math.pow(2, r) -1) * yOffset)
 					});
+				},
+				canvas : {
+					resize : function(node){
+						var canvas = document.getElementById(node.canvasId);
+						canvas.height = container.innerHeight();
+						canvas.width = container.innerWidth();
+						$(canvas).css({
+							height : container.innerHeight(),
+							width : container.innerWidth(),
+							zIndex : 1
+						});
+					},
+					draw : function(g, r, game_html, outer_height, ctx){
+					   // Stroked triangle
+
+					}
 				}
 			},
 			align : {
 				winner : function(game_html, node, yOffset){
 					return game_html.addClass(node.winnerClass).css({ 
+<<<<<<< HEAD
 						"height" : game_html.height() * 2,
 						"margin-top" : yOffset
+=======
+						marginTop : yOffset + (game_html.height() / 2)
+>>>>>>> preparing draw logic
 					});
 				}
 			}, 
@@ -143,9 +179,8 @@
 					};
 				});
 				
-				
-				// 2. Draw Lines
-				// canvas
+				// 2. size the canvas
+				helpers.build.canvas.resize(node);
 				
 				// 3. add tooltip
 				
@@ -168,5 +203,17 @@
 
 // Call Plugin
 $("[data-gracket]").gracket();
+
+(function(){
+	var ctx = document.getElementById("g_canvas").getContext("2d");
+	ctx.strokeStyle = "#fff";
+	ctx.beginPath();
+	ctx.moveTo(125,125);
+	ctx.lineTo(125,45);
+	ctx.lineTo(45,125);
+	ctx.closePath();
+	ctx.stroke();
+})();
+
 
 
