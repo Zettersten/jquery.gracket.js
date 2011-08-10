@@ -130,7 +130,7 @@
 			}, 
 			listeners : function(node){	
 				
-				// set hover
+				// 1. Hover Trail
 				var _gameSelector = "." + node.teamClass + " > h3";
 				$.each($(_gameSelector), function(e){
 					var id = "." + $(this).parent().attr("class").split(" ")[1];
@@ -142,6 +142,12 @@
 						});
 					};
 				});
+				
+				
+				// 2. Draw Lines
+				// canvas
+				
+				// 3. add tooltip
 				
 				
 			}
