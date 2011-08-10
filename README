@@ -15,17 +15,13 @@ Built for http://itsgosu.com!
 
 ------------------------------------------------------------
 
-The plugin initializes itself. All you need to do is include the file and write the markup!
+The plugin initializes itself. You need to do include the file and follow the steps below.
 
 Step One: <div data-gracket='{object}' /> 
 Step Two: Swap out the '{object}' for a real serialized JSON string or javascript object.
 
 Feature's,
 
-	1. Builds a tournament bracket that supports up to 1024 teams/players.
-	2. Each team/player has a "more info" dialog that can be triggered by a toggle or hover(default).
-
-Extra's - You can pass more attributes to the data-gracket element.
-
-	1. data-gracket-background - Uses a css3 background stretch technique to evenly display 
-	   a single background image across the whole bracket.
+	1. Hover trail
+	2. Canvas Draw Lines
+	3. Tooltips
