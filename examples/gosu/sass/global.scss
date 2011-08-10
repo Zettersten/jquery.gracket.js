@@ -1,0 +1,49 @@
+@import "_vars";
+
+/* un-needed */
+body {
+	font-family: helvetica, verdana, arial, sans-serif;
+	font-size:12px;
+	line-height:100%;
+	> div {
+		margin:25px;
+		height:420px;
+	}
+	#code {
+	  	padding: 10px;
+	    position: fixed;
+	    right: 25px;
+	    top: 25px;
+	    width: 720px;
+		overflow:hidden;
+		height:720px;
+		border:none;
+		background:#FFFFCE;
+	}
+}
+
+/* basic - barebone */
+.g_round {
+	float:left;
+	margin-right:25px;
+}
+.g_game {
+	background:#efefef;
+	position:relative;
+	width: 50px;
+	margin-bottom:25px;
+}
+.g_team {
+	height:18px;
+	span { display:none; }
+}
+.g_connector {
+	position:absolute;
+	left:0;
+	top:50%;
+	height:8px;
+	width:8px;
+	margin-top:-4px;
+}
+
+

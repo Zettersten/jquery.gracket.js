@@ -6,6 +6,9 @@
  \_____|_|  \__,_|\___|_|\_\___|\__|
 
 
+V1.3
+====
+
 A modern approach to handling tournament brackets in jQuery.
 
 Built for http://itsgosu.com! 
@@ -16,19 +19,13 @@ The plugin initializes itself. All you need to do is include the file and write 
 
 Step One: <div data-gracket='{object}' /> 
 Step Two: Swap out the '{object}' for a real serialized JSON string or javascript object.
-Step Three: Make sure the gracket plugin is loaded after the DOM is ready.
 
 Feature's,
 
 	1. Builds a tournament bracket that supports up to 1024 teams/players.
-	2. Allows for infinite amount of grouping for teams/players.
-	3. Each team/player has a "more info" dialog that can be triggered by a toggle or hover(default).
-	4. The dialog will contain information found in the data-gracket object literal. 
-	   It will identify specific key/values and display them accordingly (ie. Battle.net info, stats, etc...)
+	2. Each team/player has a "more info" dialog that can be triggered by a toggle or hover(default).
 
 Extra's - You can pass more attributes to the data-gracket element.
 
 	1. data-gracket-background - Uses a css3 background stretch technique to evenly display 
 	   a single background image across the whole bracket.
-	2. data-gracket-colors - Accepts a commas separated list of HEX or RGBA colors to fill
-	   the bracket with. Not adding this will default to the style sheet colors.

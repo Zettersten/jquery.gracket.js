@@ -1,6 +1,6 @@
-// ItsGosu | Bracket Plugin | Gracket (jquery.gracket.js)
+// Bracket Plugin | Gracket (jquery.gracket.js)
 // Erik Zettersten
-// Version 0.2
+// Version 1.3
 
 (function($) {
 	$.fn.gracket = function(method) {
