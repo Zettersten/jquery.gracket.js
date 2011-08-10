@@ -97,34 +97,34 @@
 			build : {
 				team : function(data, node){
 					return team = $("<div />", {
-						html : "<h3><span>"+ (data.seed || 0) +"</span>"+ data.name +"</h3>",
-						class : node.teamClass + " " + (data.id || "id_null")
+						"html" : "<h3><span>"+ (data.seed || 0) +"</span>"+ data.name +"</h3>",
+						"class" : node.teamClass + " " + (data.id || "id_null")
 					});
 				},
 				game : function(node){
 					return game = $("<div />", {
-						class : node.gameClass,
-						html : "<div class="+ node.connectorClass +"></div>"
+						"class" : node.gameClass,
+						"html" : "<div class="+ node.connectorClass +"></div>"
 					});
 				},
 				round : function(node){
 					return round = $("<div />", {
-						class : node.roundClass
+						"class" : node.roundClass
 					});
 				},
 				spacer : function(node, yOffset, r, isFirst){
 					return spacer = $("<div />", {
-						class : node.spacerClass,
+						"class" : node.spacerClass,
 					}).css({
-						height : (isFirst) ?  (((Math.pow(2, r)) - 1) * (yOffset / 2)) : ((Math.pow(2, r) -1) * yOffset)
+						"height" : (isFirst) ?  (((Math.pow(2, r)) - 1) * (yOffset / 2)) : ((Math.pow(2, r) -1) * yOffset)
 					});
 				}
 			},
 			align : {
 				winner : function(game_html, node, yOffset){
 					return game_html.addClass(node.winnerClass).css({ 
-						height : game_html.height() * 2,
-						marginTop : yOffset
+						"height" : game_html.height() * 2,
+						"margin-top" : yOffset
 					});
 				}
 			}, 
