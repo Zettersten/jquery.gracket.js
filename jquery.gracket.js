@@ -155,12 +155,7 @@
 			align : {
 				winner : function(game_html, node, yOffset){
 					return game_html.addClass(node.winnerClass).css({ 
-<<<<<<< HEAD
-						"height" : game_html.height() * 2,
-						"margin-top" : yOffset
-=======
-						marginTop : yOffset + (game_html.height() / 2)
->>>>>>> preparing draw logic
+						"margin-top" : yOffset + (game_html.height() / 2)
 					});
 				}
 			}, 
