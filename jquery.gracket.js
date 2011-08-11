@@ -150,19 +150,35 @@
 						var _paddingTop = (parseInt(container.css("paddingTop")) || 0);
 						var _marginBottom = (parseInt(game_html.css("marginBottom")) || 0);
 						var _startingLeftPos = game_html.outerWidth(true) + _paddingLeft;
+						var _marginRight = (parseInt(container.find("> div").css("marginRight")) || 0);
 						
 						// set styles
 						ctx.strokeStyle = node.canvasLineColor;
 						ctx.lineCap = node.canvasLineCap;
 						ctx.lineWidth = node.canvasLineWidth;
 						
-						// move path down
+						// move path across rows
 						for (var r = 0; r < data.length; r++) {
 							// start first path
 							ctx.beginPath();
-							if (r === 0) ctx.moveTo(_startingLeftPos, _paddingTop);
+							if (r === 0) {
+								ctx.moveTo(_startingLeftPos, _paddingTop);
+							} else if (r !== (data.length - 1)){
+								ctx.moveTo(_startingLeftPos + (_marginRight + game_html.width()) * r, _paddingTop);
+							}
 							ctx.closePath();
 							ctx.stroke();
+							
+							// move path down
+							
+							for (var g = 0; g < data[r].length; g++) {
+								
+								ctx.beginPath();
+								ctx.moveTo(_startingLeftPos, _paddingTop * g + 90);
+								
+								ctx.closePath();
+								ctx.stroke();
+							};
 						};
 						
 						
