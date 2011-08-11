@@ -18,7 +18,7 @@
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
-			canvasLineWidth : 1,
+			canvasLineWidth : 10,
 			canvasLineCap : "round",
 			src : null
 		}
@@ -42,9 +42,7 @@
 				this.gracket.settings = $.extend({}, this.gracket.defaults, options);
 				
 				// build empty canvas
-				var $canvas = $("<canvas id='"+ this.gracket.settings.canvasId +"' />").css({ position: "absolute", top: 0, left: 0});
-				$canvas.appendTo(container);
-				var ctx = document.getElementById(this.gracket.settings.canvasId).getContext("2d");
+				container.append("<canvas id='"+ this.gracket.settings.canvasId +"' style=\"position:absolute;top:0;left:0;\" />");
 				
 				//  create rounds
 				round_count = data.length;
@@ -68,11 +66,6 @@
 						// append spacer
 						if (g % 1 == 0 && r !== 0) round_html.append(spacer);
 						
-						// draw line
-						helpers.build.canvas.draw(g, r, game_html, outer_height, ctx);
-						
-					
-						
 						// append game
 						round_html.append(game_html);
 						
@@ -82,7 +75,7 @@
 		
 							var team_html = helpers.build.team(data[r][g][t], this.gracket.settings);
 							game_html.append(team_html);
-							
+						
 							// adjust winner
 							if (team_count === 1) {
 								
@@ -91,9 +84,9 @@
 								
 								// align winner
 								helpers.align.winner(game_html, this.gracket.settings, game_html.parent().prev().children().eq(0).height());
-								
+
 								// init the listeners after gracket is built
-								helpers.listeners(this.gracket.settings);
+								helpers.listeners(this.gracket.settings, data, game_html.parent().prev().children().eq(1));
 								
 							}
 		
@@ -102,7 +95,6 @@
 					};
 					
 				};
-				
 		
 			}
 		
@@ -143,12 +135,37 @@
 						$(canvas).css({
 							height : container.innerHeight(),
 							width : container.innerWidth(),
-							zIndex : 1
+							zIndex : 1,
+							pointerEvents : "none"
 						});
 					},
-					draw : function(g, r, game_html, outer_height, ctx){
-					   // Stroked triangle
-
+					draw : function(node, data, game_html){
+						
+						
+						var canvas = document.getElementById(node.canvasId);
+						var ctx = canvas.getContext("2d");
+						
+						// set starting position -- will default to zero
+						var _paddingLeft = (parseInt(container.css("paddingLeft")) || 0);
+						var _paddingTop = (parseInt(container.css("paddingTop")) || 0);
+						var _marginBottom = (parseInt(game_html.css("marginBottom")) || 0);
+						var _startingLeftPos = game_html.outerWidth(true) + _paddingLeft;
+						
+						// set styles
+						ctx.strokeStyle = node.canvasLineColor;
+						ctx.lineCap = node.canvasLineCap;
+						ctx.lineWidth = node.canvasLineWidth;
+						
+						// move path down
+						for (var r = 0; r < data.length; r++) {
+							// start first path
+							ctx.beginPath();
+							if (r === 0) ctx.moveTo(_startingLeftPos, _paddingTop);
+							ctx.closePath();
+							ctx.stroke();
+						};
+						
+						
 					}
 				}
 			},
@@ -159,7 +176,7 @@
 					});
 				}
 			}, 
-			listeners : function(node){	
+			listeners : function(node, data, game_html){	
 				
 				// 1. Hover Trail
 				var _gameSelector = "." + node.teamClass + " > h3";
@@ -176,7 +193,7 @@
 				
 				// 2. size the canvas
 				helpers.build.canvas.resize(node);
-				
+				helpers.build.canvas.draw(node, data, game_html);
 				// 3. add tooltip
 				
 				
@@ -199,16 +216,7 @@
 // Call Plugin
 $("[data-gracket]").gracket();
 
-(function(){
-	var ctx = document.getElementById("g_canvas").getContext("2d");
-	ctx.strokeStyle = "#fff";
-	ctx.beginPath();
-	ctx.moveTo(125,125);
-	ctx.lineTo(125,45);
-	ctx.lineTo(45,125);
-	ctx.closePath();
-	ctx.stroke();
-})();
+
 
 
 
