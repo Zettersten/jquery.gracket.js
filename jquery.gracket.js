@@ -18,7 +18,7 @@
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
-			canvasLineWidth : 10,
+			canvasLineWidth : 2,
 			canvasLineCap : "round",
 			src : null
 		}
@@ -146,10 +146,12 @@
 						var ctx = canvas.getContext("2d");
 						
 						// set starting position -- will default to zero
+						var _itemWidth = game_html.outerWidth(true);
+						var _itemHeight = game_html.outerHeight(true);
 						var _paddingLeft = (parseInt(container.css("paddingLeft")) || 0);
 						var _paddingTop = (parseInt(container.css("paddingTop")) || 0);
 						var _marginBottom = (parseInt(game_html.css("marginBottom")) || 0);
-						var _startingLeftPos = game_html.outerWidth(true) + _paddingLeft;
+						var _startingLeftPos = _itemWidth + _paddingLeft;
 						var _marginRight = (parseInt(container.find("> div").css("marginRight")) || 0);
 						
 						// set styles
@@ -157,27 +159,58 @@
 						ctx.lineCap = node.canvasLineCap;
 						ctx.lineWidth = node.canvasLineWidth;
 						
+						// only need to start path once
+						ctx.beginPath();
+						
+						ctx.moveTo(_startingLeftPos, _paddingTop);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop); // draw end point x, 
+
+						ctx.moveTo(_startingLeftPos + _itemWidth + _marginRight, _paddingTop + _itemHeight / 2);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _itemWidth + _marginRight + _marginRight / 2, _paddingTop + _itemHeight / 2); // draw end point x, 
+						
+						ctx.moveTo(_startingLeftPos + (_itemWidth * 2) + (_marginRight * 2), _paddingTop + _itemHeight + _itemHeight / 2);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + (_itemWidth * 2) + (_marginRight * 2) + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight / 2); // draw end point x, 
+						
+						
+						// CYCLE FIRST ROW
+						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight - _marginBottom);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight - _marginBottom); // draw end point x, 
+	
+						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight); // draw end point x, 
+						
+						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight - _marginBottom);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight - _marginBottom); // draw end point x, 
+						
+						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight); // draw end point x, 
+						
+						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight + _itemHeight - _marginBottom);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight + _itemHeight - _marginBottom); // draw end point x, 
+						
+						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight + _itemHeight);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight + _itemHeight); // draw end point x
+						
+						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight + _itemHeight + _itemHeight - _marginBottom);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight + _itemHeight + _itemHeight - _marginBottom); // draw end point x, 
+						
+						
+						
+						// CYCLE SECOND ROW
+						ctx.moveTo(_startingLeftPos + _itemWidth + _marginRight,  _paddingTop - _marginBottom + _itemHeight + _itemHeight / 2);  // put start point x, 
+						ctx.lineTo(_startingLeftPos + _itemWidth + _marginRight + _marginRight / 2, _paddingTop - _marginBottom + _itemHeight + _itemHeight / 2); // draw end point x, 
+						
+						
+											
+						// only need to stoke the path once			
+						ctx.stroke();
+						
+						
 						// move path across rows
 						for (var r = 0; r < data.length; r++) {
-							// start first path
-							ctx.beginPath();
-							if (r === 0) {
-								ctx.moveTo(_startingLeftPos, _paddingTop);
-							} else if (r !== (data.length - 1)){
-								ctx.moveTo(_startingLeftPos + (_marginRight + game_html.width()) * r, _paddingTop);
-							}
-							ctx.closePath();
-							ctx.stroke();
-							
-							// move path down
-							
+							console.log(r);
 							for (var g = 0; g < data[r].length; g++) {
-								
-								ctx.beginPath();
-								ctx.moveTo(_startingLeftPos, _paddingTop * g + 90);
-								
-								ctx.closePath();
-								ctx.stroke();
+								console.log(g);
 							};
 						};
 						

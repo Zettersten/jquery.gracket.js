@@ -89,3 +89,26 @@ body {
 }
 
 
+
+h1 {
+	font-family: 'Sigmar One', sans-serif;
+	color:#222;
+	text-align:center;
+	margin:55px auto 20px;
+	font-size:128px;
+	@include text-shadow(0px 1px 1px #444);
+}
+small {
+	display:block;
+	text-align:center;
+	margin:20px auto;
+	color:#000;
+	a {
+		color:#666;
+		text-decoration:none;
+		&:hover {
+			color:#555;
+		}
+	}
+}
+

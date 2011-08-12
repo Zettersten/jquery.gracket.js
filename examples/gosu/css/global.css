@@ -119,3 +119,30 @@ body {
   cursor: pointer;
   background: #000!important;
 }
+
+/* line 93, ../sass/global.scss */
+h1 {
+  font-family: 'Sigmar One', sans-serif;
+  color: #222;
+  text-align: center;
+  margin: 55px auto 20px;
+  font-size: 128px;
+  text-shadow: 0px 1px 1px #444444;
+}
+
+/* line 101, ../sass/global.scss */
+small {
+  display: block;
+  text-align: center;
+  margin: 20px auto;
+  color: #000;
+}
+/* line 106, ../sass/global.scss */
+small a {
+  color: #666;
+  text-decoration: none;
+}
+/* line 109, ../sass/global.scss */
+small a:hover {
+  color: #555;
+}
