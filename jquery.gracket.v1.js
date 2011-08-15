@@ -15,12 +15,12 @@
 			spacerClass : "g_spacer",
 			connectorClass : "g_connector",
 			currentClass : "g_current",
-			cornerRadius : 25,
+			cornerRadius : 5,
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
-			canvasLineWidth : 2,
-			canvasLineGap : 5,
+			canvasLineWidth : 1,
+			canvasLineGap : 2,
 			canvasLineCap : "round",
 			src : null
 		}
