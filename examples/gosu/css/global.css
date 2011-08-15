@@ -10,13 +10,13 @@ body {
 /* line 11, ../sass/global.scss */
 .g_round {
   float: left;
-  margin-right: 15px;
+  margin-right: 30px;
 }
 
 /* line 15, ../sass/global.scss */
 .g_game {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 /* line 19, ../sass/global.scss */
