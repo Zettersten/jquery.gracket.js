@@ -1,6 +1,6 @@
 // Bracket Plugin | Gracket (jquery.gracket.js)
 // Erik Zettersten
-// Version 1.4
+// Version 1.3
 
 (function($) {
 	$.fn.gracket = function(method) {
@@ -18,8 +18,11 @@
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
-			canvasLineWidth : 2,
+			canvasLineWidth : 1,
+			canvasLineGap : 2,
 			canvasLineCap : "round",
+			canvasLineOffsetY : 4,
+			cornerRadius : 5,
 			src : null
 		}
 		
@@ -42,14 +45,15 @@
 				this.gracket.settings = $.extend({}, this.gracket.defaults, options);
 				
 				// build empty canvas
-				container.append("<canvas id='"+ this.gracket.settings.canvasId +"' style=\"position:absolute;top:0;left:0;\" />");
+				container.append("<canvas id='"+ this.gracket.settings.canvasId +"' style=\"position:absolute;top:"+ this.gracket.settings.canvasLineOffsetY +"px;left:0;\" />");
 				
+						
 				//  create rounds
 				round_count = data.length;
 				for (var r=0; r < round_count; r++) {
 					
 					var round_html = helpers.build.round(this.gracket.settings);
-					container.append(round_html);
+					container.append(round_html);		
 		
 					// create games in round
 					game_count = data[r].length;		
@@ -74,8 +78,8 @@
 						for (var t=0; t < team_count; t++) {
 		
 							var team_html = helpers.build.team(data[r][g][t], this.gracket.settings);
-							game_html.append(team_html);
-						
+							game_html.append(team_html);							
+							
 							// adjust winner
 							if (team_count === 1) {
 								
@@ -95,7 +99,6 @@
 					};
 					
 				};
-		
 			}
 		
 		};
@@ -138,7 +141,7 @@
 							zIndex : 1,
 							pointerEvents : "none"
 						});
-					},
+					},				
 					draw : function(node, data, game_html){
 						
 						
@@ -152,7 +155,17 @@
 						var _paddingTop = (parseInt(container.css("paddingTop")) || 0);
 						var _marginBottom = (parseInt(game_html.css("marginBottom")) || 0);
 						var _startingLeftPos = _itemWidth + _paddingLeft;
-						var _marginRight = (parseInt(container.find("> div").css("marginRight")) || 0);
+						var _marginRight = (parseInt(container.find("> div").css("marginRight")) || 0);						
+						var _cornerRadius = node.cornerRadius;
+						var _lineGap = node.canvasLineGap;
+						
+						//We must put a restriction on the corner radius and the line gap
+						if (_cornerRadius > _itemHeight/3)
+							_cornerRadius = _itemHeight/3;
+							
+						if (_lineGap > _marginRight/3)
+							_lineGap = _marginRight/3;						
+						
 						
 						// set styles
 						ctx.strokeStyle = node.canvasLineColor;
@@ -160,68 +173,67 @@
 						ctx.lineWidth = node.canvasLineWidth;
 						
 						// only need to start path once
-						ctx.beginPath();
+						ctx.beginPath();												
 						
-						ctx.moveTo(_startingLeftPos, _paddingTop);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop); // draw end point x, 
+						var iterMax = Math.pow(2, data.length - 2);
+						var p = iterMax;					
+						var i = 0;
+						var rightLength = 0.5;
+						while (p >= 1) {
+							for (var j = 0; j < p; j++) {																
+								if (p == 1) {
+									rightLength = 1;
+								}
+								
+								var xDis = _startingLeftPos + i*_itemWidth + i*_marginRight;
+								
+								//Line foward
+								ctx.moveTo(xDis + _lineGap, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight);
+								
+								if (p > 1)
+									ctx.lineTo(xDis + rightLength*_marginRight - _cornerRadius, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2,i))*_itemHeight);
+								else 
+									ctx.lineTo(xDis + rightLength*_marginRight, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2,i))*_itemHeight);								
+								
+								//Line backward
+								if (p < iterMax) {
+									ctx.moveTo(xDis - _itemWidth - _lineGap, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight);
+									ctx.lineTo(xDis - _itemWidth - 0.5*_marginRight, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2,i))*_itemHeight);								
+								}
+								
+								//Connecting Lines
+								if (p > 1 && j%2 == 0) {
+									ctx.moveTo(xDis + rightLength*_marginRight, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _cornerRadius);
+									ctx.lineTo(xDis + rightLength*_marginRight, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + (j+1)*Math.pow(2, i))*_itemHeight - _cornerRadius);	
 
-						ctx.moveTo(_startingLeftPos + _itemWidth + _marginRight, _paddingTop + _itemHeight / 2);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _itemWidth + _marginRight + _marginRight / 2, _paddingTop + _itemHeight / 2); // draw end point x, 
+									//Here comes the rounded corners
+									var _cx = xDis + rightLength*_marginRight - _cornerRadius;
+									var _cy = (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _cornerRadius;
+									
+									ctx.moveTo(_cx, _cy - _cornerRadius);
+									ctx.arcTo(_cx + _cornerRadius, _cy - _cornerRadius, _cx + _cornerRadius, _cy, _cornerRadius);
+									
+									var _cy = (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + (j+1)*Math.pow(2, i))*_itemHeight - _cornerRadius;	
+									ctx.moveTo(_cx + _cornerRadius, _cy - _cornerRadius);
+									ctx.arcTo(_cx + _cornerRadius, _cy + _cornerRadius, _cx, _cy + _cornerRadius, _cornerRadius);									
+									
+								}								
+							}
+							i++;
+							p = p/2;
+						}						
 						
-						ctx.moveTo(_startingLeftPos + (_itemWidth * 2) + (_marginRight * 2), _paddingTop + _itemHeight + _itemHeight / 2);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + (_itemWidth * 2) + (_marginRight * 2) + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight / 2); // draw end point x, 
-						
-						
-						// CYCLE FIRST ROW
-						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight - _marginBottom);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight - _marginBottom); // draw end point x, 
-	
-						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight); // draw end point x, 
-						
-						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight - _marginBottom);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight - _marginBottom); // draw end point x, 
-						
-						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight); // draw end point x, 
-						
-						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight + _itemHeight - _marginBottom);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight + _itemHeight - _marginBottom); // draw end point x, 
-						
-						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight + _itemHeight);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight + _itemHeight); // draw end point x
-						
-						ctx.moveTo(_startingLeftPos, _paddingTop + _itemHeight + _itemHeight + _itemHeight + _itemHeight - _marginBottom);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _marginRight / 2, _paddingTop + _itemHeight + _itemHeight + _itemHeight + _itemHeight - _marginBottom); // draw end point x, 
-						
-						
-						
-						// CYCLE SECOND ROW
-						ctx.moveTo(_startingLeftPos + _itemWidth + _marginRight,  _paddingTop - _marginBottom + _itemHeight + _itemHeight / 2);  // put start point x, 
-						ctx.lineTo(_startingLeftPos + _itemWidth + _marginRight + _marginRight / 2, _paddingTop - _marginBottom + _itemHeight + _itemHeight / 2); // draw end point x, 
-						
-						
-											
 						// only need to stoke the path once			
 						ctx.stroke();
-						
-						
-						// move path across rows
-						for (var r = 0; r < data.length; r++) {
-							console.log(r);
-							for (var g = 0; g < data[r].length; g++) {
-								console.log(g);
-							};
-						};
-						
-						
+										
 					}
 				}
 			},
 			align : {
 				winner : function(game_html, node, yOffset){
 					return game_html.addClass(node.winnerClass).css({ 
-						"margin-top" : yOffset + (game_html.height() / 2)
+						"margin-top" : yOffset + (game_html.height() / 2),
+						"margin-left" : (node.canvasLineGap * 1.5)
 					});
 				}
 			}, 
