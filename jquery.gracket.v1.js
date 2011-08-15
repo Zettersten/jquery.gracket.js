@@ -15,12 +15,12 @@
 			spacerClass : "g_spacer",
 			connectorClass : "g_connector",
 			currentClass : "g_current",
-			cornerRadius : 5,
+			cornerRadius : 25,
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
-			canvasLineWidth : 1,
-			canvasLineGap : 4,
+			canvasLineWidth : 2,
+			canvasLineGap : 5,
 			canvasLineCap : "round",
 			src : null
 		}
@@ -160,7 +160,7 @@
 						
 						//We must put a restriction on the corner radius and the line gap
 						if (_cornerRadius > _itemHeight/3)
-							_cornerRadius = _itemHeight / 3;
+							_cornerRadius = _itemHeight/3;
 							
 						if (_lineGap > _marginRight/3)
 							_lineGap = _marginRight/3;						
@@ -178,14 +178,13 @@
 						var p = iterMax;					
 						var i = 0;
 						var rightLength = 0.5;
-						
 						while (p >= 1) {
 							for (var j = 0; j < p; j++) {																
 								if (p == 1) {
 									rightLength = 1;
 								}
 								
-								var xDis = _startingLeftPos + i *_itemWidth + i * _marginRight;
+								var xDis = _startingLeftPos + i*_itemWidth + i*_marginRight;
 								
 								//Line foward
 								ctx.moveTo(xDis + _lineGap, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight);
@@ -202,13 +201,13 @@
 								}
 								
 								//Connecting Lines
-								if (p > 1 && j % 2 == 0) {
-									ctx.moveTo(xDis + rightLength * _marginRight, (1 + (Math.pow(2, i-1) - 0.5) * (i && 1) + j * Math.pow(2, i)) * _itemHeight + _cornerRadius);
-									ctx.lineTo(xDis + rightLength * _marginRight, (1 + (Math.pow(2, i-1) - 0.5) * (i && 1) + (j + 1) * Math.pow(2, i)) * _itemHeight - _cornerRadius);	
+								if (p > 1 && j%2 == 0) {
+									ctx.moveTo(xDis + rightLength*_marginRight, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _cornerRadius);
+									ctx.lineTo(xDis + rightLength*_marginRight, (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + (j+1)*Math.pow(2, i))*_itemHeight - _cornerRadius);	
 
 									//Here comes the rounded corners
-									var _cx = xDis + rightLength * _marginRight - _cornerRadius;
-									var _cy = (1 + (Math.pow(2, i-1) - 0.5) * (i && 1) + j * Math.pow(2, i)) *_itemHeight + _cornerRadius;
+									var _cx = xDis + rightLength*_marginRight - _cornerRadius;
+									var _cy = (1 + (Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _cornerRadius;
 									
 									ctx.moveTo(_cx, _cy - _cornerRadius);
 									ctx.arcTo(_cx + _cornerRadius, _cy - _cornerRadius, _cx + _cornerRadius, _cy, _cornerRadius);
@@ -219,15 +218,21 @@
 									
 								}								
 							}
-							
-							// counter reset
 							i++;
-							p = (p / 2);
+							p = p/2;
 						}						
 						
 						// only need to stoke the path once			
 						ctx.stroke();
-											
+						
+						
+						// move path across rows
+						for (var r = 0; r < data.length; r++) {
+							console.log(r);
+							for (var g = 0; g < data[r].length; g++) {
+								console.log(g);
+							};
+						};					
 					}
 				}
 			},
