@@ -1,6 +1,6 @@
 // Bracket Plugin | Gracket (jquery.gracket.js)
 // Erik Zettersten
-// Version 1.6
+// Version 1.7
 
 (function($) {
 	$.fn.gracket = function(method) {
@@ -15,12 +15,12 @@
 			spacerClass : "g_spacer",
 			connectorClass : "g_connector",
 			currentClass : "g_current",
-			cornerRadius : 0,
+			cornerRadius : 25,
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
-			canvasLineWidth : 1,
-			canvasLineGap : 0,
+			canvasLineWidth : 2,
+			canvasLineGap : 5,
 			canvasLineCap : "round",
 			src : null
 		}
@@ -141,8 +141,7 @@
 							pointerEvents : "none"
 						});
 					},				
-					draw : function(node, data, game_html){
-						
+					draw : function(node, data, game_html){						
 						
 						var canvas = document.getElementById(node.canvasId);
 						var ctx = canvas.getContext("2d");
@@ -191,35 +190,37 @@
 									rightLength = 1;
 								}
 								
-								var xDis = _startingLeftPos + i*_itemWidth + i*_marginRight;
+								var xInit = _startingLeftPos + i*_itemWidth + i*_marginRight;
+								var xDisp = rightLength*_marginRight;
+								var yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt;
 								
 								//Line foward
-								ctx.moveTo(xDis + _lineGap, ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt);
+								ctx.moveTo(xInit + _lineGap, yInit);
 								
 								if (p > 1)
-									ctx.lineTo(xDis + rightLength*_marginRight - _cornerRadius, ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2,i))*_itemHeight + _paddingTop + _playerHt);
+									ctx.lineTo(xInit + xDisp - _cornerRadius, yInit);
 								else 
-									ctx.lineTo(xDis + rightLength*_marginRight, ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2,i))*_itemHeight + _paddingTop + _playerHt);								
+									ctx.lineTo(xInit + xDisp, yInit);								
 								
 								//Line backward
 								if (p < iterMax) {
-									ctx.moveTo(xDis - _itemWidth - _lineGap, ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt);
-									ctx.lineTo(xDis - _itemWidth - 0.5*_marginRight, ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2,i))*_itemHeight + _paddingTop + _playerHt);								
+									ctx.moveTo(xInit - _itemWidth - _lineGap, yInit);
+									ctx.lineTo(xInit - _itemWidth - 0.5*_marginRight, yInit);								
 								}
 								
 								//Connecting Lines
 								if (p > 1 && j%2 == 0) {
-									ctx.moveTo(xDis + rightLength*_marginRight, ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _cornerRadius + _paddingTop + _playerHt);
-									ctx.lineTo(xDis + rightLength*_marginRight, ((Math.pow(2, i-1) - 0.5)*(i&&1) + (j+1)*Math.pow(2, i))*_itemHeight - _cornerRadius + _paddingTop + _playerHt);	
+									ctx.moveTo(xInit + xDisp, yInit + _cornerRadius);
+									ctx.lineTo(xInit + xDisp, yInit + Math.pow(2, i)*_itemHeight - _cornerRadius);	
 
 									//Here comes the rounded corners
-									var _cx = xDis + rightLength*_marginRight - _cornerRadius;
-									var _cy = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _cornerRadius + _paddingTop + _playerHt;
+									var _cx = xInit + xDisp - _cornerRadius;
+									var _cy = yInit + _cornerRadius;
 									
 									ctx.moveTo(_cx, _cy - _cornerRadius);
 									ctx.arcTo(_cx + _cornerRadius, _cy - _cornerRadius, _cx + _cornerRadius, _cy, _cornerRadius);
 									
-									var _cy = ((Math.pow(2, i-1) - 0.5)*(i&&1) + (j+1)*Math.pow(2, i))*_itemHeight - _cornerRadius + _paddingTop + _playerHt;	
+									var _cy = yInit + Math.pow(2, i)*_itemHeight - _cornerRadius;	
 									ctx.moveTo(_cx + _cornerRadius, _cy - _cornerRadius);
 									ctx.arcTo(_cx + _cornerRadius, _cy + _cornerRadius, _cx, _cy + _cornerRadius, _cornerRadius);									
 									
