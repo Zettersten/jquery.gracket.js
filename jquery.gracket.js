@@ -1,6 +1,6 @@
 // Bracket Plugin | Gracket (jquery.gracket.js)
 // Erik Zettersten
-// Version 1.7
+// Version 1.8
 
 (function($) {
 	$.fn.gracket = function(method) {
@@ -13,7 +13,6 @@
 			teamClass : "g_team",
 			winnerClass : "g_winner",
 			spacerClass : "g_spacer",
-			connectorClass : "g_connector",
 			currentClass : "g_current",
 			cornerRadius : 25,
 			canvasId : "g_canvas",
@@ -113,8 +112,7 @@
 				},
 				game : function(node){
 					return game = $("<div />", {
-						"class" : node.gameClass,
-						"html" : "<div class="+ node.connectorClass +"></div>"
+						"class" : node.gameClass
 					});
 				},
 				round : function(node){
@@ -147,29 +145,27 @@
 						var ctx = canvas.getContext("2d");
 						
 						// set starting position -- will default to zero
-						var _itemWidth = game_html.outerWidth(true);
-						var _itemHeight = game_html.outerHeight(true);
-						var _paddingLeft = (parseInt(container.css("paddingLeft")) || 0);
-						var _paddingTop = (parseInt(container.css("paddingTop")) || 0);
-						var _marginBottom = (parseInt(game_html.css("marginBottom")) || 0);
-						var _startingLeftPos = _itemWidth + _paddingLeft;
-						var _marginRight = (parseInt(container.find("> div").css("marginRight")) || 0);						
-						var _cornerRadius = node.cornerRadius;
-						var _lineGap = node.canvasLineGap;
-						var _playerHt = game_html.find("> div").eq(1).height();
+						var 
+							_itemWidth = game_html.outerWidth(true),
+							_itemHeight = game_html.outerHeight(true),
+							_paddingLeft = (parseInt(container.css("paddingLeft")) || 0),
+							_paddingTop = (parseInt(container.css("paddingTop")) || 0),
+							_marginBottom = (parseInt(game_html.css("marginBottom")) || 0),
+							_startingLeftPos = _itemWidth + _paddingLeft,
+							_marginRight = (parseInt(container.find("> div").css("marginRight")) || 0),
+							_cornerRadius = node.cornerRadius,
+							_lineGap = node.canvasLineGap,
+							_playerHt = game_html.find("> div").eq(1).height()
+						;
 						
 						//We must put a restriction on the corner radius and the line gap
-						if (_cornerRadius > _itemHeight/3)
-							_cornerRadius = _itemHeight/3;
+						if (_cornerRadius > _itemHeight/3) _cornerRadius = _itemHeight/3;
 						
-						if (_cornerRadius > _marginRight/2)
-							_cornerRadius = _marginRight/2 - 2;
+						if (_cornerRadius > _marginRight/2) _cornerRadius = _marginRight/2 - 2;
 						
-						if (_cornerRadius <= 0)
-							_cornerRadius = 1;
+						if (_cornerRadius <= 0) _cornerRadius = 1;
 							
-						if (_lineGap > _marginRight/3)
-							_lineGap = _marginRight/3;						
+						if (_lineGap > _marginRight/3) _lineGap = _marginRight/3;						
 						
 						
 						// set styles
@@ -180,19 +176,24 @@
 						// only need to start path once
 						ctx.beginPath();												
 						
-						var iterMax = Math.pow(2, data.length - 2);
-						var p = iterMax;					
-						var i = 0;
-						var rightLength = 0.5;
+						var 
+							p = Math.pow(2, data.length - 2),
+							i = 0,
+							j,
+							r = 0.5
+						;
+						
 						while (p >= 1) {
-							for (var j = 0; j < p; j++) {																
-								if (p == 1) {
-									rightLength = 1;
-								}
+							
+							for (j = 0; j < p; j++) {																
 								
-								var xInit = _startingLeftPos + i*_itemWidth + i*_marginRight;
-								var xDisp = rightLength*_marginRight;
-								var yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt;
+								if (p == 1) r = 1;
+								
+								var 
+									xInit = _startingLeftPos + i*_itemWidth + i*_marginRight,
+									xDisp = r*_marginRight,
+									yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt
+								;
 								
 								//Line foward
 								ctx.moveTo(xInit + _lineGap, yInit);
@@ -203,44 +204,36 @@
 									ctx.lineTo(xInit + xDisp, yInit);								
 								
 								//Line backward
-								if (p < iterMax) {
+								if (p < Math.pow(2, data.length - 2)) {
 									ctx.moveTo(xInit - _itemWidth - _lineGap, yInit);
 									ctx.lineTo(xInit - _itemWidth - 0.5*_marginRight, yInit);								
 								}
 								
 								//Connecting Lines
-								if (p > 1 && j%2 == 0) {
+								if (p > 1 && j % 2 == 0) {
 									ctx.moveTo(xInit + xDisp, yInit + _cornerRadius);
 									ctx.lineTo(xInit + xDisp, yInit + Math.pow(2, i)*_itemHeight - _cornerRadius);	
 
 									//Here comes the rounded corners
-									var _cx = xInit + xDisp - _cornerRadius;
-									var _cy = yInit + _cornerRadius;
+									var 
+										_cx = xInit + xDisp - _cornerRadius,
+										_cy = yInit + _cornerRadius
+									;
 									
 									ctx.moveTo(_cx, _cy - _cornerRadius);
 									ctx.arcTo(_cx + _cornerRadius, _cy - _cornerRadius, _cx + _cornerRadius, _cy, _cornerRadius);
 									
-									var _cy = yInit + Math.pow(2, i)*_itemHeight - _cornerRadius;	
+									_cy = yInit + Math.pow(2, i)*_itemHeight - _cornerRadius;	
 									ctx.moveTo(_cx + _cornerRadius, _cy - _cornerRadius);
 									ctx.arcTo(_cx + _cornerRadius, _cy + _cornerRadius, _cx, _cy + _cornerRadius, _cornerRadius);									
-									
 								}								
 							}
 							i++;
-							p = p/2;
+							p = (p / 2);
 						}						
 						
 						// only need to stoke the path once			
-						ctx.stroke();
-						
-						
-						// move path across rows
-						for (var r = 0; r < data.length; r++) {
-							console.log(r);
-							for (var g = 0; g < data[r].length; g++) {
-								console.log(g);
-							};
-						};					
+						ctx.stroke();				
 					}
 				}
 			},
