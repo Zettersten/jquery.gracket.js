@@ -22,6 +22,7 @@
 			canvasLineWidth : 1,
 			canvasLineGap : 2,
 			canvasLineCap : "round",
+			canvasLineOffsetY : 4,
 			src : null
 		}
 		
@@ -44,7 +45,7 @@
 				this.gracket.settings = $.extend({}, this.gracket.defaults, options);
 				
 				// build empty canvas
-				container.append("<canvas id='"+ this.gracket.settings.canvasId +"' style=\"position:absolute;top:0;left:0;\" />");
+				container.append("<canvas id='"+ this.gracket.settings.canvasId +"' style=\"position:absolute;top:"+ this.gracket.settings.canvasLineOffsetY +"px;left:0;\" />");
 				
 						
 				//  create rounds
@@ -239,7 +240,8 @@
 			align : {
 				winner : function(game_html, node, yOffset){
 					return game_html.addClass(node.winnerClass).css({ 
-						"margin-top" : yOffset + (game_html.height() / 2)
+						"margin-top" : yOffset + (game_html.height() / 2),
+						"margin-left" : (node.canvasLineGap * 1.5)
 					});
 				}
 			}, 
