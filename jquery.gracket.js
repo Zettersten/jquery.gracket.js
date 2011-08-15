@@ -1,6 +1,6 @@
 // Bracket Plugin | Gracket (jquery.gracket.js)
 // Erik Zettersten
-// Version 1.3
+// Version 1.5
 
 (function($) {
 	$.fn.gracket = function(method) {
@@ -15,7 +15,7 @@
 			spacerClass : "g_spacer",
 			connectorClass : "g_connector",
 			currentClass : "g_current",
-			cornerRadius : 3,
+			cornerRadius : 25,
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
@@ -162,6 +162,9 @@
 						//We must put a restriction on the corner radius and the line gap
 						if (_cornerRadius > _itemHeight/3)
 							_cornerRadius = _itemHeight/3;
+						
+						if (_cornerRadius > _marginRight/2)
+							_cornerRadius = _marginRight/2 - 2;
 							
 						if (_lineGap > _marginRight/3)
 							_lineGap = _marginRight/3;						
