@@ -122,7 +122,7 @@
 				},
 				spacer : function(node, yOffset, r, isFirst){
 					return spacer = $("<div />", {
-						"class" : node.spacerClass,
+						"class" : node.spacerClass
 					}).css({
 						"height" : (isFirst) ?  (((Math.pow(2, r)) - 1) * (yOffset / 2)) : ((Math.pow(2, r) -1) * yOffset)
 					});
