@@ -30,40 +30,40 @@ Feature's,
 
 API
 ===
+<code>
+	Basic use,
+	- $(YOUR_SELECTOR).gracket();
 
-Basic use,
-- $(YOUR_SELECTOR).gracket();
+	Load data,
+	- $(YOUR_SELECTOR).gracket({
+		src : "/a/link/to/my/data"
+	});
 
-Load data,
-- $(YOUR_SELECTOR).gracket({
-	src : "/a/link/to/my/data"
-});
+	Change canvas,
+	- $(YOUR_SELECTOR).gracket({
+		canvasLineWidth : 1,
+		canvasLineGap : 2,
+		cornerRadius : 3,
+		canvasLineCap : "round", // or "square"
+		canvasLineColor : "white" // or #HEX
+	});
 
-Change canvas,
-- $(YOUR_SELECTOR).gracket({
-	canvasLineWidth : 1,
-	canvasLineGap : 2,
-	cornerRadius : 3,
-	canvasLineCap : "round", // or "square"
-	canvasLineColor : "white" // or #HEX
-});
-
-Full api (defaults),
-- $(YOUR_SELECTOR).gracket({
-	gameClass : "g_game",
-	roundClass : "g_round",
-	teamClass : "g_team",
-	winnerClass : "g_winner",
-	spacerClass : "g_spacer",
-	currentClass : "g_current",
-	cornerRadius : 25,
-	canvasId : "g_canvas",
-	canvasClass : "g_canvas",
-	canvasLineColor : "white",
-	canvasLineWidth : 2,
-	canvasLineGap : 5,
-	canvasLineCap : "round",
-	src : null
-});
-
+	Full api (defaults),
+	- $(YOUR_SELECTOR).gracket({
+		gameClass : "g_game",
+		roundClass : "g_round",
+		teamClass : "g_team",
+		winnerClass : "g_winner",
+		spacerClass : "g_spacer",
+		currentClass : "g_current",
+		cornerRadius : 25,
+		canvasId : "g_canvas",
+		canvasClass : "g_canvas",
+		canvasLineColor : "white",
+		canvasLineWidth : 2,
+		canvasLineGap : 5,
+		canvasLineCap : "round",
+		src : null
+	});
+</code>
 
