@@ -6,7 +6,7 @@
  \_____|_|  \__,_|\___|_|\_\___|\__|
 
 
-V1.3
+V1.4
 ====
 
 A modern approach to handling tournament brackets in jQuery.
@@ -22,6 +22,6 @@ Step Two: Swap out the '{object}' for a real serialized JSON string or javascrip
 
 Feature's,
 
-	1. Hover trail
-	2. Canvas Draw Lines
+	1. [DONE v1.2] Hover trail
+	2. [DONE v1.4] Canvas Draw Lines
 	3. Tooltips
