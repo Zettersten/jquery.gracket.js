@@ -19,18 +19,8 @@ body {
   margin-bottom: 15px;
 }
 
-/* line 19, ../sass/global.scss */
-.g_connector {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  height: 8px;
-  width: 8px;
-  margin-top: -4px;
-}
-
 /* my stuff */
-/* line 29, ../sass/global.scss */
+/* line 22, ../sass/global.scss */
 #gracket {
   position: relative;
   overflow: hidden;
@@ -40,7 +30,7 @@ body {
   margin: 15px auto;
   background: #222222 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern14.png);
 }
-/* line 38, ../sass/global.scss */
+/* line 31, ../sass/global.scss */
 #gracket h3 {
   color: #fff;
   font-weight: bold;
@@ -51,7 +41,7 @@ body {
   text-indent: 20px;
   font-weight: normal;
 }
-/* line 48, ../sass/global.scss */
+/* line 41, ../sass/global.scss */
 #gracket h3 span {
   background: #000;
   -moz-border-radius: 10px;
@@ -71,7 +61,7 @@ body {
   text-indent: 0;
   left: 3px;
 }
-/* line 64, ../sass/global.scss */
+/* line 57, ../sass/global.scss */
 #gracket .g_team {
   -moz-border-radius: 4px 4px 0 0;
   -webkit-border-radius: 4px 4px 0 0;
@@ -81,7 +71,7 @@ body {
   border-radius: 4px 4px 0 0;
   background: orange;
 }
-/* line 68, ../sass/global.scss */
+/* line 61, ../sass/global.scss */
 #gracket .g_team:last-child {
   -moz-border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
@@ -91,11 +81,11 @@ body {
   border-radius: 0 0 4px 4px;
   background: #444;
 }
-/* line 73, ../sass/global.scss */
+/* line 66, ../sass/global.scss */
 #gracket .g_round:last-child {
   margin-right: 20px;
 }
-/* line 77, ../sass/global.scss */
+/* line 70, ../sass/global.scss */
 #gracket .g_winner {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -105,7 +95,7 @@ body {
   border-radius: 4px;
   background: #444;
 }
-/* line 80, ../sass/global.scss */
+/* line 73, ../sass/global.scss */
 #gracket .g_winner .g_team {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -115,13 +105,13 @@ body {
   border-radius: 4px;
   background: none;
 }
-/* line 86, ../sass/global.scss */
+/* line 79, ../sass/global.scss */
 #gracket .g_current {
   cursor: pointer;
   background: #000!important;
 }
 
-/* line 94, ../sass/global.scss */
+/* line 87, ../sass/global.scss */
 h1 {
   font-family: 'Sigmar One', sans-serif;
   color: #222;
@@ -131,19 +121,19 @@ h1 {
   text-shadow: 0px 1px 1px #444444;
 }
 
-/* line 102, ../sass/global.scss */
+/* line 95, ../sass/global.scss */
 small {
   display: block;
   text-align: center;
   margin: 20px auto;
   color: #000;
 }
-/* line 107, ../sass/global.scss */
+/* line 100, ../sass/global.scss */
 small a {
   color: #666;
   text-decoration: none;
 }
-/* line 110, ../sass/global.scss */
+/* line 103, ../sass/global.scss */
 small a:hover {
   color: #555;
 }

@@ -1,6 +1,6 @@
 // Bracket Plugin | Gracket (jquery.gracket.js)
 // Erik Zettersten
-// Version 1.8
+// Version 1.9
 
 (function($) {
 	$.fn.gracket = function(method) {
@@ -14,13 +14,13 @@
 			winnerClass : "g_winner",
 			spacerClass : "g_spacer",
 			currentClass : "g_current",
-			cornerRadius : 25,
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
 			canvasLineColor : "white",
-			canvasLineWidth : 2,
-			canvasLineGap : 5,
 			canvasLineCap : "round",
+			cornerRadius : 3,
+			canvasLineWidth : 2,
+			canvasLineGap : 3,
 			src : null
 		}
 		
@@ -45,7 +45,6 @@
 				// build empty canvas
 				container.append("<canvas id='"+ this.gracket.settings.canvasId +"' style=\"position:absolute;top:0;left:0;\" />");
 				
-						
 				//  create rounds
 				round_count = data.length;
 				for (var r=0; r < round_count; r++) {
@@ -142,21 +141,24 @@
 					draw : function(node, data, game_html){						
 						
 						var canvas = document.getElementById(node.canvasId);
-						var ctx = canvas.getContext("2d");
+						var ctx = canvas.getContext('2d');
 						
-						// set starting position -- will default to zero
-						var 
+						
+						// set starting position -- will default to zero						
+						var
 							_itemWidth = game_html.outerWidth(true),
 							_itemHeight = game_html.outerHeight(true),
 							_paddingLeft = (parseInt(container.css("paddingLeft")) || 0),
 							_paddingTop = (parseInt(container.css("paddingTop")) || 0),
 							_marginBottom = (parseInt(game_html.css("marginBottom")) || 0),
 							_startingLeftPos = _itemWidth + _paddingLeft,
-							_marginRight = (parseInt(container.find("> div").css("marginRight")) || 0),
+							_marginRight = (parseInt(container.find("> div").css("marginRight")) || 0),						
 							_cornerRadius = node.cornerRadius,
 							_lineGap = node.canvasLineGap,
+							_playerGap = (game_html.height() - 2*game_html.find("> div").eq(1).height())
 							_playerHt = game_html.find("> div").eq(1).height()
 						;
+						
 						
 						//We must put a restriction on the corner radius and the line gap
 						if (_cornerRadius > _itemHeight/3) _cornerRadius = _itemHeight/3;
@@ -177,22 +179,22 @@
 						ctx.beginPath();												
 						
 						var 
-							p = Math.pow(2, data.length - 2),
+							p = Math.pow(2, data.length - 2),					
 							i = 0,
 							j,
 							r = 0.5
 						;
 						
 						while (p >= 1) {
+						
+							for (j = 0; j < p; j++) {			
 							
-							for (j = 0; j < p; j++) {																
-								
-								if (p == 1) r = 1;
+								if (p == 1) r = 1;								
 								
 								var 
 									xInit = _startingLeftPos + i*_itemWidth + i*_marginRight,
 									xDisp = r*_marginRight,
-									yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt
+									yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt + _playerGap/2
 								;
 								
 								//Line foward
@@ -201,7 +203,7 @@
 								if (p > 1)
 									ctx.lineTo(xInit + xDisp - _cornerRadius, yInit);
 								else 
-									ctx.lineTo(xInit + xDisp, yInit);								
+									ctx.lineTo(xInit + xDisp - _lineGap, yInit);								
 								
 								//Line backward
 								if (p < Math.pow(2, data.length - 2)) {
@@ -226,14 +228,16 @@
 									_cy = yInit + Math.pow(2, i)*_itemHeight - _cornerRadius;	
 									ctx.moveTo(_cx + _cornerRadius, _cy - _cornerRadius);
 									ctx.arcTo(_cx + _cornerRadius, _cy + _cornerRadius, _cx, _cy + _cornerRadius, _cornerRadius);									
+									
 								}								
 							}
 							i++;
-							p = (p / 2);
+							p = p/2;
 						}						
 						
 						// only need to stoke the path once			
-						ctx.stroke();				
+						ctx.stroke();
+																	
 					}
 				}
 			},
@@ -262,6 +266,7 @@
 				// 2. size the canvas
 				helpers.build.canvas.resize(node);
 				helpers.build.canvas.draw(node, data, game_html);
+				
 				// 3. add tooltip
 				
 				
@@ -280,11 +285,3 @@
 	}
 
 })(jQuery);
-
-// Call Plugin
-$("[data-gracket]").gracket();
-
-
-
-
-
