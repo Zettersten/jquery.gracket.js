@@ -1,139 +1,24 @@
 /* un-needed */
-/* line 4, ../sass/global.scss */
-body {
-  font-family: helvetica, verdana, arial, sans-serif;
-  font-size: 12px;
-  background: #333333 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern16.png);
-}
+body { font-family: helvetica, verdana, arial, sans-serif; font-size: 12px; background: #333333 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern16.png); }
 
 /* basic - barebone */
-/* line 11, ../sass/global.scss */
-.g_round {
-  float: left;
-  margin-right: 20px;
-}
+.g_round { float: left; margin-right: 20px; }
 
-/* line 15, ../sass/global.scss */
-.g_game {
-  position: relative;
-  margin-bottom: 15px;
-}
+.g_game { position: relative; margin-bottom: 15px; }
 
 /* my stuff */
-/* line 22, ../sass/global.scss */
-#gracket {
-  position: relative;
-  overflow: hidden;
-  border: 5px solid #111;
-  width: 1065px;
-  padding: 35px 20px 10px;
-  margin: 15px auto;
-  background: #222222 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern14.png);
-}
-/* line 31, ../sass/global.scss */
-#gracket h3 {
-  color: #fff;
-  font-weight: bold;
-  font-size: 12px;
-  padding: 2px;
-  width: 105px;
-  position: relative;
-  text-indent: 20px;
-  font-weight: normal;
-}
-/* line 41, ../sass/global.scss */
-#gracket h3 span {
-  background: #000;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -o-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-weight: normal;
-  height: 14px;
-  line-height: 14px;
-  position: absolute;
-  text-align: center;
-  top: 1px;
-  width: 14px;
-  text-indent: 0;
-  left: 3px;
-}
-/* line 57, ../sass/global.scss */
-#gracket .g_team {
-  -moz-border-radius: 4px 4px 0 0;
-  -webkit-border-radius: 4px 4px 0 0;
-  -o-border-radius: 4px 4px 0 0;
-  -ms-border-radius: 4px 4px 0 0;
-  -khtml-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
-  background: orange;
-}
-/* line 61, ../sass/global.scss */
-#gracket .g_team:last-child {
-  -moz-border-radius: 0 0 4px 4px;
-  -webkit-border-radius: 0 0 4px 4px;
-  -o-border-radius: 0 0 4px 4px;
-  -ms-border-radius: 0 0 4px 4px;
-  -khtml-border-radius: 0 0 4px 4px;
-  border-radius: 0 0 4px 4px;
-  background: #444;
-}
-/* line 66, ../sass/global.scss */
-#gracket .g_round:last-child {
-  margin-right: 20px;
-}
-/* line 70, ../sass/global.scss */
-#gracket .g_winner {
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -o-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -khtml-border-radius: 4px;
-  border-radius: 4px;
-  background: #444;
-}
-/* line 73, ../sass/global.scss */
-#gracket .g_winner .g_team {
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -o-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -khtml-border-radius: 4px;
-  border-radius: 4px;
-  background: none;
-}
-/* line 79, ../sass/global.scss */
-#gracket .g_current {
-  cursor: pointer;
-  background: #000!important;
-}
+#gracket { position: relative; overflow: hidden; border: 5px solid #111; width: 1065px; padding: 35px 20px 10px; margin: 15px auto; background: #222222 url(http://demo.swishthemes.com/horizon/wp-content/themes/horizon/images/bg/patterns/pattern14.png); }
+#gracket h3 { color: #fff; font-weight: bold; font-size: 12px; padding: 2px; width: 105px; position: relative; text-indent: 20px; font-weight: normal; }
+#gracket h3 span { background: #000; -moz-border-radius: 10px; -webkit-border-radius: 10px; -o-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; border-radius: 10px; font-size: 10px; font-weight: normal; height: 14px; line-height: 14px; position: absolute; text-align: center; top: 1px; width: 14px; text-indent: 0; left: 3px; }
+#gracket .g_team { -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; -o-border-radius: 4px 4px 0 0; -ms-border-radius: 4px 4px 0 0; -khtml-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0; background: orange; }
+#gracket .g_team:last-child { -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; -o-border-radius: 0 0 4px 4px; -ms-border-radius: 0 0 4px 4px; -khtml-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px; background: #444; }
+#gracket .g_round:last-child { margin-right: 20px; }
+#gracket .g_winner { -moz-border-radius: 4px; -webkit-border-radius: 4px; -o-border-radius: 4px; -ms-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; background: #444; }
+#gracket .g_winner .g_team { -moz-border-radius: 4px; -webkit-border-radius: 4px; -o-border-radius: 4px; -ms-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; background: none; }
+#gracket .g_current { cursor: pointer; background: #000!important; }
 
-/* line 87, ../sass/global.scss */
-h1 {
-  font-family: 'Sigmar One', sans-serif;
-  color: #222;
-  text-align: center;
-  margin: 55px auto 20px;
-  font-size: 128px;
-  text-shadow: 0px 1px 1px #444444;
-}
+h1 { font-family: 'Sigmar One', sans-serif; color: #222; text-align: center; margin: 55px auto 20px; font-size: 128px; text-shadow: 0px 1px 1px #444444; }
 
-/* line 95, ../sass/global.scss */
-small {
-  display: block;
-  text-align: center;
-  margin: 20px auto;
-  color: #000;
-}
-/* line 100, ../sass/global.scss */
-small a {
-  color: #666;
-  text-decoration: none;
-}
-/* line 103, ../sass/global.scss */
-small a:hover {
-  color: #555;
-}
+small { display: block; text-align: center; margin: 20px auto; color: #000; }
+small a { color: #666; text-decoration: none; }
+small a:hover { color: #555; }
