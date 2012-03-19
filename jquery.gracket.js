@@ -5,23 +5,23 @@
 (function($) {
 	$.fn.gracket = function(method) {
 
-		
 		// Defaults
 		$.fn.gracket.defaults = {
+			gracketClass : "g_gracket",
 			gameClass : "g_game",
 			roundClass : "g_round",
 			teamClass : "g_team",
 			winnerClass : "g_winner",
 			spacerClass : "g_spacer",
 			currentClass : "g_current",
+			cornerRadius : 15,
 			canvasId : "g_canvas",
 			canvasClass : "g_canvas",
-			canvasLineColor : "white",
+			canvasLineColor : "#eee",
 			canvasLineCap : "round",
-			cornerRadius : 3,
 			canvasLineWidth : 2,
-			canvasLineGap : 3,
-			src : null
+			canvasLineGap : 15,
+			src : {}
 		}
 		
 		// global
@@ -43,7 +43,19 @@
 				this.gracket.settings = $.extend({}, this.gracket.defaults, options);
 				
 				// build empty canvas
-				container.append("<canvas id='"+ this.gracket.settings.canvasId +"' style=\"position:absolute;top:0;left:0;\" />");
+				var 
+					_canvas = document.createElement("canvas");
+					_canvas.id = this.gracket.settings.canvasId;
+					_canvas.className = this.gracket.settings.canvasClass;
+					_canvas.style.position = "absolute";
+					_canvas.style.left = 0;
+					_canvas.style.top = 0;
+					_canvas.style.right = "auto";
+
+				// Append canvas & add class
+				container
+					.addClass(this.gracket.settings.gracketClass)
+					.append(_canvas);
 				
 				//  create rounds
 				round_count = data.length;
@@ -55,14 +67,12 @@
 					// create games in round
 					game_count = data[r].length;		
 					for (var g=0; g < game_count; g++) {
-						
 					
 						var 
 							game_html = helpers.build.game(this.gracket.settings),
 							outer_height = container.find("." + this.gracket.settings.gameClass).outerHeight(true),
 							spacer = helpers.build.spacer(this.gracket.settings, outer_height, r, (r !== 0 && g === 0) ? true : false)
 						;
-						
 						
 						// append spacer
 						if (g % 1 == 0 && r !== 0) round_html.append(spacer);
@@ -105,7 +115,7 @@
 			build : {
 				team : function(data, node){
 					return team = $("<div />", {
-						"html" : "<h3><span>"+ (data.seed || 0) +"</span>"+ data.name +"</h3>",
+						"html" : "<h3><span>"+ (data.seed || 0) +"</span> "+ data.name +"</h3>",
 						"class" : node.teamClass + " " + (data.id || "id_null")
 					});
 				},
@@ -266,10 +276,7 @@
 				// 2. size the canvas
 				helpers.build.canvas.resize(node);
 				helpers.build.canvas.draw(node, data, game_html);
-				
-				// 3. add tooltip
-				
-				
+
 			}
 		};
 	
