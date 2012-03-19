@@ -113,10 +113,11 @@ I could not make this plugin without the advice of the following people,
 
 1. [Andrew Miller](https://github.com/AndrewMillerPSD)
 2. [James Coutry](https://github.com/jcoutry)
+3. [Voung Trinh](https://github.com/goods4trade)
 
 About
 -----
 
 ### Author: [Erik Zettersten](http://zettersten.com)
 ### Version: 1.5.0
-### URL: (https://github.com/erik5388/jquery.gracket.js)
+### URL: https://github.com/erik5388/jquery.gracket.js
