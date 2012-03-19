@@ -7,19 +7,16 @@ Example
 -------
 
 HTML:
-	<div data-gracket></div>
+	<div data-gracket>
+	</div>
 
 JS:
-	<script> 
-		$("[data-gracket]").gracket();
-	</script>
+	$("[data-gracket]").gracket();
 
 CSS: 
-	<style>
-		.g_gracket { overflow: hidden; }
-		.g_round { float: left; margin-right: 20px; }
-		.g_game { position: relative; margin-bottom: 15px; }
-	</style>
+	.g_gracket { overflow: hidden; }
+	.g_round { float: left; margin-right: 20px; }
+	.g_game { position: relative; margin-bottom: 15px; }
 
 API Usage
 ---------
