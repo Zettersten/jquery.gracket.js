@@ -9,8 +9,8 @@ Example
 ##HTML
 
 ```html
-	<div data-gracket>
-	</div>
+<div data-gracket="[{},{},{}]">
+</div>
 ```
 
 ##JS
