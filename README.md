@@ -86,6 +86,7 @@ $("selector").gracket({
 */
 
 $("selector").gracket({
+	gracketClass : "g_gracket",
 	gameClass : "g_game",
 	roundClass : "g_round",
 	teamClass : "g_team",
