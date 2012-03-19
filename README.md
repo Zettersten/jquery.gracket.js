@@ -6,21 +6,28 @@ A **single elimation bracket** built using canvas and jquery.
 Example
 -------
 
-HTML:
+## HTML
+```html
 	<div data-gracket>
 	</div>
+```
 
-JS:
+## JS
+```js
 	$("[data-gracket]").gracket();
+```
 
-CSS: 
+## CSS
+```css
 	.g_gracket { overflow: hidden; }
 	.g_round { float: left; margin-right: 20px; }
 	.g_game { position: relative; margin-bottom: 15px; }
+```
 
 API Usage
 ---------
 
+```js
 	/* 
 	* Basic usage
 	* @note: Assumes your data comes 
@@ -72,7 +79,7 @@ API Usage
 		canvasId : "g_canvas",
 		canvasClass : "g_canvas"
 	});
-
+```
 
 What's Next?
 ------------
