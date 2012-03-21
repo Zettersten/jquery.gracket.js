@@ -52,6 +52,7 @@
 				container
 					.addClass(this.gracket.settings.gracketClass)
 					.append(_canvas);
+
 				
 				//  create rounds
 				round_count = data.length;
@@ -147,6 +148,10 @@
 					draw : function(node, data, game_html){						
 						
 						var canvas = document.getElementById(node.canvasId);
+						
+						// if we are using excanvas
+						if (G_vmlCanvasManager) G_vmlCanvasManager.initElement(canvas);
+						
 						var ctx = canvas.getContext('2d');
 						
 						
