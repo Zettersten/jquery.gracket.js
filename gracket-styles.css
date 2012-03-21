@@ -1,7 +1,10 @@
 /* formatting page */
-body { font-family: helvetica, verdana, arial, sans-serif; font-size: 12px; background-color: #DDD; padding: 35px}
-#wrapper { margin: 35px 0; width: 80%; overflow: hidden; border: 1px solid #ccc; }
+body { font-family: helvetica, verdana, arial, sans-serif; font-size: 12px; background-color: #efefef; padding: 35px}
+#wrapper { margin: 35px 0; width: 100%; overflow: hidden; border-radius: 5px; }
 a {color: #2C96AF;}
+a:hover { color: #A0B43C; }
+h1 { font-size: 35px; }
+h1 a {text-decoration: none; text-transform: uppercase; text-shadow: 0 1px 0 #fff; }
 
 /* theme */
 .g_gracket { width: 9999px; background-color: #fff; padding: 15px 15px 5px; line-height: 100%; position: relative; overflow: hidden;}
