@@ -41,7 +41,7 @@
 				// build empty canvas
 				var 
 					_canvas = document.createElement("canvas");
-					_canvas.id = this.gracket.settings.canvasId;
+					_canvas.id = this.gracket.settings.canvasId + "_" + ((new Date()).getTime());
 					_canvas.className = this.gracket.settings.canvasClass;
 					_canvas.style.position = "absolute";
 					_canvas.style.left = 0;
