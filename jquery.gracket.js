@@ -20,6 +20,10 @@
       src : {}
     }
     
+
+    if (typeof JSON !== "object")
+      return $.error("json2 does not exsist. Please add the script to your head!");
+
     // global
     var 
       container = this,
