@@ -119,6 +119,14 @@ I could not make this plugin without the advice of the following people,
 About
 -----
 
-### Author: [Erik Zettersten](http://zettersten.com)
-### Version: 1.5.0
-### URL: https://github.com/erik5388/jquery.gracket.js
++ **Author** : [Erik Zettersten](http://zettersten.com)
++ **Version** : 1.5.0
++ **URL** : https://github.com/erik5388/jquery.gracket.js
+
+Disclaimer
+----------
+This code is provided with no warranty.  While I strive to maintain backwards compatibility, the code is still under active development.  As this is the case, some revisions may break break compatibility with earlier versions of the library.  Please keep this in mind when using PathJS.
+
+Copyright and Licensing
+-----------------------
+Copyright (c) 2011 Erik Zettersten, released under the MIT license.

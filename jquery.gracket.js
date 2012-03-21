@@ -1,7 +1,3 @@
-// Bracket Plugin | Gracket (jquery.gracket.js)
-// Erik Zettersten
-// Version 1.9
-
 (function($) {
 	$.fn.gracket = function(method) {
 
