@@ -6,6 +6,7 @@
       gracketClass : "g_gracket",
       gameClass : "g_game",
       roundClass : "g_round",
+      roundLabelClass : "g_round_label",
       teamClass : "g_team",
       winnerClass : "g_winner",
       spacerClass : "g_spacer",
@@ -17,6 +18,7 @@
       canvasLineCap : "round",
       canvasLineWidth : 2,
       canvasLineGap : 15,
+      roundLabels : [],
       src : {}
     }
     
@@ -141,6 +143,28 @@
             "height" : (isFirst) ?  (((Math.pow(2, r)) - 1) * (yOffset / 2)) : ((Math.pow(2, r) -1) * yOffset)
           });
         },
+        labels : function(data, offset){
+          
+          var 
+            off = offset,
+            i,
+            len = data.length,
+            left
+          ;
+
+          for (i = 0; i < len; i++) {
+            left = (i === 0 ? off.padding + (off.width * i) : off.padding + (off.width * i) + (off.right * i));
+            $("<h5 />", {
+              "text" : (off.labels.length ? off.labels[i] : "Round " + (i + 1)),
+              "class" : off["class"]
+            }).css({
+              "position" : "absolute",
+              "left" : left,
+              "width" : offset.width
+            }).prependTo(container);
+          };
+
+        },
         canvas : {
           resize : function(node){
             var canvas = document.getElementById(node.canvasId);
@@ -206,7 +230,15 @@
               r = 0.5,
               ifOneGame = ((i === 0 && p === 1) ? true : false)
             ;
-            
+
+            // if only one game, fix canvas pos x and pos y
+            if (ifOneGame) {
+                var _ref = $("." + node.gameClass);
+                var _item = _ref.eq( _ref.length - 1 );
+                _itemHeight = _item.outerHeight(true);
+                _itemWidth = _item.outerWidth(true);
+            };
+
             while (p >= 1) {
             
               for (j = 0; j < p; j++) {     
@@ -214,21 +246,11 @@
                 if (p == 1) r = 1;                
 
                 var 
-                  xInit =  _startingLeftPos + i *_itemWidth + i *_marginRight,
-                  xDisp = r*_marginRight,
-                  yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt + _playerGap/2
+                  xInit = (ifOneGame) ? (_itemWidth + _paddingLeft) : (_startingLeftPos + i *_itemWidth + i *_marginRight),
+                  xDisp = r * _marginRight,
+                  yInit = ((Math.pow(2, i-1) - 0.5) * (i && 1) + j * Math.pow(2, i)) * _itemHeight + _paddingTop + ((ifOneGame) ? (_ref.find("> div").eq(1).height()) : (_playerHt)) + _playerGap/2
                 ;
-
-                // if only one game, fix canvas pos x and pos y
-                if (ifOneGame) {
-                    var _ref = $("." + node.gameClass);
-                    var _item = _ref.eq( _ref.length - 1 );
-                    var _height = _item.outerHeight(true);
-                    var _width = _item.outerWidth(true);
-                    xInit = _width + _paddingLeft;
-                    yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_height + _paddingTop + _ref.find("> div").eq(1).height() + _playerGap/2; 
-                };
-                
+          
                 //Line foward
                 ctx.moveTo(xInit + _lineGap, yInit);
                 
@@ -269,6 +291,16 @@
             
             // only need to stoke the path once     
             ctx.stroke();
+
+            // draw labels
+            helpers.build.labels(data, {
+              "width" : _itemWidth,
+              "padding" : _paddingLeft,
+              "left" : _startingLeftPos,
+              "right" : _marginRight,
+              "labels" : node.roundLabels,
+              "class" : node.roundLabelClass
+            });
                                   
           }
         }
@@ -296,11 +328,10 @@
             });
           };
         });
-        
-        // 2. size the canvas
+
         helpers.build.canvas.resize(node);
         helpers.build.canvas.draw(node, data, game_html);
-
+        
       }
     };
   

@@ -99,12 +99,35 @@ $("selector").gracket({
 });
 ```
 
+```js
+/* 
+* Create show custom labels, or hide them
+* @note: create gracket with custom  
+*        labels to add more instruction
+*        to your bracket. 
+*/
+
+$("selector").gracket({
+	roundLabels : ["1st Round", "2nd Round", "..."]
+});
+
+/* 
+* @note: leaving this field 
+*				 empty shows the default values.
+*				 In order to hide labels, enter 
+*				 one empty value.
+*/
+
+$("selector").gracket({
+	roundLabels : [""]
+});
+```
+
 What's Next?
 ------------
 
 + **Ajax** : to load data from a given source and then init the bracket. 
 + **Tooltips** : to hover and expose an element with more info from each team & round.
-+ **Round Title** : to show a round title at the top of each round.
 + **Refactor $ Usage** : reduce jQuery methods in the area of "creating elements", "elements lookups", and "element inline styles".
 + **Data Dive** : A more in depth view at how to structure data to adequatly use gracket.
 
@@ -121,7 +144,7 @@ About
 -----
 
 + **Author** : [Erik Zettersten](http://zettersten.com)
-+ **Version** : 1.5.2
++ **Version** : 1.5.3
 + **URL** : https://github.com/erik5388/jquery.gracket.js
 
 Disclaimer
