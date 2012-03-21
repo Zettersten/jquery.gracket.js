@@ -1,7 +1,8 @@
 Gracket
 =======
 
-A **single elimation bracket** built using canvas and jquery.
+A **single elimation bracket** built using canvas and jquery. 
+**Live demo**: http://erik5388.github.com/jquery.gracket.js/
 
 Example
 -------
