@@ -121,7 +121,7 @@ About
 -----
 
 + **Author** : [Erik Zettersten](http://zettersten.com)
-+ **Version** : 1.5.1
++ **Version** : 1.5.2
 + **URL** : https://github.com/erik5388/jquery.gracket.js
 
 Disclaimer

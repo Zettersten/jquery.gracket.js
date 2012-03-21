@@ -199,7 +199,8 @@
               p = Math.pow(2, data.length - 2),         
               i = 0,
               j,
-              r = 0.5
+              r = 0.5,
+              ifOneGame = ((i === 0 && p === 1) ? true : false)
             ;
             
             while (p >= 1) {
@@ -207,12 +208,22 @@
               for (j = 0; j < p; j++) {     
               
                 if (p == 1) r = 1;                
-                
+
                 var 
-                  xInit = _startingLeftPos + i*_itemWidth + i*_marginRight,
+                  xInit =  _startingLeftPos + i *_itemWidth + i *_marginRight,
                   xDisp = r*_marginRight,
                   yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_itemHeight + _paddingTop + _playerHt + _playerGap/2
                 ;
+
+                // if only one game, fix canvas pos x and pos y
+                if (ifOneGame) {
+                    var _ref = $("." + node.gameClass);
+                    var _item = _ref.eq( _ref.length - 1 );
+                    var _height = _item.outerHeight(true);
+                    var _width = _item.outerWidth(true);
+                    xInit = _width + _paddingLeft;
+                    yInit = ((Math.pow(2, i-1) - 0.5)*(i&&1) + j*Math.pow(2, i))*_height + _paddingTop + _ref.find("> div").eq(1).height() + _playerGap/2; 
+                };
                 
                 //Line foward
                 ctx.moveTo(xInit + _lineGap, yInit);
@@ -260,8 +271,10 @@
       },
       align : {
         winner : function(game_html, node, yOffset){
+          var ifOneGame = (game_html.parent().siblings().not("canvas").length === 1) ? true : false;
+          var offset = ifOneGame ? yOffset - (game_html.height() + (game_html.height() / 2)) : yOffset + (game_html.height() / 2);
           return game_html.addClass(node.winnerClass).css({ 
-            "margin-top" : yOffset + (game_html.height() / 2)
+            "margin-top" : offset
           });
         }
       }, 
