@@ -51,7 +51,7 @@
 				// Append canvas & add class
 				container
 					.addClass(this.gracket.settings.gracketClass)
-					.append(_canvas);
+					.prepend(_canvas);
 
 				
 				//  create rounds
@@ -150,7 +150,7 @@
 						var canvas = document.getElementById(node.canvasId);
 						
 						// if we are using excanvas
-						if (window.G_vmlCanvasManager !== "undefined") {
+						if (typeof G_vmlCanvasManager != "undefined") {
 							G_vmlCanvasManager.initElement(canvas);
 						};
 						
