@@ -130,4 +130,4 @@ This code is provided with no warranty.  While I strive to maintain backwards co
 
 Copyright and Licensing
 -----------------------
-Copyright (c) 2011 Erik Zettersten, released under the MIT license.
+Copyright (c) 2012 Erik Zettersten, released under the MIT license.
