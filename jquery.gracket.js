@@ -150,7 +150,9 @@
 						var canvas = document.getElementById(node.canvasId);
 						
 						// if we are using excanvas
-						if (G_vmlCanvasManager) G_vmlCanvasManager.initElement(canvas);
+						if (G_vmlCanvasManager !== undefined) {
+							G_vmlCanvasManager.initElement(canvas);
+						};
 						
 						var ctx = canvas.getContext('2d');
 						
