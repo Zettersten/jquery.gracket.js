@@ -149,9 +149,13 @@ About
 
 jquery.gracket.js loves all browsers
 ------------------------------------
+
+This plugin has been looked at and tested on the following browsers...
+
 ![Gracket is supported in all browsers](http://eventespresso.com/wp-content/uploads/2010/07/Browser-Icons.png)
 
-+ IE6/5 not tested, *IE has minor issues with hover states.
++ IE6/5 not tested
++ IE has minor issues with hover states.
 
 Disclaimer
 ----------
