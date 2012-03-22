@@ -147,6 +147,12 @@ About
 + **Version** : 1.5.3
 + **URL** : https://github.com/erik5388/jquery.gracket.js
 
+jquery.gracket.js loves all browsers
+------------------------------------
+![Gracket is supported in all browsers](http://eventespresso.com/wp-content/uploads/2010/07/Browser-Icons.png)
+
++ IE6/5 not tested, *IE has minor issues with hover states.
+
 Disclaimer
 ----------
 This code is provided with no warranty.  While I strive to maintain backwards compatibility, the code is still under active development.  As this is the case, some revisions may break break compatibility with earlier versions of the library.  Please keep this in mind when using jquery.gracket.js.
