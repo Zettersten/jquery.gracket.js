@@ -145,7 +145,7 @@ About
 -----
 
 + **Author** : [Erik Zettersten](http://zettersten.com)
-+ **Version** : 1.5.3
++ **Version** : 1.5.5
 + **URL** : https://github.com/erik5388/jquery.gracket.js
 
 jquery.gracket.js loves all browsers
