@@ -19,17 +19,13 @@
       canvasLineWidth : 2,
       canvasLineGap : 15,
       roundLabels : [],
-      src : {}
-    }
-    
-
-    if (typeof JSON !== "object")
-      return $.error("json2 does not exsist. Please add the script to your head!");
+      src : []
+    };
 
     // global
     var 
       container = this,
-      data = JSON.parse(container.data("gracket")) || JSON.parse(this.gracket.defaults.src),
+      data = (typeof container.data("gracket") === "undefined") ? [] : JSON.parse(container.data("gracket")),
       team_count,
       round_count,
       game_count
@@ -44,6 +40,9 @@
         
         // merge options with settings
         this.gracket.settings = $.extend({}, this.gracket.defaults, options);
+
+        if (this.gracket.settings.src.length)
+          data = this.gracket.settings.src;
 
         // always prepend unique id to canvas id, as we dont want dupes
         this.gracket.settings.canvasId = this.gracket.settings.canvasId + "_" + ((new Date()).getTime());
@@ -200,11 +199,13 @@
               _marginRight = (parseInt(container.find("> div").css("marginRight")) || 0),           
               _cornerRadius = node.cornerRadius,
               _lineGap = node.canvasLineGap,
-              _playerGap = (game_html.height() - 2*game_html.find("> div").eq(1).height())
+              _playerGap = (game_html.height() - 2 * game_html.find("> div").eq(1).height())
               _playerHt = game_html.find("> div").eq(1).height()
             ;
-            
-            
+
+            if (typeof console !== "undefined")
+              console.info("Padding Left: " + _paddingLeft + "px", "Player/Name Width: " + _itemWidth + "px", "Container padding left: " + _startingLeftPos + "px");
+
             //We must put a restriction on the corner radius and the line gap
             if (_cornerRadius > _itemHeight/3) _cornerRadius = _itemHeight/3;
             
@@ -213,7 +214,6 @@
             if (_cornerRadius <= 0) _cornerRadius = 1;
               
             if (_lineGap > _marginRight/3) _lineGap = _marginRight/3;           
-            
             
             // set styles
             ctx.strokeStyle = node.canvasLineColor;

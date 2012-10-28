@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing jQuery Gracket</title>
+
+	<!-- basic styles -->
+	<style type="text/css">
+		.g_gracket { width: 9999px; background-color: #fff; padding: 55px 15px 5px; line-height: 100%; position: relative; overflow: hidden;}
+		.g_round { float: left; margin-right: 70px; }
+		.g_game { position: relative; margin-bottom: 15px; }
+		.g_gracket h3 { min-width: 160px; margin: 0; padding: 10px 8px 8px; font-size: 18px; font-weight: normal; color: #fff}
+		.g_team { background: #3597AE; }
+		.g_team:last-child {  background: #FCB821; }
+		.g_round:last-child { margin-right: 20px; }
+		.g_winner { background: #444; }
+		.g_winner .g_team { background: none; }
+		.g_current { cursor: pointer; background: #A0B43C!important; }
+		.g_round_label { top: -5px; font-weight: normal; color: #CCC; text-align: center; font-size: 18px; }
+	</style>
+
+	<!-- dependencies -->
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+
+	<!-- main lib -->
+	<script type="text/javascript" src="../jquery.gracket.min.js"></script>
+	<script type="text/javascript" src="test.js"></script>
+
+</head>
+<body>
+
+	<!-- empty gracket element -->
+	<div class="my_gracket"></div>
+
+	<script type="text/javascript">
+		(function(win, doc, $){
+			
+			console.warn("Make sure the min-width of the .gracket_h3 element is set to width of the largest name/player. Gracket needs to build its canvas based on the width of the largest element. We do this my giving it a min width. I'd like to change that!");
+
+			// Fake Data
+			win.TestData = [
+				[
+					[ {"name" : "Erik Zettersten", "id" : "erik-zettersten", "seed" : 1}, {"name" : "Andrew Miller", "id" : "andrew-miller", "seed" : 2} ],
+					[ {"name" : "James Coutry", "id" : "james-coutry", "seed" : 3}, {"name" : "Sam Merrill", "id" : "sam-merrill", "seed" : 4}],
+					[ {"name" : "Anothy Hopkins", "id" : "anthony-hopkins", "seed" : 5}, {"name" : "Everett Zettersten", "id" : "everett-zettersten", "seed" : 6} ],
+					[ {"name" : "John Scott", "id" : "john-scott", "seed" : 7}, {"name" : "Teddy Koufus", "id" : "teddy-koufus", "seed" : 8}],
+					[ {"name" : "Arnold Palmer", "id" : "arnold-palmer", "seed" : 9}, {"name" : "Ryan Anderson", "id" : "ryan-anderson", "seed" : 10} ],
+					[ {"name" : "Jesse James", "id" : "jesse-james", "seed" : 1}, {"name" : "Scott Anderson", "id" : "scott-anderson", "seed" : 12}],
+					[ {"name" : "Josh Groben", "id" : "josh-groben", "seed" : 13}, {"name" : "Sammy Zettersten", "id" : "sammy-zettersten", "seed" : 14} ],
+					[ {"name" : "Jake Coutry", "id" : "jake-coutry", "seed" : 15}, {"name" : "Spencer Zettersten", "id" : "spencer-zettersten", "seed" : 16}]
+				], 
+				[
+					[ {"name" : "Erik Zettersten", "id" : "erik-zettersten", "seed" : 1}, {"name" : "James Coutry", "id" : "james-coutry", "seed" : 3} ],
+					[ {"name" : "Anothy Hopkins", "id" : "anthony-hopkins", "seed" : 5}, {"name" : "Teddy Koufus", "id" : "teddy-koufus", "seed" : 8} ],
+					[ {"name" : "Ryan Anderson", "id" : "ryan-anderson", "seed" : 10}, {"name" : "Scott Anderson", "id" : "scott-anderson", "seed" : 12} ],
+					[ {"name" : "Sammy Zettersten", "id" : "sammy-zettersten", "seed" : 14}, {"name" : "Jake Coutry", "id" : "jake-coutry", "seed" : 15} ]
+				],
+				[
+					[ {"name" : "Erik Zettersten", "id" : "erik-zettersten", "seed" : 1}, {"name" : "Anothy Hopkins", "id" : "anthony-hopkins", "seed" : 5} ],
+					[ {"name" : "Ryan Anderson", "id" : "ryan-anderson", "seed" : 10}, {"name" : "Sammy Zettersten", "id" : "sammy-zettersten", "seed" : 14} ]
+				],
+				[
+					[ {"name" : "Erik Zettersten", "id" : "erik-zettersten", "seed" : 1}, {"name" : "Ryan Anderson", "id" : "ryan-anderson", "seed" : 10} ]
+				],
+				[
+					[ {"name" : "Erik Zettersten", "id" : "erik-zettersten", "seed" : 1} ]
+				]
+			];
+
+			// initializer
+			$(".my_gracket").gracket({ src : win.TestData });
+
+		})(window, document, jQuery);
+	</script>
+</body>
+</html>
