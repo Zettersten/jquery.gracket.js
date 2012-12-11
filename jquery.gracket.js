@@ -35,7 +35,8 @@
       data = (typeof container.data("gracket") === "undefined") ? [] : JSON.parse(container.data("gracket")),
       team_count,
       round_count,
-      game_count
+      game_count,
+      max_round_width = []
     ;
     
     // Defaults => Settings
@@ -98,8 +99,12 @@
             for (var t=0; t < team_count; t++) {
     
               var team_html = helpers.build.team(data[r][g][t], this.gracket.settings);
-              game_html.append(team_html);              
-              
+              game_html.append(team_html);
+
+              var team_width = team_html.outerWidth(true);
+              if (max_round_width[r] === undefined || max_round_width[r] < team_width)
+                  max_round_width[r] = team_width;
+
               // adjust winner
               if (team_count === 1) {
                 
@@ -155,11 +160,12 @@
             off = offset,
             i,
             len = data.length,
-            left
+            left,
+            widthPadding = 0
           ;
 
           for (i = 0; i < len; i++) {
-            left = (i === 0 ? off.padding + (off.width * i) : off.padding + (off.width * i) + (off.right * i));
+            left = (i === 0 ? off.padding + widthPadding : off.padding + widthPadding + (off.right * i));
             $("<h5 />", {
               "text" : (off.labels.length ? off.labels[i] : "Round " + (i + 1)),
               "class" : off["class"]
@@ -168,6 +174,7 @@
               "left" : left,
               "width" : offset.width
             }).prependTo(container);
+            widthPadding += max_round_width[i]
           };
 
         },
@@ -197,7 +204,7 @@
             
             // set starting position -- will default to zero            
             var
-              _itemWidth = game_html.outerWidth(true),
+              _itemWidth = max_round_width[0],
               _itemHeight = game_html.outerHeight(true),
               _paddingLeft = (parseInt(container.css("paddingLeft")) || 0),
               _paddingTop = (parseInt(container.css("paddingTop")) || 0),
@@ -207,7 +214,8 @@
               _cornerRadius = node.cornerRadius,
               _lineGap = node.canvasLineGap,
               _playerGap = (game_html.height() - 2 * game_html.find("> div").eq(1).height())
-              _playerHt = game_html.find("> div").eq(1).height()
+              _playerHt = game_html.find("> div").eq(1).height(),
+              _totalItemWidth = 0
             ;
 
             if (typeof console !== "undefined")
@@ -249,33 +257,32 @@
             while (p >= 1) {
             
               for (j = 0; j < p; j++) {     
-              
+
                 if (p == 1) r = 1;                
 
                 var 
-                  xInit = (ifOneGame) ? (_itemWidth + _paddingLeft) : (_startingLeftPos + i *_itemWidth + i *_marginRight),
+                  xInit = (ifOneGame) ? (_itemWidth + _paddingLeft) : (_startingLeftPos + _totalItemWidth + i *_marginRight),
                   xDisp = r * _marginRight,
                   yInit = ((Math.pow(2, i-1) - 0.5) * (i && 1) + j * Math.pow(2, i)) * _itemHeight + _paddingTop + ((ifOneGame) ? (_ref.find("> div").eq(1).height()) : (_playerHt)) + _playerGap/2
                 ;
-          
-                //Line foward
-                ctx.moveTo(xInit + _lineGap, yInit);
-                
-                if (p > 1)
+
+                if (p > 1) {
+                  // top bracket horizontal line
+                  ctx.moveTo(xInit + _lineGap, yInit);
                   ctx.lineTo(xInit + xDisp - _cornerRadius, yInit);
-                else 
-                  ctx.lineTo(xInit + xDisp - _lineGap, yInit);                
-                
-                //Line backward
-                if (p < Math.pow(2, data.length - 2)) {
-                  ctx.moveTo(xInit - _itemWidth - _lineGap, yInit);
-                  ctx.lineTo(xInit - _itemWidth - 0.5*_marginRight, yInit);               
+                } else {
+                  // winner horizontal line
+                  ctx.moveTo(xInit + _lineGap, yInit)
+                  ctx.lineTo(xInit + (3*_lineGap), yInit);
                 }
-                
+
                 //Connecting Lines
                 if (p > 1 && j % 2 == 0) {
-                  ctx.moveTo(xInit + xDisp, yInit + _cornerRadius);
-                  ctx.lineTo(xInit + xDisp, yInit + Math.pow(2, i)*_itemHeight - _cornerRadius);  
+                  // vertical line
+                  var yTop = yInit + _cornerRadius;
+                  var yBottom = yInit + Math.pow(2, i)*_itemHeight - _cornerRadius;
+                  ctx.moveTo(xInit + xDisp, yTop);
+                  ctx.lineTo(xInit + xDisp, yBottom);
 
                   //Here comes the rounded corners
                   var 
@@ -290,9 +297,14 @@
                   ctx.moveTo(_cx + _cornerRadius, _cy - _cornerRadius);
                   ctx.arcTo(_cx + _cornerRadius, _cy + _cornerRadius, _cx, _cy + _cornerRadius, _cornerRadius);                 
                   
+                  var yMiddle = (yTop + yBottom) / 2;
+                  ctx.moveTo(xInit + xDisp, yMiddle);
+                  ctx.lineTo(xInit + xDisp + _lineGap, yMiddle);
                 }               
               }
               i++;
+              _itemWidth = max_round_width[i];
+              _totalItemWidth += _itemWidth;
               p = p/2;
             }           
             
@@ -301,7 +313,6 @@
 
             // draw labels
             helpers.build.labels(data, {
-              "width" : _itemWidth,
               "padding" : _paddingLeft,
               "left" : _startingLeftPos,
               "right" : _marginRight,
