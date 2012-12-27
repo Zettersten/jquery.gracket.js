@@ -18,6 +18,7 @@
       winnerClass : "g_winner",
       spacerClass : "g_spacer",
       currentClass : "g_current",
+      seedClass : "g_seed",
       cornerRadius : 15,
       canvasId : "g_canvas",
       canvasClass : "g_canvas",
@@ -132,8 +133,19 @@
     var helpers = {
       build : {
         team : function(data, node){
+          var html = [
+            '<h3'+ ((typeof data.score === "undefined") ? "" : " title=\"Score: " + data.score + "\"") +'>',
+              '<span class="' + node.seedClass + '">',
+                ((typeof data.displaySeed === "undefined") ? data.seed : data.displaySeed),
+              '</span>',
+              '&nbsp;' + data.name + '&nbsp;',
+              '<small>',
+                ((typeof data.score === "undefined") ? "" : data.score),
+              '</small>',
+            '</h3>'
+          ].join("");
           return team = $("<div />", {
-            "html" : "<h3><span>"+ (data.seed || 0) +"</span> "+ data.name +"</h3>",
+            "html" : html,
             "class" : node.teamClass + " " + (data.id || "id_null")
           });
         },
