@@ -167,7 +167,7 @@
           for (i = 0; i < len; i++) {
             left = (i === 0 ? off.padding + widthPadding : off.padding + widthPadding + (off.right * i));
             $("<h5 />", {
-              "text" : (off.labels.length ? off.labels[i] : "Round " + (i + 1)),
+              "html" : (off.labels.length ? off.labels[i] : "Round " + (i + 1)),
               "class" : off["class"]
             }).css({
               "position" : "absolute",
