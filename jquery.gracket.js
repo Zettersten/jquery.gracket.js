@@ -33,7 +33,9 @@
     // global
     var 
       container = this,
-      data = (typeof container.data("gracket") === "undefined") ? [] : JSON.parse(container.data("gracket")),
+      data = (typeof container.data("gracket") === "undefined") ? [] :
+                (typeof container.data("gracket") === "string") ? JSON.parse(container.data("gracket")) :
+                    container.data("gracket"),
       team_count,
       round_count,
       game_count,
