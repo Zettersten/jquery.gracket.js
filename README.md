@@ -2,7 +2,7 @@ Gracket
 =======
 
 A **single elimation bracket** built using canvas and jquery. 
-**Live demo**: [https://zettersten.github.com/jquery.gracket.js/](https://zettersten.github.io/jquery.gracket.js/)
+**Live demo**: [https://zettersten.github.io/jquery.gracket.js/](https://zettersten.github.io/jquery.gracket.js/)
 
 Example
 -------
