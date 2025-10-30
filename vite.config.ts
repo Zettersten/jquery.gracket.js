@@ -6,16 +6,31 @@ import dts from 'vite-plugin-dts';
 
 export default defineConfig(({ command, mode }) => {
   // Library build mode - builds the actual library
-  const isLibBuild = process.env.BUILD_TARGET === 'lib' || (command === 'build' && mode === 'production');
+  const isLibBuild = process.env.BUILD_TARGET === 'lib';
   
   // Demo build mode - builds the demo site
-  const isDemoBuild = process.env.BUILD_TARGET === 'demo' || (command === 'serve');
+  const isDemoBuild = process.env.BUILD_TARGET === 'demo' || command === 'serve';
   
+  // Default dev server configuration
+  if (command === 'serve') {
+    return {
+      plugins: [react(), vue()],
+      root: 'demo',
+      publicDir: false,
+      resolve: {
+        alias: {
+          'gracket': resolve(__dirname, 'src/index.ts'),
+        },
+      },
+    };
+  }
+  
+  // Build configurations
   return {
     plugins: [
       react(),
       vue(),
-      ...(isLibBuild && !isDemoBuild ? [
+      ...(isLibBuild ? [
         dts({
           include: ['src/**/*.ts', 'src/**/*.tsx'],
           exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'src/demo.ts'],
@@ -23,8 +38,13 @@ export default defineConfig(({ command, mode }) => {
       ] : []),
     ],
     root: isDemoBuild ? 'demo' : undefined,
-    publicDir: isDemoBuild ? 'demo/public' : 'public',
-    build: isLibBuild && !isDemoBuild ? {
+    publicDir: false,
+    resolve: isDemoBuild ? {
+      alias: {
+        'gracket': resolve(__dirname, 'src/index.ts'),
+      },
+    } : undefined,
+    build: isLibBuild ? {
       // Library build configuration
       lib: {
         entry: {
