@@ -510,12 +510,12 @@ describe('Integration Tests - Complete Workflows', () => {
       const tournamentData = generateTournamentWithByes(teams, 'top-seeds');
       const gracket = new Gracket(container, { src: tournamentData });
 
-      // Rapid score updates
+      // Rapid score updates - ensure no ties by using non-overlapping ranges
       for (let i = 0; i < 100; i++) {
         tournamentData[0].forEach((game, gameIdx) => {
           if (game.length === 2) {
-            gracket.updateScore(0, gameIdx, 0, Math.floor(Math.random() * 50) + 80);
-            gracket.updateScore(0, gameIdx, 1, Math.floor(Math.random() * 50) + 60);
+            gracket.updateScore(0, gameIdx, 0, Math.floor(Math.random() * 30) + 100); // 100-129
+            gracket.updateScore(0, gameIdx, 1, Math.floor(Math.random() * 30) + 60);  // 60-89
           }
         });
       }
