@@ -48,14 +48,12 @@ export default defineConfig(({ command, mode }) => {
       // Library build configuration
       lib: {
         entry: {
-          gracket: resolve(__dirname, 'src/index.ts'),
+          index: resolve(__dirname, 'src/index.ts'),
           react: resolve(__dirname, 'src/adapters/react.tsx'),
           vue: resolve(__dirname, 'src/adapters/vue.ts'),
         },
         name: 'Gracket',
-        formats: ['es', 'umd'],
-        fileName: (format, entryName) => 
-          format === 'es' ? `${entryName}.js` : `${entryName}.umd.cjs`,
+        formats: ['es'],
       },
       rollupOptions: {
         external: ['react', 'react/jsx-runtime', 'vue'],

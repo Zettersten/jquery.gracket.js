@@ -3,23 +3,20 @@
   "version": "2.0.0",
   "description": "A modern, framework-agnostic single elimination tournament bracket library",
   "type": "module",
-  "main": "./dist/gracket.umd.cjs",
-  "module": "./dist/gracket.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/gracket.js",
-      "require": "./dist/gracket.umd.cjs",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./react": {
       "import": "./dist/react.js",
-      "require": "./dist/react.umd.cjs",
       "types": "./dist/react.d.ts"
     },
     "./vue": {
       "import": "./dist/vue.js",
-      "require": "./dist/vue.umd.cjs",
       "types": "./dist/vue.d.ts"
     },
     "./style.css": "./dist/style.css"

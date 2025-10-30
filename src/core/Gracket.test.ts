@@ -279,8 +279,8 @@ describe('Gracket', () => {
         [[{ name: 'Team A', seed: 1 }]],
       ];
 
-      const gracket = new Gracket(container, { src: singleRound });
-      expect(gracket).toBeTruthy();
+      new Gracket(container, { src: singleRound });
+      expect(container.querySelector('.g_gracket')).toBeTruthy();
     });
 
     it('should handle teams without scores', () => {
@@ -293,7 +293,7 @@ describe('Gracket', () => {
         ],
       ];
 
-      const gracket = new Gracket(container, { src: noScores });
+      new Gracket(container, { src: noScores });
       const scores = container.querySelectorAll('.g_team h3 small');
       scores.forEach((score) => expect(score.textContent).toBe(''));
     });
@@ -308,8 +308,8 @@ describe('Gracket', () => {
         ],
       ];
 
-      const gracket = new Gracket(container, { src: noIds });
-      expect(gracket).toBeTruthy();
+      new Gracket(container, { src: noIds });
+      expect(container.querySelector('.g_gracket')).toBeTruthy();
     });
   });
 });
