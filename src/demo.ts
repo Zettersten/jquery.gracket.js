@@ -1,6 +1,6 @@
-import { Gracket } from './index';
-import { sampleTournamentData, generateTournamentData } from './test-utils';
-import type { TournamentData } from './types';
+import { Gracket } from './index.js';
+import { sampleTournamentData } from './test-utils.js';
+import type { TournamentData } from './types.js';
 import './style.css';
 
 let gracket: Gracket | null = null;

@@ -14,12 +14,12 @@ export default defineConfig(({ command, mode }) => {
   // Default dev server configuration
   if (command === 'serve') {
     return {
-      plugins: [react(), vue()],
+      plugins: [],
       root: 'demo',
       publicDir: false,
       resolve: {
         alias: {
-          'gracket': resolve(__dirname, 'src/index.ts'),
+          '@': resolve(__dirname, 'src'),
         },
       },
     };
