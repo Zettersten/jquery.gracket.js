@@ -5,21 +5,27 @@ import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig(({ command, mode }) => {
-  const isLibMode = mode === 'production' && command === 'build';
+  // Library build mode - builds the actual library
+  const isLibBuild = process.env.BUILD_TARGET === 'lib' || (command === 'build' && mode === 'production');
+  
+  // Demo build mode - builds the demo site
+  const isDemoBuild = process.env.BUILD_TARGET === 'demo' || (command === 'serve');
   
   return {
     plugins: [
       react(),
       vue(),
-      ...(isLibMode ? [
+      ...(isLibBuild && !isDemoBuild ? [
         dts({
           include: ['src/**/*.ts', 'src/**/*.tsx'],
           exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'src/demo.ts'],
         }),
       ] : []),
     ],
-    root: command === 'serve' ? 'demo' : undefined,
-    build: isLibMode ? {
+    root: isDemoBuild ? 'demo' : undefined,
+    publicDir: isDemoBuild ? 'demo/public' : 'public',
+    build: isLibBuild && !isDemoBuild ? {
+      // Library build configuration
       lib: {
         entry: {
           gracket: resolve(__dirname, 'src/index.ts'),
@@ -49,8 +55,10 @@ export default defineConfig(({ command, mode }) => {
       minify: 'terser',
       outDir: 'dist',
     } : {
-      outDir: '../dist-demo',
+      // Demo build configuration
+      outDir: resolve(__dirname, 'dist-demo'),
       emptyOutDir: true,
+      sourcemap: true,
     },
   };
 });

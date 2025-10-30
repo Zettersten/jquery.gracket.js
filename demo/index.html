@@ -39,6 +39,43 @@
       .subtitle {
         font-size: 1.2rem;
         opacity: 0.9;
+        margin-bottom: 1.5rem;
+      }
+
+      .header-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .header-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+
+      .header-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
       }
 
       .demo-section {
@@ -181,29 +218,63 @@
       <header>
         <h1>🏆 Gracket</h1>
         <p class="subtitle">Modern, Framework-Agnostic Tournament Bracket Library</p>
+        <div class="header-links">
+          <a href="https://github.com/erik5388/jquery.gracket.js" class="header-link" target="_blank">
+            <span>⭐</span> Star on GitHub
+          </a>
+          <a href="https://www.npmjs.com/package/gracket" class="header-link" target="_blank">
+            <span>📦</span> Install via NPM
+          </a>
+          <a href="https://github.com/erik5388/jquery.gracket.js#readme" class="header-link" target="_blank">
+            <span>📖</span> Documentation
+          </a>
+        </div>
       </header>
 
       <div class="demo-section">
-        <h2>Live Demo</h2>
+        <h2>🎮 Interactive Demo</h2>
         <p class="demo-description">
-          An interactive tournament bracket with hover effects and smooth animations.
+          Try the interactive tournament bracket below! Hover over teams to see them highlighted
+          across all rounds. Use the controls to see real-time updates.
         </p>
         <div class="controls">
-          <button id="update-scores">Update Scores</button>
-          <button id="reset-bracket">Reset Bracket</button>
-          <button id="change-style">Change Style</button>
+          <button id="update-scores">🎲 Randomize Scores</button>
+          <button id="reset-bracket">🔄 Reset Bracket</button>
+          <button id="change-style">🎨 Toggle Style</button>
+          <button id="show-small">🏀 4-Team Bracket</button>
+          <button id="show-large">🏆 16-Team Bracket</button>
         </div>
         <div class="bracket-wrapper">
           <div id="main-bracket"></div>
         </div>
+        <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+          💡 <strong>Tip:</strong> Hover over a team to see all their appearances highlighted throughout the bracket!
+        </p>
       </div>
 
       <div class="demo-section">
-        <h2>Framework Integration</h2>
+        <h2>📦 Installation</h2>
+        <p class="demo-description">Get started in seconds with npm, yarn, or pnpm:</p>
+        <pre><code># Using npm
+npm install gracket
+
+# Using yarn
+yarn add gracket
+
+# Using pnpm
+pnpm add gracket</code></pre>
+      </div>
+
+      <div class="demo-section">
+        <h2>💻 Framework Integration</h2>
+        <p class="demo-description">
+          Gracket works seamlessly with any framework or vanilla JavaScript:
+        </p>
         <div class="framework-tabs">
           <button class="tab active" data-tab="vanilla">Vanilla JS</button>
           <button class="tab" data-tab="react">React</button>
           <button class="tab" data-tab="vue">Vue</button>
+          <button class="tab" data-tab="cdn">CDN</button>
         </div>
 
         <div class="tab-content active" data-content="vanilla">
@@ -265,10 +336,32 @@ const options = ref({
   /&gt;
 &lt;/template&gt;</code></pre>
         </div>
+
+        <div class="tab-content" data-content="cdn">
+          <h3>CDN (via unpkg)</h3>
+          <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel="stylesheet" href="https://unpkg.com/gracket/dist/style.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="bracket"&gt;&lt;/div&gt;
+    
+    &lt;script type="module"&gt;
+      import { Gracket } from 'https://unpkg.com/gracket';
+      
+      new Gracket('#bracket', {
+        src: tournamentData,
+        cornerRadius: 15
+      });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
       </div>
 
       <div class="demo-section">
-        <h2>Features</h2>
+        <h2>✨ Key Features</h2>
         <div class="feature-grid">
           <div class="feature-card">
             <h3>🎨 Modern & Beautiful</h3>
@@ -299,8 +392,19 @@ const options = ref({
 
       <footer>
         <p>
-          Made with ❤️ by Erik Zettersten | 
-          <a href="https://github.com/erik5388/jquery.gracket.js" style="color: white;">GitHub</a>
+          Made with ❤️ by Erik Zettersten<br>
+          <a href="https://github.com/erik5388/jquery.gracket.js" style="color: white; text-decoration: none;">
+            View on GitHub
+          </a> | 
+          <a href="https://www.npmjs.com/package/gracket" style="color: white; text-decoration: none;">
+            NPM Package
+          </a> | 
+          <a href="https://github.com/erik5388/jquery.gracket.js#readme" style="color: white; text-decoration: none;">
+            Documentation
+          </a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+          Version 2.0.0 | MIT License | Built with TypeScript & Vite
         </p>
       </footer>
     </div>

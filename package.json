@@ -30,11 +30,11 @@
     "LICENSE"
   ],
   "scripts": {
-    "dev": "vite demo",
-    "build": "vite build && npm run build:types",
+    "dev": "vite",
+    "build": "cross-env BUILD_TARGET=lib vite build && npm run build:types",
     "build:types": "tsc --emitDeclarationOnly --outDir dist",
-    "build:demo": "vite build demo",
-    "preview": "vite preview demo",
+    "build:demo": "cross-env BUILD_TARGET=demo vite build",
+    "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
@@ -73,6 +73,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-vue": "^4.5.2",
     "@vitest/ui": "^1.0.4",
+    "cross-env": "^7.0.3",
     "eslint": "^8.55.0",
     "happy-dom": "^12.10.3",
     "prettier": "^3.1.1",
