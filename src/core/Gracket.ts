@@ -4,7 +4,32 @@ import type {
   TournamentData,
   Team,
   LabelOffset,
+  AdvanceOptions,
+  AutoGenerateOptions,
+  MatchResult,
+  TeamHistory,
+  TournamentReport,
+  TournamentStatistics,
+  ReportOptions,
 } from '../types';
+import {
+  isByeGame,
+  getMatchWinner as getGameWinner,
+  isRoundComplete as checkRoundComplete,
+  collectWinners,
+  generateNextRound,
+  validateRoundComplete,
+} from '../utils/tournament';
+import {
+  getAdvancingTeams as collectAdvancingTeams,
+  getRoundResults as collectRoundResults,
+  buildTeamHistory,
+  generateTournamentReport,
+  calculateStatistics,
+  formatReportAsText,
+  formatReportAsMarkdown,
+  formatReportAsHTML,
+} from '../utils/reporting';
 
 /**
  * Main Gracket class - Modern, framework-agnostic tournament bracket renderer
@@ -17,7 +42,7 @@ export class Gracket {
   private canvas: HTMLCanvasElement | null = null;
 
   /** Default configuration */
-  private static readonly defaults: Required<GracketOptions> = {
+  private static readonly defaults = {
     gracketClass: 'g_gracket',
     gameClass: 'g_game',
     roundClass: 'g_round',
@@ -31,11 +56,15 @@ export class Gracket {
     canvasId: 'g_canvas',
     canvasClass: 'g_canvas',
     canvasLineColor: '#eee',
-    canvasLineCap: 'round',
+    canvasLineCap: 'round' as const,
     canvasLineWidth: 2,
     canvasLineGap: 15,
-    roundLabels: [],
-    src: [],
+    roundLabels: [] as string[],
+    src: [] as TournamentData,
+    // New defaults for Issues #14 & #15
+    byeLabel: 'BYE',
+    byeClass: 'g_bye',
+    showByeGames: true,
   };
 
   constructor(container: HTMLElement | string, options: GracketOptions = {}) {
@@ -135,26 +164,47 @@ export class Gracket {
         // Build teams in game
         const teams = games[g];
         const teamCount = teams.length;
+        const isBye = isByeGame(teams) && r !== roundCount - 1; // Byes only in non-final rounds
 
-        for (let t = 0; t < teamCount; t++) {
-          const teamEl = this.createTeam(teams[t]);
+        // Handle bye games (Issue #15)
+        if (isBye && teamCount === 1) {
+          // Add team
+          const teamEl = this.createTeam(teams[0]);
           gameEl.appendChild(teamEl);
+
+          // Add bye placeholder if showByeGames is enabled
+          if (this.settings.showByeGames) {
+            const byeEl = this.createByePlaceholder();
+            gameEl.appendChild(byeEl);
+          }
 
           // Track maximum round width
           const teamWidth = this.getOuterWidth(teamEl);
           if (!this.maxRoundWidth[r] || this.maxRoundWidth[r] < teamWidth) {
             this.maxRoundWidth[r] = teamWidth;
           }
+        } else {
+          // Regular match or winner display
+          for (let t = 0; t < teamCount; t++) {
+            const teamEl = this.createTeam(teams[t]);
+            gameEl.appendChild(teamEl);
 
-          // Handle winner (single team in final round)
-          if (teamCount === 1) {
-            const prevSpacer = gameEl.previousElementSibling;
-            prevSpacer?.remove();
+            // Track maximum round width
+            const teamWidth = this.getOuterWidth(teamEl);
+            if (!this.maxRoundWidth[r] || this.maxRoundWidth[r] < teamWidth) {
+              this.maxRoundWidth[r] = teamWidth;
+            }
 
-            const prevRound = roundEl.previousElementSibling;
-            const firstGame = prevRound?.children[0] as HTMLElement;
-            if (firstGame) {
-              this.alignWinner(gameEl, firstGame.offsetHeight);
+            // Handle winner (single team in final round)
+            if (teamCount === 1 && r === roundCount - 1) {
+              const prevSpacer = gameEl.previousElementSibling;
+              prevSpacer?.remove();
+
+              const prevRound = roundEl.previousElementSibling;
+              const firstGame = prevRound?.children[0] as HTMLElement;
+              if (firstGame) {
+                this.alignWinner(gameEl, firstGame.offsetHeight);
+              }
             }
           }
         }
@@ -205,6 +255,20 @@ export class Gracket {
         <span class="${this.settings.seedClass}">${displaySeed}</span>
         <span class="g_team-name">${team.name}</span>
         ${scoreDisplay}
+      </h3>
+    `;
+
+    return div;
+  }
+
+  /** Create a bye placeholder element (Issue #15) */
+  private createByePlaceholder(): HTMLElement {
+    const div = document.createElement('div');
+    div.className = `${this.settings.teamClass} ${this.settings.byeClass}`;
+
+    div.innerHTML = `
+      <h3>
+        <span class="g_team-name">${this.settings.byeLabel}</span>
       </h3>
     `;
 
@@ -453,5 +517,297 @@ export class Gracket {
   /** Get current tournament data */
   public getData(): Readonly<TournamentData> {
     return [...this.data];
+  }
+
+  // ===================================================================
+  // NEW METHODS FOR ISSUES #14 & #15
+  // ===================================================================
+
+  // -------------------------------------------------------------------
+  // Score Management Methods (Issue #14a)
+  // -------------------------------------------------------------------
+
+  /**
+   * Update a team's score in a specific match
+   * @param roundIndex - Round index (0-based)
+   * @param gameIndex - Game index within round (0-based)
+   * @param teamIndex - Team index within game (0 or 1)
+   * @param score - New score value
+   */
+  public updateScore(
+    roundIndex: number,
+    gameIndex: number,
+    teamIndex: number,
+    score: number
+  ): void {
+    if (roundIndex < 0 || roundIndex >= this.data.length) {
+      throw new Error(`Invalid round index: ${roundIndex}`);
+    }
+
+    const round = this.data[roundIndex];
+    if (gameIndex < 0 || gameIndex >= round.length) {
+      throw new Error(`Invalid game index: ${gameIndex} in round ${roundIndex}`);
+    }
+
+    const game = round[gameIndex];
+    if (teamIndex < 0 || teamIndex >= game.length) {
+      throw new Error(`Invalid team index: ${teamIndex} in round ${roundIndex}, game ${gameIndex}`);
+    }
+
+    // Update score
+    game[teamIndex].score = score;
+
+    // Fire callback if provided
+    if (this.settings.onScoreUpdate) {
+      this.settings.onScoreUpdate(roundIndex, gameIndex, teamIndex, score);
+    }
+
+    // Re-render to show updated score
+    this.init();
+  }
+
+  /**
+   * Get the winner of a specific match
+   * @param roundIndex - Round index (0-based)
+   * @param gameIndex - Game index within round (0-based)
+   * @returns Winning team or null if match is not complete
+   */
+  public getMatchWinner(roundIndex: number, gameIndex: number): Team | null {
+    if (roundIndex < 0 || roundIndex >= this.data.length) {
+      return null;
+    }
+
+    const round = this.data[roundIndex];
+    if (gameIndex < 0 || gameIndex >= round.length) {
+      return null;
+    }
+
+    return getGameWinner(round[gameIndex]);
+  }
+
+  /**
+   * Check if all matches in a round are complete
+   * @param roundIndex - Round index (0-based)
+   * @returns True if all matches have determined winners
+   */
+  public isRoundComplete(roundIndex: number): boolean {
+    if (roundIndex < 0 || roundIndex >= this.data.length) {
+      return false;
+    }
+
+    return checkRoundComplete(this.data[roundIndex]);
+  }
+
+  /**
+   * Advance winners to the next round
+   * @param fromRound - Round index to advance from (default: first incomplete round)
+   * @param options - Configuration for advancement behavior
+   * @returns Updated tournament data
+   */
+  public advanceRound(fromRound?: number, options: AdvanceOptions = {}): TournamentData {
+    // Determine which round to advance from
+    let roundIndex = fromRound;
+    if (roundIndex === undefined) {
+      // Find first incomplete round
+      roundIndex = this.data.findIndex((round) => !checkRoundComplete(round));
+      if (roundIndex === -1) {
+        throw new Error('No incomplete rounds found');
+      }
+    }
+
+    if (roundIndex < 0 || roundIndex >= this.data.length) {
+      throw new Error(`Invalid round index: ${roundIndex}`);
+    }
+
+    const round = this.data[roundIndex];
+
+    // Validate round is complete
+    const {
+      tieBreaker = 'error',
+      tieBreakerFn,
+      preserveScores = false,
+      createRounds = false,
+    } = options;
+
+    if (tieBreaker === 'error') {
+      validateRoundComplete(round, roundIndex);
+    }
+
+    // Collect winners
+    const winners = collectWinners(round, tieBreaker, tieBreakerFn);
+
+    // Generate next round
+    const nextRound = generateNextRound(winners, preserveScores);
+
+    // Add or update next round
+    if (roundIndex + 1 < this.data.length) {
+      // Update existing round
+      this.data[roundIndex + 1] = nextRound;
+    } else if (createRounds) {
+      // Create new round
+      this.data.push(nextRound);
+    } else {
+      throw new Error(`Round ${roundIndex + 2} does not exist. Use createRounds: true to create it.`);
+    }
+
+    // Fire callback if provided
+    if (this.settings.onRoundComplete) {
+      this.settings.onRoundComplete(roundIndex);
+    }
+
+    if (this.settings.onRoundGenerated) {
+      this.settings.onRoundGenerated(roundIndex + 1, nextRound);
+    }
+
+    // Re-render bracket
+    this.init();
+
+    return this.data;
+  }
+
+  /**
+   * Auto-generate entire tournament from results
+   * Automatically advances through all completed rounds
+   * @param options - Configuration options
+   */
+  public autoGenerateTournament(options: AutoGenerateOptions = {}): void {
+    const { stopAtRound, onRoundGenerated, ...advanceOptions } = options;
+
+    let currentRound = 0;
+
+    while (currentRound < this.data.length) {
+      // Check if this round is complete
+      if (!checkRoundComplete(this.data[currentRound])) {
+        break; // Stop at first incomplete round
+      }
+
+      // Check if we should stop here
+      if (stopAtRound !== undefined && currentRound >= stopAtRound) {
+        break;
+      }
+
+      // Check if we're at the end
+      if (currentRound === this.data.length - 1) {
+        break; // Last round, can't advance further
+      }
+
+      try {
+        // Advance to next round
+        this.advanceRound(currentRound, {
+          ...advanceOptions,
+          createRounds: true,
+        });
+
+        // Fire custom callback if provided
+        if (onRoundGenerated) {
+          onRoundGenerated(currentRound + 1, this.data[currentRound + 1]);
+        }
+      } catch (error) {
+        console.error(`Failed to advance round ${currentRound}:`, error);
+        break;
+      }
+
+      currentRound++;
+    }
+  }
+
+  // -------------------------------------------------------------------
+  // Reporting & Query Methods (Issue #14b)
+  // -------------------------------------------------------------------
+
+  /**
+   * Get teams advancing from a specific round
+   * @param roundIndex - Round index (default: latest round with results)
+   * @returns Array of teams advancing to next round
+   */
+  public getAdvancingTeams(roundIndex?: number): Team[] {
+    let idx = roundIndex;
+
+    if (idx === undefined) {
+      // Find latest round with complete results
+      for (let i = this.data.length - 1; i >= 0; i--) {
+        if (checkRoundComplete(this.data[i])) {
+          idx = i;
+          break;
+        }
+      }
+
+      if (idx === undefined) {
+        return []; // No complete rounds
+      }
+    }
+
+    if (idx < 0 || idx >= this.data.length) {
+      return [];
+    }
+
+    return collectAdvancingTeams(this.data[idx]);
+  }
+
+  /**
+   * Get detailed results for a round
+   * @param roundIndex - Round index
+   * @returns Array of match results with winners and losers
+   */
+  public getRoundResults(roundIndex: number): MatchResult[] {
+    if (roundIndex < 0 || roundIndex >= this.data.length) {
+      return [];
+    }
+
+    return collectRoundResults(this.data[roundIndex]);
+  }
+
+  /**
+   * Get a team's tournament history
+   * @param teamId - Team identifier
+   * @returns Complete history of team's matches
+   */
+  public getTeamHistory(teamId: string): TeamHistory | null {
+    return buildTeamHistory(teamId, this.data, this.settings.roundLabels);
+  }
+
+  /**
+   * Get tournament statistics
+   * @returns Various tournament statistics
+   */
+  public getStatistics(): TournamentStatistics {
+    return calculateStatistics(this.data);
+  }
+
+  /**
+   * Generate a tournament report
+   * @param options - Reporting options
+   * @returns Formatted tournament report
+   */
+  public generateReport(options: ReportOptions = {}): TournamentReport | string {
+    const {
+      format = 'json',
+      includeScores = true,
+      includeStatistics = false,
+    } = options;
+
+    const report = generateTournamentReport(
+      this.data,
+      this.settings.roundLabels,
+      includeStatistics
+    );
+
+    // Return in requested format
+    switch (format) {
+      case 'json':
+        return report;
+
+      case 'text':
+        return formatReportAsText(report, includeScores);
+
+      case 'html':
+        return formatReportAsHTML(report, includeScores);
+
+      case 'markdown':
+        return formatReportAsMarkdown(report, includeScores);
+
+      default:
+        throw new Error(`Unknown report format: ${format}`);
+    }
   }
 }

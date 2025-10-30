@@ -14,4 +14,18 @@ export type {
   GracketOptions,
   GracketSettings,
   LabelOffset,
+  // New types for Issues #14 & #15
+  AdvanceOptions,
+  AutoGenerateOptions,
+  MatchResult,
+  MatchEntry,
+  TeamHistory,
+  RoundReport,
+  TournamentReport,
+  TournamentStatistics,
+  ReportOptions,
+  ByeSeedingStrategy,
 } from './types';
+
+// Export utility functions (Issue #15)
+export { generateTournamentWithByes, calculateByesNeeded } from './utils/byes';
