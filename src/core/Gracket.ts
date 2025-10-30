@@ -198,7 +198,7 @@ export class Gracket {
     const displaySeed = team.displaySeed ?? team.seed;
     const scoreDisplay = team.score !== undefined 
       ? `<small class="g_score">${team.score}</small>` 
-      : '';
+      : '<small class="g_score g_score-empty">—</small>';
 
     div.innerHTML = `
       <h3${scoreTitle}>

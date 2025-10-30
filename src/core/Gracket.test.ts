@@ -296,8 +296,9 @@ describe('Gracket', () => {
       ];
 
       new Gracket(container, { src: noScores });
-      const scores = container.querySelectorAll('.g_team h3 small');
-      scores.forEach((score) => expect(score.textContent).toBe(''));
+      const scores = container.querySelectorAll('.g_team h3 small.g_score-empty');
+      expect(scores.length).toBeGreaterThan(0);
+      scores.forEach((score) => expect(score.textContent).toBe('—'));
     });
 
     it('should handle teams without ids', () => {

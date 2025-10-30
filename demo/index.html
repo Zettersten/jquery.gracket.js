@@ -12,11 +12,11 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-          Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: 'BentonSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+          'Helvetica Neue', Arial, sans-serif;
+        background: #0d1117;
         min-height: 100vh;
-        padding: 2rem;
+        color: #e6edf3;
       }
 
       .container {
@@ -24,28 +24,70 @@
         margin: 0 auto;
       }
 
+      /* ESPN-style top bar */
+      .top-bar {
+        background: #000000;
+        border-bottom: 3px solid #c8102e;
+        padding: 0.75rem 2rem;
+        margin-bottom: 0;
+      }
+
+      .top-bar-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 900;
+        letter-spacing: -1px;
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(200, 16, 46, 0.3);
+      }
+
+      .logo-accent {
+        color: #c8102e;
+      }
+
       header {
-        text-align: center;
-        color: white;
-        margin-bottom: 3rem;
+        background: linear-gradient(180deg, #1a1d29 0%, #0d1117 100%);
+        padding: 3rem 2rem 2rem;
+        border-bottom: 1px solid #30363d;
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
       }
 
       h1 {
-        font-size: 3rem;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin-bottom: 0.75rem;
+        color: #ffffff;
+        letter-spacing: -1px;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #ffffff 0%, #c8102e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .subtitle {
-        font-size: 1.2rem;
-        opacity: 0.9;
-        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+        color: #8b949e;
+        margin-bottom: 2rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
       .header-links {
         display: flex;
         gap: 1rem;
-        justify-content: center;
         flex-wrap: wrap;
       }
 
@@ -54,78 +96,96 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.75rem 1.5rem;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        border-radius: 6px;
-        color: white;
+        background: #21262d;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        color: #e6edf3;
         text-decoration: none;
         transition: all 0.2s;
-        font-weight: 500;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
       }
 
       .header-link:hover {
-        background: rgba(255, 255, 255, 0.3);
+        background: #c8102e;
+        border-color: #c8102e;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 12px rgba(200, 16, 46, 0.4);
       }
 
-      .badge {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
+      .main-content {
+        padding: 2rem;
       }
 
       .demo-section {
-        background: white;
-        border-radius: 12px;
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 8px;
         padding: 2rem;
         margin-bottom: 2rem;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
       }
 
       .demo-section h2 {
         margin-bottom: 1rem;
-        color: #333;
+        color: #ffffff;
+        font-size: 1.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.5px;
+        padding-bottom: 0.75rem;
+        border-bottom: 3px solid #c8102e;
+        display: inline-block;
       }
 
       .demo-description {
-        color: #666;
+        color: #8b949e;
         margin-bottom: 1.5rem;
-        line-height: 1.6;
+        margin-top: 1.5rem;
+        line-height: 1.7;
+        font-size: 1.05rem;
       }
 
       .bracket-wrapper {
         overflow-x: auto;
-        background: #f5f5f5;
-        border-radius: 8px;
-        padding: 1rem;
+        background: #0d1117;
+        border: 2px solid #30363d;
+        border-radius: 6px;
+        padding: 2rem 1rem;
+        margin-top: 1.5rem;
       }
 
       .controls {
         display: flex;
-        gap: 1rem;
+        gap: 0.75rem;
         margin-bottom: 1.5rem;
         flex-wrap: wrap;
+        padding: 1.5rem;
+        background: #0d1117;
+        border-radius: 6px;
+        border: 1px solid #30363d;
       }
 
       button {
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 6px;
-        background: #667eea;
-        color: white;
-        font-size: 1rem;
+        padding: 0.875rem 1.75rem;
+        border: 2px solid #c8102e;
+        border-radius: 4px;
+        background: transparent;
+        color: #ffffff;
+        font-size: 0.95rem;
+        font-weight: 700;
         cursor: pointer;
         transition: all 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       button:hover {
-        background: #5568d3;
+        background: #c8102e;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 12px rgba(200, 16, 46, 0.5);
       }
 
       button:active {
@@ -134,25 +194,37 @@
 
       .framework-tabs {
         display: flex;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-        border-bottom: 2px solid #e0e0e0;
+        gap: 0;
+        margin-bottom: 0;
+        border-bottom: 2px solid #30363d;
+        background: #0d1117;
+        border-radius: 6px 6px 0 0;
+        overflow: hidden;
       }
 
       .tab {
-        padding: 0.75rem 1.5rem;
+        padding: 1rem 1.75rem;
         background: transparent;
         border: none;
         border-bottom: 3px solid transparent;
         cursor: pointer;
-        font-size: 1rem;
-        color: #666;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #8b949e;
         transition: all 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .tab:hover {
+        color: #e6edf3;
+        background: #161b22;
       }
 
       .tab.active {
-        color: #667eea;
-        border-bottom-color: #667eea;
+        color: #ffffff;
+        background: #161b22;
+        border-bottom-color: #c8102e;
       }
 
       .tab-content {
@@ -163,98 +235,192 @@
         display: block;
       }
 
+      .tab-content h3 {
+        color: #c8102e;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
       pre {
-        background: #282c34;
-        color: #abb2bf;
+        background: #0d1117;
+        color: #e6edf3;
         padding: 1.5rem;
-        border-radius: 8px;
+        border: 1px solid #30363d;
+        border-radius: 0 0 6px 6px;
         overflow-x: auto;
-        margin-top: 1rem;
+        margin-top: 0;
       }
 
       code {
-        font-family: 'Fira Code', 'Courier New', monospace;
+        font-family: 'SF Mono', 'Courier New', monospace;
         font-size: 0.9rem;
+        line-height: 1.6;
       }
 
       .feature-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 1.5rem;
         margin-top: 2rem;
       }
 
       .feature-card {
-        padding: 1.5rem;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 8px;
-        color: white;
+        padding: 2rem;
+        background: linear-gradient(135deg, #1a1d29 0%, #0d1117 100%);
+        border: 2px solid #30363d;
+        border-radius: 6px;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #c8102e 0%, #ff6b35 100%);
+      }
+
+      .feature-card:hover {
+        border-color: #c8102e;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(200, 16, 46, 0.3);
       }
 
       .feature-card h3 {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+        color: #ffffff;
+        font-size: 1.3rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.5px;
+      }
+
+      .feature-card p {
+        color: #8b949e;
+        line-height: 1.6;
+        font-size: 1rem;
       }
 
       footer {
         text-align: center;
-        color: white;
+        padding: 3rem 2rem;
+        background: #000000;
+        border-top: 3px solid #c8102e;
         margin-top: 3rem;
-        opacity: 0.9;
+      }
+
+      footer p {
+        color: #8b949e;
+        line-height: 1.8;
+      }
+
+      footer a {
+        color: #e6edf3;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s;
+      }
+
+      footer a:hover {
+        color: #c8102e;
+      }
+
+      .tip-box {
+        margin-top: 1.5rem;
+        padding: 1rem 1.5rem;
+        background: #21262d;
+        border-left: 4px solid #c8102e;
+        border-radius: 4px;
+        color: #8b949e;
+        font-size: 0.95rem;
+      }
+
+      .tip-box strong {
+        color: #ffffff;
+        font-weight: 700;
       }
 
       @media (max-width: 768px) {
         h1 {
-          font-size: 2rem;
+          font-size: 2.5rem;
         }
 
         .demo-section {
+          padding: 1.5rem;
+        }
+
+        .main-content {
           padding: 1rem;
+        }
+
+        .top-bar {
+          padding: 0.75rem 1rem;
+        }
+
+        header {
+          padding: 2rem 1rem 1.5rem;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <h1>🏆 Gracket</h1>
-        <p class="subtitle">Modern, Framework-Agnostic Tournament Bracket Library</p>
+    <!-- ESPN-style top bar -->
+    <div class="top-bar">
+      <div class="top-bar-content">
+        <div class="logo">GRACKET<span class="logo-accent">.</span></div>
+      </div>
+    </div>
+
+    <header>
+      <div class="header-content">
+        <h1>🏆 Tournament Brackets</h1>
+        <p class="subtitle">Modern, Framework-Agnostic Bracket Library</p>
         <div class="header-links">
           <a href="https://github.com/erik5388/jquery.gracket.js" class="header-link" target="_blank">
-            <span>⭐</span> Star on GitHub
+            <span>⭐</span> GitHub
           </a>
           <a href="https://www.npmjs.com/package/gracket" class="header-link" target="_blank">
-            <span>📦</span> Install via NPM
+            <span>📦</span> NPM
           </a>
           <a href="https://github.com/erik5388/jquery.gracket.js#readme" class="header-link" target="_blank">
-            <span>📖</span> Documentation
+            <span>📖</span> Docs
           </a>
         </div>
-      </header>
+      </div>
+    </header>
 
+    <div class="main-content">
       <div class="demo-section">
-        <h2>🎮 Interactive Demo</h2>
+        <h2>🎮 Live Bracket</h2>
         <p class="demo-description">
-          Try the interactive tournament bracket below! Hover over teams to see them highlighted
-          across all rounds. Use the controls to see real-time updates.
+          Experience interactive tournament brackets with real-time updates. Hover over teams to see them highlighted
+          across all rounds. Use the controls below to interact with the bracket.
         </p>
         <div class="controls">
-          <button id="update-scores">🎲 Randomize Scores</button>
-          <button id="reset-bracket">🔄 Reset Bracket</button>
-          <button id="change-style">🎨 Toggle Style</button>
-          <button id="show-small">🏀 4-Team Bracket</button>
-          <button id="show-large">🏆 16-Team Bracket</button>
+          <button id="update-scores">🎲 Randomize</button>
+          <button id="reset-bracket">🔄 Reset</button>
+          <button id="change-style">🎨 Style</button>
+          <button id="show-small">🏀 4-Team</button>
+          <button id="show-large">🏆 16-Team</button>
         </div>
         <div class="bracket-wrapper">
           <div id="main-bracket"></div>
         </div>
-        <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
-          💡 <strong>Tip:</strong> Hover over a team to see all their appearances highlighted throughout the bracket!
-        </p>
+        <div class="tip-box">
+          💡 <strong>Pro Tip:</strong> Hover over any team to highlight all their appearances throughout the tournament bracket!
+        </div>
       </div>
 
       <div class="demo-section">
-        <h2>📦 Installation</h2>
-        <p class="demo-description">Get started in seconds with npm, yarn, or pnpm:</p>
+        <h2>📦 Quick Start</h2>
+        <p class="demo-description">Install and start building brackets in seconds:</p>
         <pre><code># Using npm
 npm install gracket
 
@@ -266,9 +432,9 @@ pnpm add gracket</code></pre>
       </div>
 
       <div class="demo-section">
-        <h2>💻 Framework Integration</h2>
+        <h2>💻 Integration</h2>
         <p class="demo-description">
-          Gracket works seamlessly with any framework or vanilla JavaScript:
+          Works seamlessly with React, Vue, or vanilla JavaScript. Choose your framework:
         </p>
         <div class="framework-tabs">
           <button class="tab active" data-tab="vanilla">Vanilla JS</button>
@@ -361,7 +527,7 @@ const options = ref({
       </div>
 
       <div class="demo-section">
-        <h2>✨ Key Features</h2>
+        <h2>✨ Features</h2>
         <div class="feature-grid">
           <div class="feature-card">
             <h3>🎨 Modern & Beautiful</h3>
@@ -390,24 +556,19 @@ const options = ref({
         </div>
       </div>
 
-      <footer>
-        <p>
-          Made with ❤️ by Erik Zettersten<br>
-          <a href="https://github.com/erik5388/jquery.gracket.js" style="color: white; text-decoration: none;">
-            View on GitHub
-          </a> | 
-          <a href="https://www.npmjs.com/package/gracket" style="color: white; text-decoration: none;">
-            NPM Package
-          </a> | 
-          <a href="https://github.com/erik5388/jquery.gracket.js#readme" style="color: white; text-decoration: none;">
-            Documentation
-          </a>
-        </p>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">
-          Version 2.0.0 | MIT License | Built with TypeScript & Vite
-        </p>
-      </footer>
     </div>
+
+    <footer>
+      <p>
+        Made with ❤️ by Erik Zettersten<br>
+        <a href="https://github.com/erik5388/jquery.gracket.js">GitHub</a> | 
+        <a href="https://www.npmjs.com/package/gracket">NPM</a> | 
+        <a href="https://github.com/erik5388/jquery.gracket.js#readme">Documentation</a>
+      </p>
+      <p style="margin-top: 1rem; font-size: 0.9rem;">
+        Version 2.0.0 | MIT License | Built with TypeScript & Vite
+      </p>
+    </footer>
 
     <script type="module">
       import { Gracket } from '/src/index.ts';
