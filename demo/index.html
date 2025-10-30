@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gracket - Modern Tournament Bracket Library</title>
+    <title>Gracket - Modern Tournament Bracket Library (v2.1)</title>
     <style>
       * {
         margin: 0;
@@ -20,7 +20,7 @@
       }
 
       .container {
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
       }
 
@@ -33,11 +33,11 @@
       }
 
       .top-bar-content {
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
         display: flex;
         align-items: center;
-        gap: 1rem;
+        justify-content: space-between;
       }
 
       .logo {
@@ -52,6 +52,16 @@
         color: #c8102e;
       }
 
+      .version-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
       header {
         background: linear-gradient(180deg, #1a1d29 0%, #0d1117 100%);
         padding: 3rem 2rem 2rem;
@@ -59,7 +69,7 @@
       }
 
       .header-content {
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
       }
 
@@ -116,9 +126,9 @@
       }
 
       .main-content {
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
-        padding: 2rem 0;
+        padding: 2rem 1rem;
       }
 
       .demo-section {
@@ -194,120 +204,130 @@
         transform: translateY(0);
       }
 
-      .framework-tabs {
-        display: flex;
-        gap: 0;
-        margin-bottom: 0;
-        border-bottom: 2px solid #30363d;
-        background: #0d1117;
-        border-radius: 6px 6px 0 0;
-        overflow: hidden;
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
       }
 
-      .tab {
-        padding: 1rem 1.75rem;
-        background: transparent;
-        border: none;
-        border-bottom: 3px solid transparent;
-        cursor: pointer;
-        font-size: 0.95rem;
+      .feature-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
         font-weight: 700;
-        color: #8b949e;
-        transition: all 0.2s;
         text-transform: uppercase;
+        margin-left: 0.5rem;
         letter-spacing: 0.5px;
       }
 
-      .tab:hover {
-        color: #e6edf3;
-        background: #161b22;
-      }
-
-      .tab.active {
-        color: #ffffff;
-        background: #161b22;
-        border-bottom-color: #c8102e;
-      }
-
-      .tab-content {
-        display: none;
-      }
-
-      .tab-content.active {
-        display: block;
-      }
-
-      .tab-content h3 {
-        color: #c8102e;
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      pre {
-        background: #0d1117;
-        color: #e6edf3;
-        padding: 1.5rem;
-        border: 1px solid #30363d;
-        border-radius: 0 0 6px 6px;
-        overflow-x: auto;
-        margin-top: 0;
-      }
-
-      code {
-        font-family: 'SF Mono', 'Courier New', monospace;
-        font-size: 0.9rem;
-        line-height: 1.6;
-      }
-
-      .feature-grid {
+      .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
       }
 
-      .feature-card {
-        padding: 2rem;
-        background: linear-gradient(135deg, #1a1d29 0%, #0d1117 100%);
-        border: 2px solid #30363d;
+      .stat-card {
+        background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+        padding: 1.5rem;
         border-radius: 6px;
+        border: 1px solid #30363d;
         transition: all 0.3s;
-        position: relative;
-        overflow: hidden;
       }
 
-      .feature-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, #c8102e 0%, #ff6b35 100%);
+      .stat-card:hover {
+        border-color: #667eea;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
       }
 
-      .feature-card:hover {
-        border-color: #c8102e;
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(200, 16, 46, 0.3);
-      }
-
-      .feature-card h3 {
-        margin-bottom: 0.75rem;
-        color: #ffffff;
-        font-size: 1.3rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: -0.5px;
-      }
-
-      .feature-card p {
+      .stat-label {
         color: #8b949e;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .stat-value {
+        color: #ffffff;
+        font-size: 2rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .log-output {
+        background: #000000;
+        border: 1px solid #30363d;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-top: 1rem;
+        max-height: 300px;
+        overflow-y: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
         line-height: 1.6;
-        font-size: 1rem;
+      }
+
+      .log-entry {
+        padding: 0.25rem 0;
+        border-bottom: 1px solid #21262d;
+      }
+
+      .log-entry:last-child {
+        border-bottom: none;
+      }
+
+      .log-success {
+        color: #2ea043;
+      }
+
+      .log-info {
+        color: #58a6ff;
+      }
+
+      .log-warning {
+        color: #d29922;
+      }
+
+      .log-error {
+        color: #f85149;
+      }
+
+      .team-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      .team-chip {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 700;
+      }
+
+      .report-output {
+        background: #000000;
+        border: 1px solid #30363d;
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin-top: 1rem;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        line-height: 1.8;
+        white-space: pre-wrap;
+        color: #8b949e;
       }
 
       footer {
@@ -334,21 +354,6 @@
         color: #c8102e;
       }
 
-      .tip-box {
-        margin-top: 1.5rem;
-        padding: 1rem 1.5rem;
-        background: #21262d;
-        border-left: 4px solid #c8102e;
-        border-radius: 4px;
-        color: #8b949e;
-        font-size: 0.95rem;
-      }
-
-      .tip-box strong {
-        color: #ffffff;
-        font-weight: 700;
-      }
-
       @media (max-width: 768px) {
         h1 {
           font-size: 2.5rem;
@@ -362,12 +367,12 @@
           padding: 1rem;
         }
 
-        .top-bar {
-          padding: 0.75rem 1rem;
+        .controls {
+          flex-direction: column;
         }
 
-        header {
-          padding: 2rem 1rem 1.5rem;
+        button {
+          width: 100%;
         }
       }
     </style>
@@ -377,13 +382,14 @@
     <div class="top-bar">
       <div class="top-bar-content">
         <div class="logo">GRACKET<span class="logo-accent">.</span></div>
+        <div class="version-badge">v2.1 - NEW FEATURES</div>
       </div>
     </div>
 
     <header>
       <div class="header-content">
         <h1>🏆 Tournament Brackets</h1>
-        <p class="subtitle">Modern, Framework-Agnostic Bracket Library</p>
+        <p class="subtitle">Modern, Framework-Agnostic Bracket Library with Advanced Features</p>
         <div class="header-links">
           <a href="https://github.com/Zettersten/jquery.gracket.js" class="header-link" target="_blank">
             <span>⭐</span> GitHub
@@ -399,165 +405,118 @@
     </header>
 
     <div class="main-content">
+      <!-- Feature 1: Byes Support -->
       <div class="demo-section">
-        <h2>🎮 Live Bracket</h2>
+        <h2>🎲 Byes Support<span class="feature-badge">NEW in v2.1</span></h2>
         <p class="demo-description">
-          Experience interactive tournament brackets with real-time updates. Hover over teams to see them highlighted
-          across all rounds. Use the controls below to interact with the bracket.
+          Handle tournaments with any number of teams - not just powers of 2! This 6-team tournament automatically
+          gives byes to the top 2 seeds (Warriors & Lakers).
         </p>
+        
         <div class="controls">
-          <button id="update-scores">🎲 Randomize</button>
-          <button id="reset-bracket">🔄 Reset</button>
-          <button id="change-style">🎨 Style</button>
-          <button id="show-small">🏀 4-Team</button>
-          <button id="show-large">🏆 16-Team</button>
+          <button id="load-byes-6">6 Teams (2 Byes)</button>
+          <button id="load-byes-5">5 Teams (3 Byes)</button>
+          <button id="load-byes-7">7 Teams (1 Bye)</button>
+          <button id="load-byes-10">10 Teams (6 Byes)</button>
         </div>
+
         <div class="bracket-wrapper">
-          <div id="main-bracket"></div>
+          <div id="byes-bracket"></div>
         </div>
-        <div class="tip-box">
-          💡 <strong>Pro Tip:</strong> Hover over any team to highlight all their appearances throughout the tournament bracket!
+
+        <div class="log-output" id="byes-log">
+          <div class="log-entry log-info">Click a button above to load different tournament sizes</div>
         </div>
       </div>
 
+      <!-- Feature 2: Auto-Generation & Scoring -->
       <div class="demo-section">
-        <h2>📦 Quick Start</h2>
-        <p class="demo-description">Install and start building brackets in seconds:</p>
-        <pre><code># Using npm
-npm install gracket
-
-# Using yarn
-yarn add gracket
-
-# Using pnpm
-pnpm add gracket</code></pre>
-      </div>
-
-      <div class="demo-section">
-        <h2>💻 Integration</h2>
+        <h2>🔄 Interactive Scoring & Auto-Generation<span class="feature-badge">NEW in v2.1</span></h2>
         <p class="demo-description">
-          Works seamlessly with React, Vue, or vanilla JavaScript. Choose your framework:
+          Enter scores interactively and watch the bracket automatically advance to the next round!
+          Uses tie-breaking to handle tied scores.
         </p>
-        <div class="framework-tabs">
-          <button class="tab active" data-tab="vanilla">Vanilla JS</button>
-          <button class="tab" data-tab="react">React</button>
-          <button class="tab" data-tab="vue">Vue</button>
-          <button class="tab" data-tab="cdn">CDN</button>
+        
+        <div class="controls">
+          <button id="enter-scores">📝 Enter Random Scores</button>
+          <button id="advance-round">⏭️ Advance Round</button>
+          <button id="auto-generate">🚀 Auto-Generate Tournament</button>
+          <button id="reset-scores">🔄 Reset</button>
         </div>
 
-        <div class="tab-content active" data-content="vanilla">
-          <h3>Vanilla JavaScript/TypeScript</h3>
-          <pre><code>import { Gracket } from 'gracket';
-import 'gracket/style.css';
-
-const bracket = new Gracket('#bracket', {
-  src: tournamentData,
-  cornerRadius: 15,
-  canvasLineColor: '#667eea'
-});
-
-// Update bracket
-bracket.update(newData);
-
-// Clean up
-bracket.destroy();</code></pre>
+        <div id="stats-display" class="stats-grid" style="display:none;">
+          <div class="stat-card">
+            <div class="stat-label">Current Round</div>
+            <div class="stat-value" id="stat-current-round">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Completion</div>
+            <div class="stat-value" id="stat-completion">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg Score</div>
+            <div class="stat-value" id="stat-avg-score">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Byes</div>
+            <div class="stat-value" id="stat-byes">-</div>
+          </div>
         </div>
 
-        <div class="tab-content" data-content="react">
-          <h3>React</h3>
-          <pre><code>import { GracketReact } from 'gracket/react';
-import 'gracket/style.css';
-
-function TournamentBracket() {
-  const [data, setData] = useState(tournamentData);
-
-  return (
-    &lt;GracketReact
-      data={data}
-      cornerRadius={15}
-      canvasLineColor="#667eea"
-      onInit={(gracket) => console.log('Initialized!', gracket)}
-    /&gt;
-  );
-}</code></pre>
+        <div class="bracket-wrapper">
+          <div id="scoring-bracket"></div>
         </div>
 
-        <div class="tab-content" data-content="vue">
-          <h3>Vue 3</h3>
-          <pre><code>&lt;script setup&gt;
-import { ref } from 'vue';
-import { GracketVue } from 'gracket/vue';
-import 'gracket/style.css';
-
-const data = ref(tournamentData);
-const options = ref({
-  cornerRadius: 15,
-  canvasLineColor: '#667eea'
-});
-&lt;/script&gt;
-
-&lt;template&gt;
-  &lt;GracketVue
-    :data="data"
-    :options="options"
-    @init="(gracket) => console.log('Initialized!', gracket)"
-  /&gt;
-&lt;/template&gt;</code></pre>
-        </div>
-
-        <div class="tab-content" data-content="cdn">
-          <h3>CDN (via unpkg)</h3>
-          <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;link rel="stylesheet" href="https://unpkg.com/gracket/dist/style.css" /&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div id="bracket"&gt;&lt;/div&gt;
-
-    &lt;script type="module"&gt;
-      import { Gracket } from 'https://unpkg.com/gracket';
-
-      new Gracket('#bracket', {
-        src: tournamentData,
-        cornerRadius: 15
-      });
-    &lt;/script&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+        <div class="log-output" id="scoring-log">
+          <div class="log-entry log-info">Interactive scoring demo - Click "Enter Random Scores" to start!</div>
         </div>
       </div>
 
+      <!-- Feature 3: Reporting -->
       <div class="demo-section">
-        <h2>✨ Features</h2>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <h3>🎨 Modern & Beautiful</h3>
-            <p>Clean, responsive design with smooth animations</p>
-          </div>
-          <div class="feature-card">
-            <h3>⚡ Framework Agnostic</h3>
-            <p>Works with React, Vue, Angular, or vanilla JS</p>
-          </div>
-          <div class="feature-card">
-            <h3>📦 TypeScript</h3>
-            <p>Full TypeScript support with type definitions</p>
-          </div>
-          <div class="feature-card">
-            <h3>🎯 Zero Dependencies</h3>
-            <p>No jQuery required - pure modern JavaScript</p>
-          </div>
-          <div class="feature-card">
-            <h3>🎨 Customizable</h3>
-            <p>Extensive options for styling and behavior</p>
-          </div>
-          <div class="feature-card">
-            <h3>♿ Accessible</h3>
-            <p>Built with accessibility in mind</p>
-          </div>
+        <h2>📊 Comprehensive Reporting<span class="feature-badge">NEW in v2.1</span></h2>
+        <p class="demo-description">
+          Generate detailed reports in multiple formats, track team history, and get tournament statistics.
+        </p>
+        
+        <div class="controls">
+          <button id="show-advancing">👥 Show Advancing Teams</button>
+          <button id="show-team-history">📈 Track Warriors</button>
+          <button id="generate-text-report">📄 Text Report</button>
+          <button id="generate-json-report">{ } JSON Report</button>
+          <button id="show-statistics">📊 Statistics</button>
+        </div>
+
+        <div id="advancing-teams" class="team-list" style="display:none;"></div>
+
+        <div class="report-output" id="report-output" style="display:none;"></div>
+
+        <div class="bracket-wrapper">
+          <div id="reporting-bracket"></div>
         </div>
       </div>
 
+      <!-- Feature 4: Complete Example -->
+      <div class="demo-section">
+        <h2>🎯 Complete Interactive Tournament</h2>
+        <p class="demo-description">
+          A full-featured tournament with all new capabilities combined: byes, scoring, auto-advancement, and reporting.
+        </p>
+        
+        <div class="controls">
+          <button id="complete-start">🎬 Start New Tournament</button>
+          <button id="complete-score">📝 Enter Match Score</button>
+          <button id="complete-report">📊 Generate Full Report</button>
+        </div>
+
+        <div class="bracket-wrapper">
+          <div id="complete-bracket"></div>
+        </div>
+
+        <div class="log-output" id="complete-log">
+          <div class="log-entry log-info">Click "Start New Tournament" to begin!</div>
+        </div>
+      </div>
     </div>
 
     <footer>
@@ -568,133 +527,463 @@ const options = ref({
         <a href="https://github.com/Zettersten/jquery.gracket.js#readme">Documentation</a>
       </p>
       <p style="margin-top: 1rem; font-size: 0.9rem;">
-        Version 2.0.0 | MIT License | Built with TypeScript & Vite
+        Version 2.1.0 | MIT License | Built with TypeScript & Vite
       </p>
     </footer>
 
     <script type="module">
-      import { Gracket } from '/src/index.ts';
-      import { sampleTournamentData } from '/src/test-utils.ts';
+      import { Gracket, generateTournamentWithByes } from '/src/index.ts';
       import '/src/style.css';
 
-      let gracket = null;
-      let styleToggle = false;
-      let currentData = sampleTournamentData;
+      // ========================================================================
+      // Helper Functions
+      // ========================================================================
 
-      const smallTournamentData = [
-        [
-          [
-            { name: 'Warriors', id: 'warriors', seed: 1, score: 105 },
-            { name: 'Lakers', id: 'lakers', seed: 4, score: 98 },
-          ],
-          [
-            { name: 'Celtics', id: 'celtics', seed: 2, score: 110 },
-            { name: 'Heat', id: 'heat', seed: 3, score: 102 },
-          ],
-        ],
-        [
-          [
-            { name: 'Warriors', id: 'warriors', seed: 1, score: 112 },
-            { name: 'Celtics', id: 'celtics', seed: 2, score: 108 },
-          ],
-        ],
-        [[{ name: 'Warriors', id: 'warriors', seed: 1 }]],
+      function addLog(containerId, message, type = 'info') {
+        const container = document.getElementById(containerId);
+        const entry = document.createElement('div');
+        entry.className = `log-entry log-${type}`;
+        entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        container.appendChild(entry);
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function clearLog(containerId) {
+        document.getElementById(containerId).innerHTML = '';
+      }
+
+      // ========================================================================
+      // Demo 1: Byes Support
+      // ========================================================================
+
+      let byesBracket = null;
+
+      function loadByesTournament(teamCount) {
+        clearLog('byes-log');
+        addLog('byes-log', `Loading ${teamCount}-team tournament...`, 'info');
+
+        const teams = Array.from({ length: teamCount }, (_, i) => ({
+          name: `Team ${String.fromCharCode(65 + i)}`,
+          id: `team-${i}`,
+          seed: i + 1
+        }));
+
+        const data = generateTournamentWithByes(teams, 'top-seeds');
+        const byesNeeded = Math.pow(2, Math.ceil(Math.log2(teamCount))) - teamCount;
+
+        addLog('byes-log', `Generated tournament with ${byesNeeded} bye(s)`, 'success');
+        addLog('byes-log', `Top ${byesNeeded} seed(s) receive automatic bye(s)`, 'info');
+
+        if (byesBracket) {
+          byesBracket.destroy();
+        }
+
+        byesBracket = new Gracket('#byes-bracket', {
+          src: data,
+          byeLabel: 'BYE',
+          roundLabels: ['Round 1', 'Round 2', 'Semifinals', 'Finals', 'Champion']
+        });
+
+        addLog('byes-log', 'Bracket rendered with bye visualizations', 'success');
+      }
+
+      document.getElementById('load-byes-6').addEventListener('click', () => loadByesTournament(6));
+      document.getElementById('load-byes-5').addEventListener('click', () => loadByesTournament(5));
+      document.getElementById('load-byes-7').addEventListener('click', () => loadByesTournament(7));
+      document.getElementById('load-byes-10').addEventListener('click', () => loadByesTournament(10));
+
+      // Load initial
+      loadByesTournament(6);
+
+      // ========================================================================
+      // Demo 2: Interactive Scoring & Auto-Generation
+      // ========================================================================
+
+      const initialScoringTeams = [
+        { name: 'Warriors', id: 'warriors', seed: 1 },
+        { name: 'Lakers', id: 'lakers', seed: 2 },
+        { name: 'Celtics', id: 'celtics', seed: 3 },
+        { name: 'Heat', id: 'heat', seed: 4 },
+        { name: 'Bucks', id: 'bucks', seed: 5 },
+        { name: 'Suns', id: 'suns', seed: 6 }
       ];
 
-      function initBracket(data = sampleTournamentData) {
-        const container = document.getElementById('main-bracket');
-        if (!container) return;
+      let scoringBracket = null;
+      let currentRound = 0;
 
-        currentData = data;
+      function initScoringBracket() {
+        clearLog('scoring-log');
+        document.getElementById('stats-display').style.display = 'grid';
+        
+        const data = generateTournamentWithByes(initialScoringTeams, 'top-seeds');
+        
+        if (scoringBracket) {
+          scoringBracket.destroy();
+        }
 
-        gracket = new Gracket(container, {
+        scoringBracket = new Gracket('#scoring-bracket', {
           src: data,
-          cornerRadius: 15,
-          canvasLineColor: '#667eea',
-          canvasLineWidth: 2,
-          roundLabels: data === sampleTournamentData
-            ? ['Round 1', 'Round 2', 'Semi Finals', 'Finals', 'Winner']
-            : data.length === 3
-            ? ['Semi Finals', 'Finals', 'Champion']
-            : ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Winner'],
+          byeLabel: 'BYE',
+          roundLabels: ['Round 1', 'Semifinals', 'Finals', 'Champion'],
+          
+          onScoreUpdate: (r, g, t, score) => {
+            addLog('scoring-log', `Score entered: Round ${r + 1}, Game ${g + 1}, Team ${t + 1}: ${score} pts`, 'info');
+            updateStats();
+          },
+          
+          onRoundComplete: (r) => {
+            addLog('scoring-log', `Round ${r + 1} completed!`, 'success');
+            const advancing = scoringBracket.getAdvancingTeams(r);
+            addLog('scoring-log', `Advancing: ${advancing.map(t => t.name).join(', ')}`, 'success');
+            updateStats();
+          },
+          
+          onRoundGenerated: (r, roundData) => {
+            addLog('scoring-log', `Round ${r + 1} generated with ${roundData.length} game(s)`, 'success');
+            updateStats();
+          }
         });
+
+        currentRound = 0;
+        updateStats();
+        addLog('scoring-log', 'Tournament initialized', 'success');
       }
 
-      function updateScores() {
-        if (!gracket) return;
-        const data = gracket.getData().map((round) =>
-          round.map((game) =>
-            game.map((team) => ({
-              ...team,
-              score: Math.floor(Math.random() * 100) + 50,
-            }))
-          )
-        );
-        gracket.update(data);
+      function updateStats() {
+        if (!scoringBracket) return;
+        
+        const stats = scoringBracket.getStatistics();
+        const data = scoringBracket.getData();
+        
+        // Find current round
+        let current = 0;
+        for (let i = 0; i < data.length; i++) {
+          if (!scoringBracket.isRoundComplete(i)) {
+            current = i;
+            break;
+          }
+        }
+        
+        document.getElementById('stat-current-round').textContent = current + 1;
+        document.getElementById('stat-completion').textContent = `${stats.completionPercentage}%`;
+        document.getElementById('stat-avg-score').textContent = stats.averageScore ? stats.averageScore.toFixed(1) : 'N/A';
+        document.getElementById('stat-byes').textContent = stats.byeCount;
       }
 
-      function resetBracket() {
-        if (!gracket) return;
-        gracket.update(currentData);
-      }
+      document.getElementById('enter-scores').addEventListener('click', () => {
+        const data = scoringBracket.getData();
+        
+        // Find first incomplete round
+        for (let r = 0; r < data.length; r++) {
+          if (scoringBracket.isRoundComplete(r)) continue;
+          
+          const round = data[r];
+          for (let g = 0; g < round.length; g++) {
+            const game = round[g];
+            if (game.length === 2) {
+              // Regular match - add random scores
+              if (game[0].score === undefined) {
+                const score1 = Math.floor(Math.random() * 30) + 90;
+                const score2 = Math.floor(Math.random() * 30) + 85;
+                scoringBracket.updateScore(r, g, 0, score1);
+                scoringBracket.updateScore(r, g, 1, score2);
+                addLog('scoring-log', `Random scores: ${game[0].name} ${score1} - ${game[1].name} ${score2}`, 'info');
+              }
+            }
+          }
+          break;
+        }
+      });
 
-      function showSmallBracket() {
-        if (!gracket) return;
-        gracket.destroy();
-        initBracket(smallTournamentData);
-      }
+      document.getElementById('advance-round').addEventListener('click', () => {
+        const data = scoringBracket.getData();
+        
+        for (let r = 0; r < data.length; r++) {
+          if (scoringBracket.isRoundComplete(r) && r < data.length - 1) {
+            // Check if next round exists and is empty
+            if (data[r + 1].every(game => game.every(team => !team.score))) {
+              try {
+                scoringBracket.advanceRound(r, {
+                  tieBreaker: 'higher-seed',
+                  createRounds: true
+                });
+                addLog('scoring-log', `Advanced from Round ${r + 1} to Round ${r + 2}`, 'success');
+                return;
+              } catch (e) {
+                addLog('scoring-log', `Error: ${e.message}`, 'error');
+                return;
+              }
+            }
+          } else if (!scoringBracket.isRoundComplete(r)) {
+            addLog('scoring-log', `Round ${r + 1} is not complete yet`, 'warning');
+            return;
+          }
+        }
+        
+        addLog('scoring-log', 'No rounds to advance', 'warning');
+      });
 
-      function showLargeBracket() {
-        if (!gracket) return;
-        gracket.destroy();
-        initBracket(sampleTournamentData);
-      }
-
-      function changeStyle() {
-        if (!gracket) return;
-        styleToggle = !styleToggle;
-        gracket.destroy();
-        gracket = new Gracket('#main-bracket', {
-          src: currentData,
-          cornerRadius: styleToggle ? 5 : 20,
-          canvasLineColor: styleToggle ? '#764ba2' : '#667eea',
-          canvasLineWidth: styleToggle ? 3 : 2,
-          canvasLineCap: styleToggle ? 'square' : 'round',
-          roundLabels: currentData === sampleTournamentData
-            ? ['Round 1', 'Round 2', 'Semi Finals', 'Finals', 'Winner']
-            : currentData.length === 3
-            ? ['Semi Finals', 'Finals', 'Champion']
-            : ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Winner'],
-        });
-      }
-
-      function setupControls() {
-        document.getElementById('update-scores')?.addEventListener('click', updateScores);
-        document.getElementById('reset-bracket')?.addEventListener('click', resetBracket);
-        document.getElementById('change-style')?.addEventListener('click', changeStyle);
-        document.getElementById('show-small')?.addEventListener('click', showSmallBracket);
-        document.getElementById('show-large')?.addEventListener('click', showLargeBracket);
-      }
-
-      function setupTabs() {
-        const tabs = document.querySelectorAll('.tab');
-        const contents = document.querySelectorAll('.tab-content');
-
-        tabs.forEach((tab) => {
-          tab.addEventListener('click', () => {
-            const tabName = tab.getAttribute('data-tab');
-            tabs.forEach((t) => t.classList.remove('active'));
-            contents.forEach((c) => c.classList.remove('active'));
-            tab.classList.add('active');
-            document.querySelector(`[data-content="${tabName}"]`)?.classList.add('active');
+      document.getElementById('auto-generate').addEventListener('click', () => {
+        try {
+          scoringBracket.autoGenerateTournament({
+            tieBreaker: 'higher-seed',
+            onRoundGenerated: (idx, data) => {
+              addLog('scoring-log', `Auto-generated Round ${idx + 1}`, 'success');
+            }
           });
-        });
-      }
+          addLog('scoring-log', 'Tournament auto-generation complete!', 'success');
+        } catch (e) {
+          addLog('scoring-log', `Error: ${e.message}`, 'error');
+        }
+      });
 
-      document.addEventListener('DOMContentLoaded', () => {
-        initBracket();
-        setupControls();
-        setupTabs();
+      document.getElementById('reset-scores').addEventListener('click', () => {
+        initScoringBracket();
+      });
+
+      initScoringBracket();
+
+      // ========================================================================
+      // Demo 3: Reporting
+      // ========================================================================
+
+      const reportingTeams = [
+        { name: 'Warriors', id: 'warriors', seed: 1, score: 105 },
+        { name: 'Thunder', id: 'thunder', seed: 8, score: 92 },
+        { name: 'Lakers', id: 'lakers', seed: 2, score: 110 },
+        { name: 'Rockets', id: 'rockets', seed: 7, score: 98 },
+        { name: 'Celtics', id: 'celtics', seed: 3, score: 108 },
+        { name: 'Pacers', id: 'pacers', seed: 6, score: 105 },
+        { name: 'Heat', id: 'heat', seed: 4, score: 112 },
+        { name: 'Nets', id: 'nets', seed: 5, score: 98 }
+      ];
+
+      const reportingData = [
+        [
+          [
+            { ...reportingTeams[0] },
+            { ...reportingTeams[1] }
+          ],
+          [
+            { ...reportingTeams[2] },
+            { ...reportingTeams[3] }
+          ],
+          [
+            { ...reportingTeams[4] },
+            { ...reportingTeams[5] }
+          ],
+          [
+            { ...reportingTeams[6] },
+            { ...reportingTeams[7] }
+          ]
+        ],
+        [
+          [
+            { name: 'Warriors', id: 'warriors', seed: 1, score: 118 },
+            { name: 'Lakers', id: 'lakers', seed: 2, score: 105 }
+          ],
+          [
+            { name: 'Celtics', id: 'celtics', seed: 3, score: 108 },
+            { name: 'Heat', id: 'heat', seed: 4, score: 102 }
+          ]
+        ],
+        [
+          [
+            { name: 'Warriors', id: 'warriors', seed: 1, score: 120 },
+            { name: 'Celtics', id: 'celtics', seed: 3, score: 115 }
+          ]
+        ],
+        [
+          [{ name: 'Warriors', id: 'warriors', seed: 1 }]
+        ]
+      ];
+
+      const reportingBracket = new Gracket('#reporting-bracket', {
+        src: reportingData,
+        roundLabels: ['Quarterfinals', 'Semifinals', 'Finals', 'Champion']
+      });
+
+      document.getElementById('show-advancing').addEventListener('click', () => {
+        const container = document.getElementById('advancing-teams');
+        container.style.display = 'flex';
+        container.innerHTML = '';
+        
+        document.getElementById('report-output').style.display = 'none';
+        
+        const advancing = reportingBracket.getAdvancingTeams(0);
+        advancing.forEach(team => {
+          const chip = document.createElement('div');
+          chip.className = 'team-chip';
+          chip.textContent = `${team.name} (Seed ${team.seed})`;
+          container.appendChild(chip);
+        });
+      });
+
+      document.getElementById('show-team-history').addEventListener('click', () => {
+        const history = reportingBracket.getTeamHistory('warriors');
+        
+        document.getElementById('advancing-teams').style.display = 'none';
+        const output = document.getElementById('report-output');
+        output.style.display = 'block';
+        
+        let report = `=== ${history.team.name} Tournament History ===\n\n`;
+        report += `Final Record: ${history.wins}W - ${history.losses}L\n`;
+        report += `Final Placement: ${history.finalPlacement || 'In Progress'}\n\n`;
+        report += `Match-by-Match:\n`;
+        
+        history.matches.forEach((match, i) => {
+          const result = match.won ? '✓ WIN ' : '✗ LOSS';
+          const opponent = match.isBye ? 'BYE' : match.opponent?.name;
+          const scoreDetail = match.score && match.opponentScore 
+            ? ` (${match.score}-${match.opponentScore})` 
+            : '';
+          report += `  ${i + 1}. ${match.roundLabel}: ${result} vs ${opponent}${scoreDetail}\n`;
+        });
+        
+        output.textContent = report;
+      });
+
+      document.getElementById('generate-text-report').addEventListener('click', () => {
+        document.getElementById('advancing-teams').style.display = 'none';
+        const output = document.getElementById('report-output');
+        output.style.display = 'block';
+        
+        const report = reportingBracket.generateReport({
+          format: 'text',
+          includeScores: true,
+          includeStatistics: true
+        });
+        
+        output.textContent = report;
+      });
+
+      document.getElementById('generate-json-report').addEventListener('click', () => {
+        document.getElementById('advancing-teams').style.display = 'none';
+        const output = document.getElementById('report-output');
+        output.style.display = 'block';
+        
+        const report = reportingBracket.generateReport({ format: 'json' });
+        output.textContent = JSON.stringify(report, null, 2);
+      });
+
+      document.getElementById('show-statistics').addEventListener('click', () => {
+        const stats = reportingBracket.getStatistics();
+        
+        document.getElementById('advancing-teams').style.display = 'none';
+        const output = document.getElementById('report-output');
+        output.style.display = 'block';
+        
+        let report = '=== Tournament Statistics ===\n\n';
+        report += `Participants: ${stats.participantCount}\n`;
+        report += `Total Rounds: ${stats.totalRounds}\n`;
+        report += `Byes: ${stats.byeCount}\n`;
+        report += `Average Score: ${stats.averageScore?.toFixed(1) || 'N/A'}\n`;
+        report += `Completion: ${stats.completionPercentage}%\n`;
+        
+        if (stats.highestScore) {
+          report += `\nHighest Score:\n`;
+          report += `  ${stats.highestScore.team.name} scored ${stats.highestScore.score}\n`;
+          report += `  in round ${stats.highestScore.round + 1}\n`;
+        }
+        
+        output.textContent = report;
+      });
+
+      // ========================================================================
+      // Demo 4: Complete Interactive Tournament
+      // ========================================================================
+
+      let completeBracket = null;
+
+      document.getElementById('complete-start').addEventListener('click', () => {
+        clearLog('complete-log');
+        
+        const teams = [
+          { name: 'Warriors', id: 'warriors', seed: 1 },
+          { name: 'Lakers', id: 'lakers', seed: 2 },
+          { name: 'Celtics', id: 'celtics', seed: 3 },
+          { name: 'Heat', id: 'heat', seed: 4 },
+          { name: 'Bucks', id: 'bucks', seed: 5 },
+          { name: 'Suns', id: 'suns', seed: 6 },
+          { name: 'Nets', id: 'nets', seed: 7 }
+        ];
+        
+        const data = generateTournamentWithByes(teams, 'top-seeds');
+        
+        if (completeBracket) {
+          completeBracket.destroy();
+        }
+        
+        completeBracket = new Gracket('#complete-bracket', {
+          src: data,
+          byeLabel: 'BYE',
+          roundLabels: ['Round 1', 'Semifinals', 'Finals', 'Champion'],
+          
+          onScoreUpdate: (r, g, t, score) => {
+            addLog('complete-log', `Score: ${score}`, 'info');
+          },
+          
+          onRoundComplete: (r) => {
+            const advancing = completeBracket.getAdvancingTeams(r);
+            addLog('complete-log', `Round ${r + 1} complete! Advancing: ${advancing.map(t => t.name).join(', ')}`, 'success');
+          }
+        });
+        
+        addLog('complete-log', '7-team tournament started with byes for top seed', 'success');
+      });
+
+      document.getElementById('complete-score').addEventListener('click', () => {
+        if (!completeBracket) {
+          addLog('complete-log', 'Start a tournament first!', 'warning');
+          return;
+        }
+        
+        const data = completeBracket.getData();
+        
+        // Enter scores for first incomplete match
+        for (let r = 0; r < data.length; r++) {
+          if (completeBracket.isRoundComplete(r)) continue;
+          
+          const round = data[r];
+          for (let g = 0; g < round.length; g++) {
+            const game = round[g];
+            if (game.length === 2 && !game[0].score) {
+              const score1 = Math.floor(Math.random() * 30) + 90;
+              const score2 = Math.floor(Math.random() * 30) + 85;
+              
+              completeBracket.updateScore(r, g, 0, score1);
+              completeBracket.updateScore(r, g, 1, score2);
+              
+              addLog('complete-log', `Match scored: ${game[0].name} ${score1} - ${game[1].name} ${score2}`, 'info');
+              
+              // Auto-advance if round complete
+              if (completeBracket.isRoundComplete(r)) {
+                completeBracket.advanceRound(r, {
+                  tieBreaker: 'higher-seed',
+                  createRounds: true
+                });
+              }
+              return;
+            }
+          }
+        }
+        
+        addLog('complete-log', 'All matches have scores!', 'info');
+      });
+
+      document.getElementById('complete-report').addEventListener('click', () => {
+        if (!completeBracket) {
+          addLog('complete-log', 'Start a tournament first!', 'warning');
+          return;
+        }
+        
+        const report = completeBracket.generateReport({
+          format: 'text',
+          includeScores: true,
+          includeStatistics: true
+        });
+        
+        addLog('complete-log', '\\n' + report, 'success');
       });
     </script>
   </body>
