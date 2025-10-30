@@ -107,6 +107,32 @@
   background: linear-gradient(90deg, #252a36 0%, #1a1f2c 100%);
 }
 
+/* Bye placeholder styles (Issue #15) */
+.g_bye {
+  background: linear-gradient(90deg, rgba(42, 47, 58, 0.5) 0%, rgba(31, 36, 48, 0.5) 100%);
+  border-left: 4px dashed #6c757d !important;
+  border-right: 1px dashed rgba(255, 255, 255, 0.05);
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+}
+
+.g_bye h3 {
+  color: #8b949e;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.g_bye::before,
+.g_bye::after {
+  display: none;
+}
+
+.g_bye:hover {
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
 .g_team:hover {
   transform: translateX(3px);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);

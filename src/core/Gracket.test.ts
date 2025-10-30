@@ -315,4 +315,634 @@ describe('Gracket', () => {
       expect(container.classList.contains('g_gracket')).toBe(true);
     });
   });
+
+  // ========================================================================
+  // NEW FEATURES TESTS (v2.1)
+  // ========================================================================
+
+  describe('NEW: Byes Support', () => {
+    it('should render bye games with single team', () => {
+      const dataWithByes: TournamentData = [
+        [
+          [
+            { name: 'Team A', seed: 1, score: 100, id: 'a' },
+            { name: 'Team B', seed: 2, score: 85, id: 'b' },
+          ],
+          [{ name: 'Team C', seed: 3, id: 'c' }], // Bye
+        ],
+      ];
+
+      new Gracket(container, { src: dataWithByes });
+      
+      const games = container.querySelectorAll('.g_game');
+      expect(games).toHaveLength(2);
+    });
+
+    it('should show bye placeholder when showByeGames is true', () => {
+      const dataWithByes: TournamentData = [
+        [
+          [{ name: 'Team A', seed: 1, id: 'a' }], // Bye
+        ],
+      ];
+
+      new Gracket(container, { 
+        src: dataWithByes,
+        showByeGames: true,
+        byeLabel: 'BYE'
+      });
+      
+      const byePlaceholder = container.querySelector('.g_bye');
+      expect(byePlaceholder).toBeTruthy();
+      expect(byePlaceholder?.textContent).toContain('BYE');
+    });
+
+    it('should hide bye placeholder when showByeGames is false', () => {
+      const dataWithByes: TournamentData = [
+        [
+          [{ name: 'Team A', seed: 1, id: 'a' }], // Bye
+        ],
+      ];
+
+      new Gracket(container, { 
+        src: dataWithByes,
+        showByeGames: false
+      });
+      
+      const byePlaceholder = container.querySelector('.g_bye');
+      expect(byePlaceholder).toBeFalsy();
+    });
+
+    it('should use custom bye label', () => {
+      const dataWithByes: TournamentData = [
+        [
+          [{ name: 'Team A', seed: 1, id: 'a' }], // Bye
+        ],
+      ];
+
+      new Gracket(container, { 
+        src: dataWithByes,
+        byeLabel: 'AUTO WIN'
+      });
+      
+      const byePlaceholder = container.querySelector('.g_bye');
+      expect(byePlaceholder?.textContent).toContain('AUTO WIN');
+    });
+
+    it('should apply custom bye class', () => {
+      const dataWithByes: TournamentData = [
+        [
+          [{ name: 'Team A', seed: 1, id: 'a' }], // Bye
+        ],
+      ];
+
+      new Gracket(container, { 
+        src: dataWithByes,
+        byeClass: 'custom-bye'
+      });
+      
+      const byePlaceholder = container.querySelector('.custom-bye');
+      expect(byePlaceholder).toBeTruthy();
+    });
+
+    it('should not show bye for final winner', () => {
+      const dataWithChampion: TournamentData = [
+        [
+          [
+            { name: 'Team A', seed: 1, score: 100, id: 'a' },
+            { name: 'Team B', seed: 2, score: 85, id: 'b' },
+          ],
+        ],
+        [[{ name: 'Team A', seed: 1, id: 'a' }]], // Champion
+      ];
+
+      new Gracket(container, { src: dataWithChampion });
+      
+      // Champion should not have bye placeholder
+      const winner = container.querySelector('.g_winner');
+      expect(winner).toBeTruthy();
+      
+      const byesInWinner = winner?.querySelectorAll('.g_bye');
+      expect(byesInWinner?.length).toBe(0);
+    });
+  });
+
+  describe('NEW: Score Management', () => {
+    let gracket: Gracket;
+    const mutableData: TournamentData = [
+      [
+        [
+          { name: 'Team A', seed: 1, id: 'a' },
+          { name: 'Team B', seed: 2, id: 'b' },
+        ],
+        [
+          { name: 'Team C', seed: 3, id: 'c' },
+          { name: 'Team D', seed: 4, id: 'd' },
+        ],
+      ],
+    ];
+
+    beforeEach(() => {
+      gracket = new Gracket(container, { src: JSON.parse(JSON.stringify(mutableData)) });
+    });
+
+    describe('updateScore', () => {
+      it('should update team score', () => {
+        gracket.updateScore(0, 0, 0, 100);
+        
+        const data = gracket.getData();
+        expect(data[0][0][0].score).toBe(100);
+      });
+
+      it('should update multiple scores', () => {
+        gracket.updateScore(0, 0, 0, 100);
+        gracket.updateScore(0, 0, 1, 85);
+        
+        const data = gracket.getData();
+        expect(data[0][0][0].score).toBe(100);
+        expect(data[0][0][1].score).toBe(85);
+      });
+
+      it('should trigger onScoreUpdate callback', () => {
+        let callbackCalled = false;
+        let callbackData: { r: number; g: number; t: number; score: number } | null = null;
+
+        const gracketWithCallback = new Gracket(container, {
+          src: JSON.parse(JSON.stringify(mutableData)),
+          onScoreUpdate: (r, g, t, score) => {
+            callbackCalled = true;
+            callbackData = { r, g, t, score };
+          },
+        });
+
+        gracketWithCallback.updateScore(0, 0, 0, 100);
+
+        expect(callbackCalled).toBe(true);
+        expect(callbackData.score).toBe(100);
+      });
+
+      it('should throw for invalid round index', () => {
+        expect(() => gracket.updateScore(5, 0, 0, 100)).toThrow();
+      });
+
+      it('should throw for invalid game index', () => {
+        expect(() => gracket.updateScore(0, 5, 0, 100)).toThrow();
+      });
+
+      it('should throw for invalid team index', () => {
+        expect(() => gracket.updateScore(0, 0, 5, 100)).toThrow();
+      });
+    });
+
+    describe('getMatchWinner', () => {
+      it('should return winner for completed match', () => {
+        gracket.updateScore(0, 0, 0, 100);
+        gracket.updateScore(0, 0, 1, 85);
+        
+        const winner = gracket.getMatchWinner(0, 0);
+        expect(winner?.name).toBe('Team A');
+      });
+
+      it('should return null for incomplete match', () => {
+        const winner = gracket.getMatchWinner(0, 0);
+        expect(winner).toBeNull();
+      });
+
+      it('should return null for tied match', () => {
+        gracket.updateScore(0, 0, 0, 100);
+        gracket.updateScore(0, 0, 1, 100);
+        
+        const winner = gracket.getMatchWinner(0, 0);
+        expect(winner).toBeNull();
+      });
+
+      it('should return team for bye match', () => {
+        const byeData: TournamentData = [
+          [
+            [{ name: 'Team A', seed: 1, id: 'a' }], // Bye
+          ],
+        ];
+        
+        const byeGracket = new Gracket(container, { src: byeData });
+        const winner = byeGracket.getMatchWinner(0, 0);
+        
+        expect(winner?.name).toBe('Team A');
+      });
+    });
+
+    describe('isRoundComplete', () => {
+      it('should return false for incomplete round', () => {
+        expect(gracket.isRoundComplete(0)).toBe(false);
+      });
+
+      it('should return true for complete round', () => {
+        gracket.updateScore(0, 0, 0, 100);
+        gracket.updateScore(0, 0, 1, 85);
+        gracket.updateScore(0, 1, 0, 90);
+        gracket.updateScore(0, 1, 1, 88);
+        
+        expect(gracket.isRoundComplete(0)).toBe(true);
+      });
+
+      it('should return true for round with only byes', () => {
+        const byeData: TournamentData = [
+          [
+            [{ name: 'Team A', seed: 1, id: 'a' }],
+            [{ name: 'Team B', seed: 2, id: 'b' }],
+          ],
+        ];
+        
+        const byeGracket = new Gracket(container, { src: byeData });
+        expect(byeGracket.isRoundComplete(0)).toBe(true);
+      });
+
+      it('should throw for invalid round index', () => {
+        expect(() => gracket.isRoundComplete(5)).toThrow();
+      });
+    });
+  });
+
+  describe('NEW: Round Advancement', () => {
+    let gracket: Gracket;
+    const advanceData: TournamentData = [
+      [
+        [
+          { name: 'Team A', seed: 1, score: 100, id: 'a' },
+          { name: 'Team B', seed: 2, score: 85, id: 'b' },
+        ],
+        [
+          { name: 'Team C', seed: 3, score: 90, id: 'c' },
+          { name: 'Team D', seed: 4, score: 88, id: 'd' },
+        ],
+      ],
+      [
+        [
+          { name: 'Team A', seed: 1, id: 'a' },
+          { name: 'Team C', seed: 3, id: 'c' },
+        ],
+      ],
+    ];
+
+    beforeEach(() => {
+      gracket = new Gracket(container, { 
+        src: JSON.parse(JSON.stringify(advanceData))
+      });
+    });
+
+    describe('advanceRound', () => {
+      it('should advance winners to next round', () => {
+        const newData = gracket.advanceRound(0);
+        
+        expect(newData[1][0][0].name).toBe('Team A');
+        expect(newData[1][0][1].name).toBe('Team C');
+      });
+
+      it('should create next round if missing', () => {
+        const singleRoundData: TournamentData = [
+          [
+            [
+              { name: 'Team A', seed: 1, score: 100, id: 'a' },
+              { name: 'Team B', seed: 2, score: 85, id: 'b' },
+            ],
+          ],
+        ];
+        
+        const singleGracket = new Gracket(container, { src: singleRoundData });
+        const newData = singleGracket.advanceRound(0, { createRounds: true });
+        
+        expect(newData).toHaveLength(2);
+        expect(newData[1][0][0].name).toBe('Team A');
+      });
+
+      it('should handle ties with higher-seed strategy', () => {
+        const tiedData: TournamentData = [
+          [
+            [
+              { name: 'Team A', seed: 1, score: 100, id: 'a' },
+              { name: 'Team B', seed: 2, score: 100, id: 'b' },
+            ],
+          ],
+        ];
+        
+        const tiedGracket = new Gracket(container, { src: tiedData });
+        const newData = tiedGracket.advanceRound(0, { 
+          tieBreaker: 'higher-seed',
+          createRounds: true
+        });
+        
+        expect(newData[1][0][0].name).toBe('Team A');
+      });
+
+      it('should throw for incomplete round with error strategy', () => {
+        const incompleteData: TournamentData = [
+          [
+            [
+              { name: 'Team A', seed: 1, id: 'a' },
+              { name: 'Team B', seed: 2, id: 'b' },
+            ],
+          ],
+        ];
+        
+        const incompleteGracket = new Gracket(container, { src: incompleteData });
+        
+        expect(() => incompleteGracket.advanceRound(0)).toThrow();
+      });
+
+      it('should trigger onRoundGenerated callback', () => {
+        let callbackCalled = false;
+
+        const callbackGracket = new Gracket(container, {
+          src: JSON.parse(JSON.stringify(advanceData)),
+          onRoundGenerated: () => {
+            callbackCalled = true;
+          },
+        });
+
+        callbackGracket.advanceRound(0, { createRounds: true });
+        expect(callbackCalled).toBe(true);
+      });
+    });
+
+    describe('autoGenerateTournament', () => {
+      it('should generate entire tournament', () => {
+        const firstRoundData: TournamentData = [
+          [
+            [
+              { name: 'Team A', seed: 1, score: 100, id: 'a' },
+              { name: 'Team B', seed: 2, score: 85, id: 'b' },
+            ],
+            [
+              { name: 'Team C', seed: 3, score: 90, id: 'c' },
+              { name: 'Team D', seed: 4, score: 88, id: 'd' },
+            ],
+          ],
+        ];
+        
+        const autoGracket = new Gracket(container, { src: firstRoundData });
+        autoGracket.autoGenerateTournament({ tieBreaker: 'higher-seed' });
+        
+        const data = autoGracket.getData();
+        expect(data.length).toBeGreaterThan(1);
+      });
+
+      it('should stop at specified round', () => {
+        const firstRoundData: TournamentData = [
+          [
+            [
+              { name: 'Team A', seed: 1, score: 100, id: 'a' },
+              { name: 'Team B', seed: 2, score: 85, id: 'b' },
+            ],
+            [
+              { name: 'Team C', seed: 3, score: 90, id: 'c' },
+              { name: 'Team D', seed: 4, score: 88, id: 'd' },
+            ],
+          ],
+        ];
+        
+        const autoGracket = new Gracket(container, { src: firstRoundData });
+        autoGracket.autoGenerateTournament({ 
+          tieBreaker: 'higher-seed',
+          stopAtRound: 1
+        });
+        
+        const data = autoGracket.getData();
+        expect(data.length).toBe(2);
+      });
+
+      it('should trigger onRoundGenerated for each round', () => {
+        let callbackCount = 0;
+
+        const firstRoundData: TournamentData = [
+          [
+            [
+              { name: 'Team A', seed: 1, score: 100, id: 'a' },
+              { name: 'Team B', seed: 2, score: 85, id: 'b' },
+            ],
+            [
+              { name: 'Team C', seed: 3, score: 90, id: 'c' },
+              { name: 'Team D', seed: 4, score: 88, id: 'd' },
+            ],
+          ],
+        ];
+        
+        const callbackGracket = new Gracket(container, {
+          src: firstRoundData,
+          onRoundGenerated: () => {
+            callbackCount++;
+          },
+        });
+
+        callbackGracket.autoGenerateTournament({ tieBreaker: 'higher-seed' });
+        expect(callbackCount).toBeGreaterThan(0);
+      });
+    });
+  });
+
+  describe('NEW: Event Callbacks', () => {
+    it('should trigger onRoundComplete when round finishes', () => {
+      let roundCompleteIndex = -1;
+
+      const data: TournamentData = [
+        [
+          [
+            { name: 'Team A', seed: 1, id: 'a' },
+            { name: 'Team B', seed: 2, id: 'b' },
+          ],
+        ],
+      ];
+
+      const gracket = new Gracket(container, {
+        src: data,
+        onRoundComplete: (roundIndex) => {
+          roundCompleteIndex = roundIndex;
+        },
+      });
+
+      gracket.updateScore(0, 0, 0, 100);
+      gracket.updateScore(0, 0, 1, 85);
+
+      // Round is now complete
+      expect(roundCompleteIndex).toBe(0);
+    });
+
+    it('should pass correct parameters to onScoreUpdate', () => {
+      const capturedParams: Array<{ r: number; g: number; t: number; score: number }> = [];
+
+      const data: TournamentData = [
+        [
+          [
+            { name: 'Team A', seed: 1, id: 'a' },
+            { name: 'Team B', seed: 2, id: 'b' },
+          ],
+        ],
+      ];
+
+      const gracket = new Gracket(container, {
+        src: data,
+        onScoreUpdate: (r, g, t, score) => {
+          capturedParams.push({ r, g, t, score });
+        },
+      });
+
+      gracket.updateScore(0, 0, 0, 100);
+
+      expect(capturedParams).toHaveLength(1);
+      expect(capturedParams[0]).toEqual({ r: 0, g: 0, t: 0, score: 100 });
+    });
+  });
+
+  describe('NEW: Reporting Methods', () => {
+    let gracket: Gracket;
+    const reportData: TournamentData = [
+      [
+        [
+          { name: 'Team A', seed: 1, score: 100, id: 'a' },
+          { name: 'Team B', seed: 2, score: 85, id: 'b' },
+        ],
+        [
+          { name: 'Team C', seed: 3, score: 90, id: 'c' },
+          { name: 'Team D', seed: 4, score: 88, id: 'd' },
+        ],
+      ],
+      [
+        [
+          { name: 'Team A', seed: 1, score: 95, id: 'a' },
+          { name: 'Team C', seed: 3, score: 92, id: 'c' },
+        ],
+      ],
+      [[{ name: 'Team A', seed: 1, id: 'a' }]],
+    ];
+
+    beforeEach(() => {
+      gracket = new Gracket(container, { src: reportData });
+    });
+
+    describe('getAdvancingTeams', () => {
+      it('should return advancing teams from round', () => {
+        const advancing = gracket.getAdvancingTeams(0);
+        
+        expect(advancing).toHaveLength(2);
+        expect(advancing[0].name).toBe('Team A');
+        expect(advancing[1].name).toBe('Team C');
+      });
+
+      it('should return advancing teams from last completed round by default', () => {
+        const advancing = gracket.getAdvancingTeams();
+        
+        expect(advancing).toHaveLength(1);
+        expect(advancing[0].name).toBe('Team A');
+      });
+    });
+
+    describe('getRoundResults', () => {
+      it('should return results for round', () => {
+        const results = gracket.getRoundResults(0);
+        
+        expect(results).toHaveLength(2);
+        expect(results[0].winner.name).toBe('Team A');
+        expect(results[0].loser?.name).toBe('Team B');
+      });
+
+      it('should include scores in results', () => {
+        const results = gracket.getRoundResults(0);
+        
+        expect(results[0].winnerScore).toBe(100);
+        expect(results[0].loserScore).toBe(85);
+      });
+    });
+
+    describe('getTeamHistory', () => {
+      it('should return team history', () => {
+        const history = gracket.getTeamHistory('a');
+        
+        expect(history).toBeTruthy();
+        expect(history!.team.name).toBe('Team A');
+        expect(history!.wins).toBe(2);
+        expect(history!.losses).toBe(0);
+      });
+
+      it('should return null for non-existent team', () => {
+        const history = gracket.getTeamHistory('nonexistent');
+        expect(history).toBeNull();
+      });
+
+      it('should track losing team', () => {
+        const history = gracket.getTeamHistory('b');
+        
+        expect(history).toBeTruthy();
+        expect(history!.wins).toBe(0);
+        expect(history!.losses).toBe(1);
+      });
+    });
+
+    describe('getStatistics', () => {
+      it('should return tournament statistics', () => {
+        const stats = gracket.getStatistics();
+        
+        expect(stats.participantCount).toBe(4);
+        expect(stats.totalRounds).toBe(3);
+        expect(stats.averageScore).toBeGreaterThan(0);
+        expect(stats.completionPercentage).toBe(100);
+      });
+
+      it('should identify highest score', () => {
+        const stats = gracket.getStatistics();
+        
+        expect(stats.highestScore).toBeDefined();
+        expect(stats.highestScore!.score).toBe(100);
+      });
+    });
+
+    describe('generateReport', () => {
+      it('should generate JSON report', () => {
+        const report = gracket.generateReport({ format: 'json' });
+        
+        expect(typeof report).toBe('object');
+        expect(report).toHaveProperty('totalRounds');
+        expect(report).toHaveProperty('champion');
+      });
+
+      it('should generate text report', () => {
+        const report = gracket.generateReport({ format: 'text' });
+        
+        expect(typeof report).toBe('string');
+        expect(report).toContain('TOURNAMENT REPORT');
+      });
+
+      it('should generate HTML report', () => {
+        const report = gracket.generateReport({ format: 'html' });
+        
+        expect(typeof report).toBe('string');
+        expect(report).toContain('<div');
+        expect(report).toContain('</div>');
+      });
+
+      it('should generate Markdown report', () => {
+        const report = gracket.generateReport({ format: 'markdown' });
+        
+        expect(typeof report).toBe('string');
+        expect(report).toContain('#');
+        expect(report).toContain('Tournament Report');
+      });
+
+      it('should include statistics when requested', () => {
+        const report = gracket.generateReport({ 
+          format: 'text',
+          includeStatistics: true
+        });
+        
+        expect(report).toContain('Statistics');
+        expect(report).toContain('Participants');
+      });
+
+      it('should include scores when requested', () => {
+        const report = gracket.generateReport({ 
+          format: 'text',
+          includeScores: true
+        });
+        
+        expect(report).toContain('100');
+        expect(report).toContain('85');
+      });
+    });
+  });
 });
