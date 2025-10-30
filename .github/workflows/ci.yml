@@ -63,7 +63,7 @@ jobs:
         run: npm run build
 
       - name: Build demo
-        run: npm run build
+        run: npm run build:demo
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
