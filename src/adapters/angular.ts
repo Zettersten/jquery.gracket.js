@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="./module-stubs.d.ts" />
 import {
   Component,
   Input,
@@ -10,7 +12,6 @@ import {
   ElementRef,
   ViewChild,
   ChangeDetectionStrategy,
-  inject,
   signal,
 } from '@angular/core';
 import { Gracket } from '../core/Gracket';
@@ -49,7 +50,6 @@ export class GracketComponent implements OnInit, OnDestroy, OnChanges {
   // Using signals for reactive state - Angular 18+ best practice
   protected error = signal<Error | null>(null);
   private gracketInstance = signal<Gracket | null>(null);
-  private elementRef = inject(ElementRef);
 
   ngOnInit(): void {
     // Initialize will happen after view init when container is available

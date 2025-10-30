@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="./module-stubs.d.ts" />
 import {
   createSignal,
   createEffect,
@@ -27,8 +29,8 @@ export interface GracketSolidProps extends Omit<GracketOptions, 'src'> {
  * SolidJS component wrapper for Gracket
  * Uses modern SolidJS best practices with fine-grained reactivity
  */
-export const GracketSolid: Component<GracketSolidProps> = (props) => {
-  const merged = mergeProps({ class: '', style: {} }, props);
+export const GracketSolid: Component<GracketSolidProps> = (props: GracketSolidProps) => {
+  const merged = mergeProps({ class: '', style: {} as JSX.CSSProperties }, props) as Required<Pick<GracketSolidProps, 'class' | 'style'>> & GracketSolidProps;
   
   let containerRef: HTMLDivElement | undefined;
   let gracketInstance: Gracket | null = null;

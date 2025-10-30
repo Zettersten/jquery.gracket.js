@@ -20,7 +20,7 @@ export class GracketElement extends HTMLElement {
   private container: HTMLDivElement | null = null;
   private _data: TournamentData = [];
   private _options: Omit<GracketOptions, 'src'> = {};
-  private shadowRoot: ShadowRoot;
+  declare shadowRoot: ShadowRoot;
 
   // Observed attributes for reactive updates
   static get observedAttributes() {

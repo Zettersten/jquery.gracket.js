@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="./module-stubs.d.ts" />
 import { Gracket } from '../core/Gracket';
 import type { GracketOptions, TournamentData } from '../types';
 
