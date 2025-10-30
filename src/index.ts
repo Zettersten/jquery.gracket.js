@@ -3,6 +3,8 @@
  * @packageDocumentation
  */
 
+import './style.css';
+
 export { Gracket } from './core/Gracket';
 export type {
   Team,

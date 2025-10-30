@@ -37,6 +37,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: isDemoBuild ? {
       alias: {
         'gracket': resolve(__dirname, 'src/index.ts'),
+        '/src': resolve(__dirname, 'src'),
       },
     } : undefined,
     build: isLibBuild ? {

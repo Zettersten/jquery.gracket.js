@@ -156,14 +156,21 @@ export class Gracket {
             if (firstGame) {
               this.alignWinner(gameEl, firstGame.offsetHeight);
             }
-
-            // Setup interactivity after bracket is built
-            const prevGame = prevRound?.children[1] as HTMLElement;
-            if (prevGame) {
-              this.setupListeners(prevGame);
-            }
           }
         }
+      }
+    }
+
+    // Setup interactivity for all brackets
+    this.setupInteractivity();
+    
+    // Draw canvas and labels for all brackets
+    if (this.data.length >= 1) {
+      const firstRound = this.container.querySelectorAll(`.${this.settings.roundClass}`)[0];
+      const firstGame = firstRound?.querySelector(`.${this.settings.gameClass}`) as HTMLElement;
+      if (firstGame) {
+        this.resizeCanvas();
+        this.drawCanvas(firstGame);
       }
     }
   }
@@ -232,8 +239,8 @@ export class Gracket {
     gameEl.style.marginTop = `${offset}px`;
   }
 
-  /** Setup hover listeners */
-  private setupListeners(gameEl: HTMLElement): void {
+  /** Setup hover listeners and interactivity */
+  private setupInteractivity(): void {
     const teams = this.container.querySelectorAll(`.${this.settings.teamClass} > h3`);
 
     teams.forEach((teamH3) => {
@@ -256,9 +263,6 @@ export class Gracket {
         });
       }
     });
-
-    this.resizeCanvas();
-    this.drawCanvas(gameEl);
   }
 
   /** Resize canvas to container size */
@@ -281,17 +285,30 @@ export class Gracket {
 
   /** Draw bracket lines on canvas */
   private drawCanvas(gameEl: HTMLElement): void {
-    if (!this.canvas) return;
-
-    const ctx = this.canvas.getContext('2d');
-    if (!ctx) return;
-
-    const itemWidth = this.maxRoundWidth[0];
-    const itemHeight = this.getGameOuterHeight();
+    const itemWidth = this.maxRoundWidth[0] || 0;
     const paddingLeft = parseInt(getComputedStyle(this.container).paddingLeft) || 0;
     const paddingTop = parseInt(getComputedStyle(this.container).paddingTop) || 0;
     const marginRight = parseInt(getComputedStyle(gameEl.parentElement!).marginRight) || 0;
 
+    // Always draw labels first, even if canvas drawing fails
+    this.drawLabels({
+      padding: paddingLeft,
+      left: itemWidth + paddingLeft,
+      right: marginRight,
+      labels: this.settings.roundLabels,
+      class: this.settings.roundLabelClass,
+      width: itemWidth,
+    });
+
+    // Exit early if canvas or context not available
+    if (!this.canvas) return;
+    const ctx = this.canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Exit early if we don't have enough children for drawing
+    if (!gameEl.children[1]) return;
+
+    const itemHeight = this.getGameOuterHeight();
     let cornerRadius = this.settings.cornerRadius;
     let lineGap = this.settings.canvasLineGap;
 
@@ -366,16 +383,6 @@ export class Gracket {
     }
 
     ctx.stroke();
-
-    // Draw labels
-    this.drawLabels({
-      padding: paddingLeft,
-      left: startingLeftPos,
-      right: marginRight,
-      labels: this.settings.roundLabels,
-      class: this.settings.roundLabelClass,
-      width: itemWidth,
-    });
   }
 
   /** Draw round labels */
