@@ -68,10 +68,14 @@ export const applyTieBreaker = (
   switch (strategy) {
     case 'higher-seed':
       // Lower seed number = higher seed
+      // If equal seeds, return first team
+      if (team1.seed === team2.seed) return team1;
       return team1.seed < team2.seed ? team1 : team2;
     
     case 'lower-seed':
       // Higher seed number = lower seed
+      // If equal seeds, return first team
+      if (team1.seed === team2.seed) return team1;
       return team1.seed > team2.seed ? team1 : team2;
     
     case 'callback':
@@ -183,19 +187,49 @@ export const generateNextRound = (winners: Team[], preserveScores: boolean = fal
 
 /**
  * Count total number of matches in tournament
+ * Excludes the final champion display (only in multi-round tournaments)
  */
 export const countTotalMatches = (rounds: Round[]): number => {
-  return rounds.reduce((total, round) => total + round.length, 0);
+  let total = 0;
+  
+  for (let r = 0; r < rounds.length; r++) {
+    const round = rounds[r];
+    const isLastRound = r === rounds.length - 1;
+    const isMultiRound = rounds.length > 1;
+    
+    // Don't count final champion display as a match (only in multi-round tournaments)
+    const isChampionDisplay = isLastRound && isMultiRound && round.length === 1 && round[0].length === 1;
+    
+    if (isChampionDisplay) {
+      continue;
+    }
+    
+    total += round.length;
+  }
+  
+  return total;
 };
 
 /**
  * Count completed matches in tournament
+ * Excludes the final champion display (only in multi-round tournaments)
  */
 export const countCompletedMatches = (rounds: Round[]): number => {
   let count = 0;
   
-  for (const round of rounds) {
+  for (let r = 0; r < rounds.length; r++) {
+    const round = rounds[r];
+    const isLastRound = r === rounds.length - 1;
+    const isMultiRound = rounds.length > 1;
+    
     for (const game of round) {
+      // Don't count final champion display as a completed match (only in multi-round tournaments)
+      const isChampionDisplay = isLastRound && isMultiRound && round.length === 1 && game.length === 1;
+      
+      if (isChampionDisplay) {
+        continue;
+      }
+      
       if (getMatchWinner(game) !== null) {
         count++;
       }
@@ -207,13 +241,23 @@ export const countCompletedMatches = (rounds: Round[]): number => {
 
 /**
  * Count number of byes in tournament
+ * Excludes the final champion round (only in multi-round tournaments)
  */
 export const countByes = (rounds: Round[]): number => {
   let count = 0;
   
-  for (const round of rounds) {
+  for (let r = 0; r < rounds.length; r++) {
+    const round = rounds[r];
+    const isLastRound = r === rounds.length - 1;
+    const isMultiRound = rounds.length > 1;
+    
     for (const game of round) {
-      if (isByeGame(game)) {
+      // A bye is a single-team game
+      // In single-round tournaments, all single-team games are byes
+      // In multi-round tournaments, don't count the final champion display
+      const isChampion = isLastRound && isMultiRound && round.length === 1 && game.length === 1;
+      
+      if (isByeGame(game) && !isChampion) {
         count++;
       }
     }

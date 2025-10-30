@@ -386,7 +386,7 @@ describe('reporting utilities', () => {
       
       expect(stats.participantCount).toBe(4);
       expect(stats.totalRounds).toBe(3);
-      expect(stats.byeCount).toBe(1); // Champion round
+      expect(stats.byeCount).toBe(0); // Champion round not counted as bye
     });
 
     it('should calculate completion percentage', () => {
@@ -495,7 +495,7 @@ describe('reporting utilities', () => {
       const report = generateTournamentReport(sampleTournament);
       
       expect(report.totalRounds).toBe(3);
-      expect(report.totalMatches).toBe(4);
+      expect(report.totalMatches).toBe(3); // Champion display not counted
       expect(report.completedMatches).toBeGreaterThan(0);
       expect(report.allResults).toHaveLength(3);
     });

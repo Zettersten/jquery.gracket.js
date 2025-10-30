@@ -104,6 +104,7 @@ export const buildTeamHistory = (
   for (let roundIndex = 0; roundIndex < tournamentData.length; roundIndex++) {
     const round = tournamentData[roundIndex];
     const roundLabel = roundLabels[roundIndex] || `Round ${roundIndex + 1}`;
+    const isLastRound = roundIndex === tournamentData.length - 1;
     
     // Find game with this team
     for (const game of round) {
@@ -112,6 +113,11 @@ export const buildTeamHistory = (
       if (teamInGame) {
         // Store team reference (use latest)
         team = teamInGame;
+        
+        // Skip champion display (last round, single team)
+        if (isLastRound && round.length === 1 && game.length === 1) {
+          break; // Don't count champion display as a match
+        }
         
         // Determine match outcome
         if (isByeGame(game)) {
@@ -220,12 +226,13 @@ export const calculateStatistics = (tournamentData: TournamentData): TournamentS
   const completedMatches = countCompletedMatches(tournamentData);
   const byeCount = countByes(tournamentData);
   
-  // Count unique participants
+  // Count unique participants (only from first round to avoid counting placeholders)
   const uniqueTeams = new Set<string>();
-  for (const round of tournamentData) {
-    for (const game of round) {
+  if (tournamentData.length > 0) {
+    const firstRound = tournamentData[0];
+    for (const game of firstRound) {
       for (const team of game) {
-        if (team.id) {
+        if (team.id && team.name && !team.name.includes('TBD')) {
           uniqueTeams.add(team.id);
         }
       }

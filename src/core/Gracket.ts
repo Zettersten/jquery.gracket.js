@@ -164,7 +164,17 @@ export class Gracket {
         // Build teams in game
         const teams = games[g];
         const teamCount = teams.length;
-        const isBye = isByeGame(teams) && r !== roundCount - 1; // Byes only in non-final rounds
+        
+        // Determine if this is a bye or the champion display
+        // A bye is a single-team game that's NOT the final champion
+        // The champion is identified by being the only team in the last round of a completed tournament
+        const isChampion = 
+          r === roundCount - 1 &&  // Last round
+          roundCount > 1 &&        // Multi-round tournament
+          games.length === 1 &&    // Only one game in round
+          teamCount === 1;         // Only one team in game
+        
+        const isBye = isByeGame(teams) && !isChampion;
 
         // Handle bye games (Issue #15)
         if (isBye && teamCount === 1) {
@@ -562,6 +572,11 @@ export class Gracket {
       this.settings.onScoreUpdate(roundIndex, gameIndex, teamIndex, score);
     }
 
+    // Check if round is now complete and fire callback
+    if (this.settings.onRoundComplete && checkRoundComplete(round)) {
+      this.settings.onRoundComplete(roundIndex);
+    }
+
     // Re-render to show updated score
     this.init();
   }
@@ -592,7 +607,7 @@ export class Gracket {
    */
   public isRoundComplete(roundIndex: number): boolean {
     if (roundIndex < 0 || roundIndex >= this.data.length) {
-      return false;
+      throw new Error(`Invalid round index: ${roundIndex}. Tournament has ${this.data.length} rounds.`);
     }
 
     return checkRoundComplete(this.data[roundIndex]);
@@ -674,8 +689,12 @@ export class Gracket {
     const { stopAtRound, onRoundGenerated, ...advanceOptions } = options;
 
     let currentRound = 0;
+    const maxIterations = 20; // Safety limit to prevent infinite loops
+    let iterations = 0;
 
-    while (currentRound < this.data.length) {
+    while (currentRound < this.data.length && iterations < maxIterations) {
+      iterations++;
+      
       // Check if this round is complete
       if (!checkRoundComplete(this.data[currentRound])) {
         break; // Stop at first incomplete round
@@ -686,12 +705,9 @@ export class Gracket {
         break;
       }
 
-      // Check if we're at the end
-      if (currentRound === this.data.length - 1) {
-        break; // Last round, can't advance further
-      }
-
       try {
+        const initialLength = this.data.length;
+        
         // Advance to next round
         this.advanceRound(currentRound, {
           ...advanceOptions,
@@ -699,7 +715,7 @@ export class Gracket {
         });
 
         // Fire custom callback if provided
-        if (onRoundGenerated) {
+        if (onRoundGenerated && this.data.length > initialLength) {
           onRoundGenerated(currentRound + 1, this.data[currentRound + 1]);
         }
       } catch (error) {

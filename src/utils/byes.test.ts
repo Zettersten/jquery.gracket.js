@@ -234,6 +234,7 @@ describe('byes utilities', () => {
       const teams: Team[] = [
         { name: 'Team 1', seed: 1 },
         { name: 'Team 2', seed: 2 },
+        { name: 'Team 3', seed: 3 },
       ];
       
       expect(() => {

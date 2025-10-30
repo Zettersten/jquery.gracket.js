@@ -492,7 +492,7 @@ describe('tournament utilities', () => {
         [[{ name: 'A', seed: 1 }]],
       ];
       
-      expect(countTotalMatches(rounds)).toBe(4);
+      expect(countTotalMatches(rounds)).toBe(3); // Champion display not counted
     });
 
     it('should count byes as matches', () => {
@@ -636,9 +636,8 @@ describe('tournament utilities', () => {
         [[{ name: 'A', seed: 1 }]], // Champion, not bye in context
       ];
       
-      // This will count as 1 bye since it's single-team game
-      // In real usage, the last round is handled specially
-      expect(countByes(rounds)).toBe(1);
+      // Champion display is not counted as a bye in multi-round tournaments
+      expect(countByes(rounds)).toBe(0);
     });
   });
 });
