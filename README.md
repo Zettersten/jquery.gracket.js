@@ -10,6 +10,10 @@
 
 **Gracket** is a comprehensive tournament bracket library that handles everything from simple 8-team brackets to complex tournaments with byes, automatic round generation, score tracking, and detailed reporting. Works seamlessly with React, Vue, Angular, or vanilla JavaScript.
 
+## 🎮 [**Live Demo →**](https://zettersten.github.io/jquery.gracket.js/)
+
+See Gracket in action with interactive examples and real-time features!
+
 ---
 
 ## ✨ Features
