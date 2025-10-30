@@ -1,0 +1,38 @@
+# Source files
+src/
+demo/
+tests/
+
+# Config files
+.github/
+.vscode/
+.eslintrc.json
+.prettierrc
+tsconfig.json
+vite.config.ts
+vitest.config.ts
+
+# Documentation
+CONTRIBUTING.md
+.editorconfig
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI
+.github/
+
+# Development
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+coverage/
+.nyc_output/
+
+# Misc
+*.log
+.DS_Store
+node_modules/

@@ -1,0 +1,128 @@
+/* Gracket - Modern Tournament Bracket Styles */
+
+.g_gracket {
+  width: max-content;
+  min-width: 100%;
+  background-color: #fff;
+  padding: 55px 15px 5px;
+  line-height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.g_round {
+  float: left;
+  margin-right: 70px;
+}
+
+.g_round:last-child {
+  margin-right: 20px;
+}
+
+.g_game {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.g_gracket h3 {
+  margin: 0;
+  padding: 10px 8px 8px;
+  font-size: 18px;
+  font-weight: normal;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.g_team {
+  background: #3597ae;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.g_team:last-child {
+  background: #fcb821;
+}
+
+.g_team:hover {
+  filter: brightness(1.1);
+}
+
+.g_winner {
+  background: #444;
+}
+
+.g_winner .g_team {
+  background: none;
+}
+
+.g_current {
+  cursor: pointer;
+  background: #a0b43c !important;
+}
+
+.g_round_label {
+  position: absolute;
+  top: 15px;
+  font-weight: normal;
+  color: #999;
+  text-align: center;
+  font-size: 18px;
+}
+
+.g_seed {
+  display: inline-block;
+  min-width: 2em;
+  text-align: center;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.g_team h3 small {
+  float: right;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.g_canvas {
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .g_gracket {
+    padding: 40px 10px 5px;
+  }
+
+  .g_round {
+    margin-right: 40px;
+  }
+
+  .g_gracket h3 {
+    font-size: 14px;
+    padding: 8px 6px 6px;
+  }
+
+  .g_round_label {
+    font-size: 14px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .g_gracket {
+    background-color: #1a1a1a;
+  }
+
+  .g_round_label {
+    color: #ccc;
+  }
+}
+
+/* Error styling */
+.gracket-error {
+  padding: 1rem;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  color: #c33;
+}
