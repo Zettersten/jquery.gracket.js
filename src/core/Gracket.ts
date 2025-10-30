@@ -189,13 +189,15 @@ export class Gracket {
 
     const scoreTitle = team.score !== undefined ? ` title="Score: ${team.score}"` : '';
     const displaySeed = team.displaySeed ?? team.seed;
-    const scoreDisplay = team.score !== undefined ? team.score : '';
+    const scoreDisplay = team.score !== undefined 
+      ? `<small class="g_score">${team.score}</small>` 
+      : '<small class="g_score g_score-empty">—</small>';
 
     div.innerHTML = `
       <h3${scoreTitle}>
         <span class="${this.settings.seedClass}">${displaySeed}</span>
-        &nbsp;${team.name}&nbsp;
-        <small>${scoreDisplay}</small>
+        <span class="g_team-name">${team.name}</span>
+        ${scoreDisplay}
       </h3>
     `;
 
@@ -219,9 +221,12 @@ export class Gracket {
   private alignWinner(gameEl: HTMLElement, yOffset: number): void {
     const parent = gameEl.parentElement;
     const isOneGame = parent?.parentElement?.querySelectorAll(':scope > div:not(canvas)').length === 1;
+    
+    // Account for winner container padding (20px top + 20px bottom = 40px)
+    const winnerPadding = 40;
     const offset = isOneGame
-      ? yOffset - (gameEl.offsetHeight + gameEl.offsetHeight / 2)
-      : yOffset + gameEl.offsetHeight / 2;
+      ? yOffset - (gameEl.offsetHeight + gameEl.offsetHeight / 2) - (winnerPadding / 2)
+      : yOffset + gameEl.offsetHeight / 2 - (winnerPadding / 2);
 
     gameEl.classList.add(this.settings.winnerClass);
     gameEl.style.marginTop = `${offset}px`;
@@ -378,10 +383,10 @@ export class Gracket {
     let widthPadding = 0;
 
     for (let i = 0; i < this.data.length; i++) {
-      const left =
-        i === 0
-          ? offset.padding + widthPadding
-          : offset.padding + widthPadding + offset.right * i;
+      const roundWidth = this.maxRoundWidth[i] || 0;
+      const left = i === 0
+        ? offset.padding + widthPadding + (roundWidth / 2)
+        : offset.padding + widthPadding + offset.right * i + (roundWidth / 2);
 
       const label = document.createElement('h5');
       label.innerHTML = offset.labels.length ? offset.labels[i] : `Round ${i + 1}`;
@@ -390,11 +395,12 @@ export class Gracket {
       Object.assign(label.style, {
         position: 'absolute',
         left: `${left}px`,
-        width: `${offset.width}px`,
+        transform: 'translateX(-50%)',
+        whiteSpace: 'nowrap',
       });
 
       this.container.appendChild(label);
-      widthPadding += this.maxRoundWidth[i];
+      widthPadding += roundWidth;
     }
   }
 
