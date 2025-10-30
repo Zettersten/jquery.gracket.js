@@ -1,0 +1,97 @@
+{
+  "name": "gracket",
+  "version": "2.0.0",
+  "description": "A modern, framework-agnostic single elimination tournament bracket library",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react.js",
+      "types": "./dist/react.d.ts"
+    },
+    "./vue": {
+      "import": "./dist/vue.js",
+      "types": "./dist/vue.d.ts"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "cross-env BUILD_TARGET=lib vite build && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly --outDir dist",
+    "build:demo": "cross-env BUILD_TARGET=demo vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"demo/**/*.{html,css}\"",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "bracket",
+    "tournament",
+    "elimination",
+    "canvas",
+    "visualization",
+    "sports",
+    "react",
+    "vue",
+    "typescript"
+  ],
+  "author": "Erik Zettersten",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erik5388/jquery.gracket.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/erik5388/jquery.gracket.js/issues"
+  },
+  "homepage": "https://github.com/erik5388/jquery.gracket.js#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@vitejs/plugin-react": "^4.3.3",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitest/ui": "^2.1.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0",
+    "happy-dom": "^20.0.10",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.14.0",
+    "vite": "^5.4.10",
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^2.1.4",
+    "vue": "^3.5.12"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gracket - Modern Tournament Bracket Library</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        color: white;
+        margin-bottom: 3rem;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 1.5rem;
+      }
+
+      .header-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .header-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+
+      .header-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .demo-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .demo-section h2 {
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .demo-description {
+        color: #666;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .bracket-wrapper {
+        overflow-x: auto;
+        background: #f5f5f5;
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .controls {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        background: #667eea;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      button:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .framework-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .tab {
+        padding: 0.75rem 1.5rem;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #666;
+        transition: all 0.2s;
+      }
+
+      .tab.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      pre {
+        background: #282c34;
+        color: #abb2bf;
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-top: 1rem;
+      }
+
+      code {
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 0.9rem;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .feature-card {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 8px;
+        color: white;
+      }
+
+      .feature-card h3 {
+        margin-bottom: 0.5rem;
+      }
+
+      footer {
+        text-align: center;
+        color: white;
+        margin-top: 3rem;
+        opacity: 0.9;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        .demo-section {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🏆 Gracket</h1>
+        <p class="subtitle">Modern, Framework-Agnostic Tournament Bracket Library</p>
+        <div class="header-links">
+          <a href="https://github.com/erik5388/jquery.gracket.js" class="header-link" target="_blank">
+            <span>⭐</span> Star on GitHub
+          </a>
+          <a href="https://www.npmjs.com/package/gracket" class="header-link" target="_blank">
+            <span>📦</span> Install via NPM
+          </a>
+          <a href="https://github.com/erik5388/jquery.gracket.js#readme" class="header-link" target="_blank">
+            <span>📖</span> Documentation
+          </a>
+        </div>
+      </header>
+
+      <div class="demo-section">
+        <h2>🎮 Interactive Demo</h2>
+        <p class="demo-description">
+          Try the interactive tournament bracket below! Hover over teams to see them highlighted
+          across all rounds. Use the controls to see real-time updates.
+        </p>
+        <div class="controls">
+          <button id="update-scores">🎲 Randomize Scores</button>
+          <button id="reset-bracket">🔄 Reset Bracket</button>
+          <button id="change-style">🎨 Toggle Style</button>
+          <button id="show-small">🏀 4-Team Bracket</button>
+          <button id="show-large">🏆 16-Team Bracket</button>
+        </div>
+        <div class="bracket-wrapper">
+          <div id="main-bracket"></div>
+        </div>
+        <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+          💡 <strong>Tip:</strong> Hover over a team to see all their appearances highlighted throughout the bracket!
+        </p>
+      </div>
+
+      <div class="demo-section">
+        <h2>📦 Installation</h2>
+        <p class="demo-description">Get started in seconds with npm, yarn, or pnpm:</p>
+        <pre><code># Using npm
+npm install gracket
+
+# Using yarn
+yarn add gracket
+
+# Using pnpm
+pnpm add gracket</code></pre>
+      </div>
+
+      <div class="demo-section">
+        <h2>💻 Framework Integration</h2>
+        <p class="demo-description">
+          Gracket works seamlessly with any framework or vanilla JavaScript:
+        </p>
+        <div class="framework-tabs">
+          <button class="tab active" data-tab="vanilla">Vanilla JS</button>
+          <button class="tab" data-tab="react">React</button>
+          <button class="tab" data-tab="vue">Vue</button>
+          <button class="tab" data-tab="cdn">CDN</button>
+        </div>
+
+        <div class="tab-content active" data-content="vanilla">
+          <h3>Vanilla JavaScript/TypeScript</h3>
+          <pre><code>import { Gracket } from 'gracket';
+import 'gracket/style.css';
+
+const bracket = new Gracket('#bracket', {
+  src: tournamentData,
+  cornerRadius: 15,
+  canvasLineColor: '#667eea'
+});
+
+// Update bracket
+bracket.update(newData);
+
+// Clean up
+bracket.destroy();</code></pre>
+        </div>
+
+        <div class="tab-content" data-content="react">
+          <h3>React</h3>
+          <pre><code>import { GracketReact } from 'gracket/react';
+import 'gracket/style.css';
+
+function TournamentBracket() {
+  const [data, setData] = useState(tournamentData);
+
+  return (
+    &lt;GracketReact
+      data={data}
+      cornerRadius={15}
+      canvasLineColor="#667eea"
+      onInit={(gracket) => console.log('Initialized!', gracket)}
+    /&gt;
+  );
+}</code></pre>
+        </div>
+
+        <div class="tab-content" data-content="vue">
+          <h3>Vue 3</h3>
+          <pre><code>&lt;script setup&gt;
+import { ref } from 'vue';
+import { GracketVue } from 'gracket/vue';
+import 'gracket/style.css';
+
+const data = ref(tournamentData);
+const options = ref({
+  cornerRadius: 15,
+  canvasLineColor: '#667eea'
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;GracketVue
+    :data="data"
+    :options="options"
+    @init="(gracket) => console.log('Initialized!', gracket)"
+  /&gt;
+&lt;/template&gt;</code></pre>
+        </div>
+
+        <div class="tab-content" data-content="cdn">
+          <h3>CDN (via unpkg)</h3>
+          <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel="stylesheet" href="https://unpkg.com/gracket/dist/style.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="bracket"&gt;&lt;/div&gt;
+    
+    &lt;script type="module"&gt;
+      import { Gracket } from 'https://unpkg.com/gracket';
+      
+      new Gracket('#bracket', {
+        src: tournamentData,
+        cornerRadius: 15
+      });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>✨ Key Features</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>🎨 Modern & Beautiful</h3>
+            <p>Clean, responsive design with smooth animations</p>
+          </div>
+          <div class="feature-card">
+            <h3>⚡ Framework Agnostic</h3>
+            <p>Works with React, Vue, Angular, or vanilla JS</p>
+          </div>
+          <div class="feature-card">
+            <h3>📦 TypeScript</h3>
+            <p>Full TypeScript support with type definitions</p>
+          </div>
+          <div class="feature-card">
+            <h3>🎯 Zero Dependencies</h3>
+            <p>No jQuery required - pure modern JavaScript</p>
+          </div>
+          <div class="feature-card">
+            <h3>🎨 Customizable</h3>
+            <p>Extensive options for styling and behavior</p>
+          </div>
+          <div class="feature-card">
+            <h3>♿ Accessible</h3>
+            <p>Built with accessibility in mind</p>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>
+          Made with ❤️ by Erik Zettersten<br>
+          <a href="https://github.com/erik5388/jquery.gracket.js" style="color: white; text-decoration: none;">
+            View on GitHub
+          </a> | 
+          <a href="https://www.npmjs.com/package/gracket" style="color: white; text-decoration: none;">
+            NPM Package
+          </a> | 
+          <a href="https://github.com/erik5388/jquery.gracket.js#readme" style="color: white; text-decoration: none;">
+            Documentation
+          </a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+          Version 2.0.0 | MIT License | Built with TypeScript & Vite
+        </p>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { Gracket } from '/src/index.ts';
+      import { sampleTournamentData } from '/src/test-utils.ts';
+      import '/src/style.css';
+
+      let gracket = null;
+      let styleToggle = false;
+      let currentData = sampleTournamentData;
+
+      const smallTournamentData = [
+        [
+          [
+            { name: 'Warriors', id: 'warriors', seed: 1, score: 105 },
+            { name: 'Lakers', id: 'lakers', seed: 4, score: 98 },
+          ],
+          [
+            { name: 'Celtics', id: 'celtics', seed: 2, score: 110 },
+            { name: 'Heat', id: 'heat', seed: 3, score: 102 },
+          ],
+        ],
+        [
+          [
+            { name: 'Warriors', id: 'warriors', seed: 1, score: 112 },
+            { name: 'Celtics', id: 'celtics', seed: 2, score: 108 },
+          ],
+        ],
+        [[{ name: 'Warriors', id: 'warriors', seed: 1 }]],
+      ];
+
+      function initBracket(data = sampleTournamentData) {
+        const container = document.getElementById('main-bracket');
+        if (!container) return;
+
+        currentData = data;
+        
+        gracket = new Gracket(container, {
+          src: data,
+          cornerRadius: 15,
+          canvasLineColor: '#667eea',
+          canvasLineWidth: 2,
+          roundLabels: data === sampleTournamentData 
+            ? ['Round 1', 'Round 2', 'Semi Finals', 'Finals', 'Winner']
+            : data.length === 3
+            ? ['Semi Finals', 'Finals', 'Champion']
+            : ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Winner'],
+        });
+      }
+
+      function updateScores() {
+        if (!gracket) return;
+        const data = gracket.getData().map((round) =>
+          round.map((game) =>
+            game.map((team) => ({
+              ...team,
+              score: Math.floor(Math.random() * 100) + 50,
+            }))
+          )
+        );
+        gracket.update(data);
+      }
+
+      function resetBracket() {
+        if (!gracket) return;
+        gracket.update(currentData);
+      }
+
+      function showSmallBracket() {
+        if (!gracket) return;
+        gracket.destroy();
+        initBracket(smallTournamentData);
+      }
+
+      function showLargeBracket() {
+        if (!gracket) return;
+        gracket.destroy();
+        initBracket(sampleTournamentData);
+      }
+
+      function changeStyle() {
+        if (!gracket) return;
+        styleToggle = !styleToggle;
+        gracket.destroy();
+        gracket = new Gracket('#main-bracket', {
+          src: currentData,
+          cornerRadius: styleToggle ? 5 : 20,
+          canvasLineColor: styleToggle ? '#764ba2' : '#667eea',
+          canvasLineWidth: styleToggle ? 3 : 2,
+          canvasLineCap: styleToggle ? 'square' : 'round',
+          roundLabels: currentData === sampleTournamentData 
+            ? ['Round 1', 'Round 2', 'Semi Finals', 'Finals', 'Winner']
+            : currentData.length === 3
+            ? ['Semi Finals', 'Finals', 'Champion']
+            : ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Winner'],
+        });
+      }
+
+      function setupControls() {
+        document.getElementById('update-scores')?.addEventListener('click', updateScores);
+        document.getElementById('reset-bracket')?.addEventListener('click', resetBracket);
+        document.getElementById('change-style')?.addEventListener('click', changeStyle);
+        document.getElementById('show-small')?.addEventListener('click', showSmallBracket);
+        document.getElementById('show-large')?.addEventListener('click', showLargeBracket);
+      }
+
+      function setupTabs() {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const tabName = tab.getAttribute('data-tab');
+            tabs.forEach((t) => t.classList.remove('active'));
+            contents.forEach((c) => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelector(`[data-content="${tabName}"]`)?.classList.add('active');
+          });
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        initBracket();
+        setupControls();
+        setupTabs();
+      });
+    </script>
+  </body>
+</html>

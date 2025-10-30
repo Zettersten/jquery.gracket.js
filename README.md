@@ -1,167 +1,387 @@
-Gracket
-=======
+# 🏆 Gracket
 
-A **single elimation bracket** built using canvas and jquery. 
-**Live demo**: [https://zettersten.github.io/jquery.gracket.js/](https://zettersten.github.io/jquery.gracket.js/)
+> A modern, framework-agnostic single elimination tournament bracket library
 
-Example
--------
+[![npm version](https://img.shields.io/npm/v/gracket.svg)](https://www.npmjs.com/package/gracket)
+[![Build Status](https://github.com/erik5388/jquery.gracket.js/workflows/CI/badge.svg)](https://github.com/erik5388/jquery.gracket.js/actions)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-### HTML
+**Gracket** is a powerful, modern tournament bracket library built with TypeScript and zero dependencies. It works seamlessly with React, Vue, Angular, or vanilla JavaScript.
+
+## ✨ Features
+
+- 🎨 **Modern & Beautiful** - Clean, responsive design with smooth animations
+- ⚡ **Framework Agnostic** - Works with React, Vue, Angular, or vanilla JS
+- 📦 **TypeScript** - Full TypeScript support with comprehensive type definitions
+- 🎯 **Zero Dependencies** - No jQuery required - pure modern JavaScript
+- 🎨 **Customizable** - Extensive options for styling and behavior
+- ♿ **Accessible** - Built with accessibility in mind
+- 🚀 **Tree Shakable** - ES modules with optimal bundle size
+- 📱 **Responsive** - Works on all screen sizes
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+npm install gracket
+# or
+yarn add gracket
+# or
+pnpm add gracket
+```
+
+### Basic Usage
+
+#### Vanilla JavaScript/TypeScript
+
+```typescript
+import { Gracket } from 'gracket';
+import 'gracket/style.css';
+
+const tournamentData = [
+  [
+    [
+      { name: 'Team A', seed: 1, score: 100 },
+      { name: 'Team B', seed: 8, score: 85 },
+    ],
+    [
+      { name: 'Team C', seed: 4, score: 90 },
+      { name: 'Team D', seed: 5, score: 88 },
+    ],
+  ],
+  [
+    [
+      { name: 'Team A', seed: 1, score: 95 },
+      { name: 'Team C', seed: 4, score: 92 },
+    ],
+  ],
+  [[{ name: 'Team A', seed: 1 }]],
+];
+
+const bracket = new Gracket('#bracket', {
+  src: tournamentData,
+  cornerRadius: 15,
+  canvasLineColor: '#667eea',
+  roundLabels: ['Quarter Finals', 'Semi Finals', 'Finals'],
+});
+
+// Update bracket
+bracket.update(newData);
+
+// Clean up
+bracket.destroy();
+```
+
+#### React
+
+```tsx
+import { GracketReact } from 'gracket/react';
+import 'gracket/style.css';
+
+function TournamentBracket() {
+  const [data, setData] = useState(tournamentData);
+
+  return (
+    <GracketReact
+      data={data}
+      cornerRadius={15}
+      canvasLineColor="#667eea"
+      roundLabels={['Quarter Finals', 'Semi Finals', 'Finals']}
+      onInit={(gracket) => console.log('Bracket initialized!', gracket)}
+    />
+  );
+}
+```
+
+#### Vue 3
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { GracketVue } from 'gracket/vue';
+import 'gracket/style.css';
+
+const data = ref(tournamentData);
+const options = ref({
+  cornerRadius: 15,
+  canvasLineColor: '#667eea',
+  roundLabels: ['Quarter Finals', 'Semi Finals', 'Finals'],
+});
+</script>
+
+<template>
+  <GracketVue
+    :data="data"
+    :options="options"
+    @init="(gracket) => console.log('Bracket initialized!', gracket)"
+  />
+</template>
+```
+
+#### HTML (CDN)
 
 ```html
-<div data-gracket="[{},{},{}]">
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/gracket/dist/style.css" />
+  </head>
+  <body>
+    <div id="bracket" data-gracket='[{},{},{}]'></div>
+    
+    <script type="module">
+      import { Gracket } from 'https://unpkg.com/gracket';
+      new Gracket('#bracket');
+    </script>
+  </body>
+</html>
 ```
 
-### JS
+## 📖 API Reference
 
-```js
-$("[data-gracket]").gracket();
+### Constructor
+
+```typescript
+new Gracket(container: HTMLElement | string, options?: GracketOptions)
 ```
 
-### CSS
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `src` | `TournamentData` | `[]` | Tournament bracket data |
+| `gracketClass` | `string` | `'g_gracket'` | CSS class for main container |
+| `gameClass` | `string` | `'g_game'` | CSS class for game containers |
+| `roundClass` | `string` | `'g_round'` | CSS class for round containers |
+| `teamClass` | `string` | `'g_team'` | CSS class for team containers |
+| `winnerClass` | `string` | `'g_winner'` | CSS class for winner container |
+| `currentClass` | `string` | `'g_current'` | CSS class for hover state |
+| `cornerRadius` | `number` | `15` | Corner radius for bracket lines (px) |
+| `canvasLineColor` | `string` | `'#eee'` | Color of bracket lines |
+| `canvasLineWidth` | `number` | `2` | Width of bracket lines (px) |
+| `canvasLineGap` | `number` | `15` | Gap between elements and lines (px) |
+| `canvasLineCap` | `'round' \| 'square' \| 'butt'` | `'round'` | Line cap style |
+| `roundLabels` | `string[]` | `[]` | Custom labels for each round |
+
+### Methods
+
+#### `update(data: TournamentData): void`
+Update the bracket with new tournament data.
+
+```typescript
+bracket.update(newTournamentData);
+```
+
+#### `destroy(): void`
+Remove the bracket and clean up event listeners.
+
+```typescript
+bracket.destroy();
+```
+
+#### `getSettings(): GracketSettings`
+Get current bracket settings.
+
+```typescript
+const settings = bracket.getSettings();
+```
+
+#### `getData(): TournamentData`
+Get current tournament data.
+
+```typescript
+const data = bracket.getData();
+```
+
+## 📊 Data Structure
+
+```typescript
+interface Team {
+  name: string;           // Team/player name
+  id?: string;            // Unique identifier
+  seed: number;           // Tournament seed
+  displaySeed?: string | number;  // Alternative seed display
+  score?: number;         // Match score
+}
+
+type Game = Team[];       // Array of teams in a game
+type Round = Game[];      // Array of games in a round
+type TournamentData = Round[];  // Full tournament structure
+```
+
+### Example Data
+
+```typescript
+const tournamentData: TournamentData = [
+  // Round 1
+  [
+    [
+      { name: 'Team A', id: 'team-a', seed: 1, score: 100 },
+      { name: 'Team B', id: 'team-b', seed: 8, score: 85 }
+    ],
+    [
+      { name: 'Team C', id: 'team-c', seed: 4, score: 90 },
+      { name: 'Team D', id: 'team-d', seed: 5, score: 88 }
+    ]
+  ],
+  // Round 2
+  [
+    [
+      { name: 'Team A', id: 'team-a', seed: 1, score: 95 },
+      { name: 'Team C', id: 'team-c', seed: 4, score: 92 }
+    ]
+  ],
+  // Winner
+  [
+    [
+      { name: 'Team A', id: 'team-a', seed: 1 }
+    ]
+  ]
+];
+```
+
+## 🎨 Styling
+
+Gracket includes default styles, but you can fully customize the appearance using CSS:
 
 ```css
-.g_gracket { width: 9999px; background-color: #fff; padding: 55px 15px 5px; line-height: 100%; position: relative; overflow: hidden;}
-.g_round { float: left; margin-right: 70px; }
-.g_game { position: relative; margin-bottom: 15px; }
-.g_gracket h3 { margin: 0; padding: 10px 8px 8px; font-size: 18px; font-weight: normal; color: #fff}
-.g_team { background: #3597AE; }
-.g_team:last-child {  background: #FCB821; }
-.g_round:last-child { margin-right: 20px; }
-.g_winner { background: #444; }
-.g_winner .g_team { background: none; }
-.g_current { cursor: pointer; background: #A0B43C!important; }
-.g_round_label { top: -5px; font-weight: normal; color: #CCC; text-align: center; font-size: 18px; }
+/* Customize team colors */
+.g_team {
+  background: #your-color;
+}
+
+.g_team:last-child {
+  background: #another-color;
+}
+
+/* Customize hover state */
+.g_current {
+  background: #highlight-color !important;
+}
+
+/* Customize winner */
+.g_winner {
+  background: #winner-color;
+}
+
+/* Customize round labels */
+.g_round_label {
+  color: #label-color;
+  font-size: 18px;
+}
 ```
 
-API Usage
----------
+## 🧪 Testing
 
-```js
-/* 
-* Basic usage
-* @note: Assumes your data comes 
-*        from the element in the 
-*        form of JSON 
-*/
+```bash
+# Run tests
+npm test
 
-$("selector").gracket(); 
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with UI
+npm run test:ui
 ```
 
-```js
-/* 
-* Custom source usage
-* @note: Telling gracket to look 
-*        at a local variable
-*        for the JSON object 
-*/
+## 🏗️ Development
 
-$("selector").gracket({
-	src : refToMyData
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build library
+npm run build
+
+# Run linter
+npm run lint
+
+# Format code
+npm run format
+```
+
+## 📦 Building
+
+The library is built using Vite and outputs multiple formats:
+
+- **ES Module** (`dist/gracket.js`) - For modern bundlers
+- **UMD** (`dist/gracket.umd.cjs`) - For legacy environments
+- **TypeScript Types** (`dist/*.d.ts`) - Full type definitions
+- **CSS** (`dist/style.css`) - Default styles
+
+## 🌐 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Modern mobile browsers
+
+Canvas API support required.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+MIT © [Erik Zettersten](https://github.com/erik5388)
+
+## 🙏 Acknowledgments
+
+This is a modernized version of the original jquery.gracket.js plugin. Special thanks to:
+
+- [Andrew Miller](https://github.com/AndrewMillerPSD)
+- [James Coutry](https://github.com/jcoutry)
+- [Voung Trinh](https://github.com/goods4trade)
+
+## 📚 Resources
+
+- [Live Demo](https://zettersten.github.io/jquery.gracket.js/)
+- [Documentation](https://github.com/erik5388/jquery.gracket.js#readme)
+- [Issue Tracker](https://github.com/erik5388/jquery.gracket.js/issues)
+- [Changelog](CHANGELOG.md)
+
+## 🆚 Migration from v1.x
+
+If you're migrating from the jQuery version:
+
+### Before (v1.x)
+```javascript
+$('#bracket').gracket({
+  src: data,
+  cornerRadius: 15
 });
 ```
 
-```js
-/* 
-* Alter canvas usage
-* @note: Tell grackets canvas to 
-*        look a little different
-*/
+### After (v2.x)
+```typescript
+import { Gracket } from 'gracket';
 
-$("selector").gracket({
-	canvasLineWidth : 1,      // adjusts the thickness of a line
-	canvasLineGap : 2,        // adjusts the gap between element and line
-	cornerRadius : 3,         // adjusts edges of line
-	canvasLineCap : "round",  // or "square"
-	canvasLineColor : "white" // or #HEX
+new Gracket('#bracket', {
+  src: data,
+  cornerRadius: 15
 });
 ```
 
-```js
-/* 
-* Change class names and id structure
-* @note: create gracket with custom  
-*        classes to cater to 
-*        any convention nessesary
-*/
+Key changes:
+- ✅ No jQuery dependency
+- ✅ ES modules instead of global variable
+- ✅ TypeScript support
+- ✅ Framework adapters included
+- ✅ Same API, modern implementation
 
-$("selector").gracket({
-	gracketClass : "g_gracket",
-	gameClass : "g_game",
-	roundClass : "g_round",
-	teamClass : "g_team",
-	winnerClass : "g_winner",
-	spacerClass : "g_spacer",
-	currentClass : "g_current",
-	canvasId : "g_canvas",
-	canvasClass : "g_canvas"
-});
-```
+---
 
-```js
-/* 
-* Create show custom labels, or hide them
-* @note: create gracket with custom  
-*        labels to add more instruction
-*        to your bracket. 
-*/
-
-$("selector").gracket({
-	roundLabels : ["1st Round", "2nd Round", "..."]
-});
-
-/* 
-* @note: leaving this field 
-*				 empty shows the default values.
-*				 In order to hide labels, enter 
-*				 one empty value.
-*/
-
-$("selector").gracket({
-	roundLabels : [""]
-});
-```
-
-What's Next?
-------------
-
-+ **Ajax** : to load data from a given source and then init the bracket. 
-+ **Tooltips** : to hover and expose an element with more info from each team & round.
-+ **Refactor $ Usage** : reduce jQuery methods in the area of "creating elements", "elements lookups", and "element inline styles".
-+ **Data Dive** : A more in depth view at how to structure data to adequatly use gracket.
-
-Contributors
-------------
-
-I could not make this plugin without the advice of the following people, 
-
-1. [Andrew Miller](https://github.com/AndrewMillerPSD)
-2. [James Coutry](https://github.com/jcoutry)
-3. [Voung Trinh](https://github.com/goods4trade)
-
-About
------
-
-+ **Author** : [Erik Zettersten](http://zettersten.com)
-+ **Version** : 1.5.5
-+ **URL** : https://github.com/erik5388/jquery.gracket.js
-
-jquery.gracket.js loves all browsers
-------------------------------------
-
-This plugin has been looked at and tested on the following browsers...
-
-![Gracket is supported in all browsers](http://eventespresso.com/wp-content/uploads/2010/07/Browser-Icons.png)
-
-+ IE6/5 not tested
-+ IE has minor issues with hover states.
-
-Disclaimer
-----------
-This code is provided with no warranty.  While I strive to maintain backwards compatibility, the code is still under active development.  As this is the case, some revisions may break break compatibility with earlier versions of the library.  Please keep this in mind when using jquery.gracket.js.
-
-Copyright and Licensing
------------------------
-Copyright (c) 2012 Erik Zettersten, released under the MIT license.
+Made with ❤️ by [Erik Zettersten](https://github.com/erik5388)
