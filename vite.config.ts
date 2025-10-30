@@ -74,5 +74,6 @@ export default defineConfig(({ command, mode }) => {
       emptyOutDir: true,
       sourcemap: true,
     },
+    base: isDemoBuild ? '/jquery.gracket.js/' : undefined,
   };
 });
