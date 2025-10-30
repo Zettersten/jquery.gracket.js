@@ -464,7 +464,7 @@ describe('Gracket', () => {
 
       it('should trigger onScoreUpdate callback', () => {
         let callbackCalled = false;
-        let callbackData: any = null;
+        let callbackData: { r: number; g: number; t: number; score: number } | null = null;
 
         const gracketWithCallback = new Gracket(container, {
           src: JSON.parse(JSON.stringify(mutableData)),
@@ -765,7 +765,7 @@ describe('Gracket', () => {
     });
 
     it('should pass correct parameters to onScoreUpdate', () => {
-      const capturedParams: any[] = [];
+      const capturedParams: Array<{ r: number; g: number; t: number; score: number }> = [];
 
       const data: TournamentData = [
         [

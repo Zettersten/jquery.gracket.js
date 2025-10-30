@@ -213,22 +213,7 @@ describe('Integration Tests - Complete Workflows', () => {
       const tournamentData = generateTournamentWithByes(teams, 'top-seeds');
       const gracket = new Gracket(container, { src: tournamentData });
 
-      let roundsCompleted = 0;
-
-      // Monitor round completion
-      const onRoundComplete = (r: number) => {
-        roundsCompleted++;
-        
-        // Auto-advance when round completes
-        if (gracket.isRoundComplete(r)) {
-          gracket.advanceRound(r, {
-            tieBreaker: 'higher-seed',
-            createRounds: true
-          });
-        }
-      };
-
-      // Manually attach callback logic
+      // Get initial data
       const data = gracket.getData();
       
       // Score round 1

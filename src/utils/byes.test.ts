@@ -423,8 +423,8 @@ describe('byes utilities', () => {
       const tournament = generateTournamentWithByes(teams, 'top-seeds');
       
       // Each round should have placeholder teams with IDs
-      tournament.forEach((round, rIdx) => {
-        round.forEach((game, gIdx) => {
+      tournament.forEach((round) => {
+        round.forEach((game) => {
           game.forEach(team => {
             expect(team.name).toBeDefined();
             expect(team.seed).toBeDefined();

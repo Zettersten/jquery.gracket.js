@@ -234,7 +234,7 @@ describe('tournament utilities', () => {
 
     it('should throw error for unknown strategy', () => {
       expect(() => {
-        applyTieBreaker(team1, team2, 'invalid' as any);
+        applyTieBreaker(team1, team2, 'invalid' as 'higher-seed' | 'lower-seed' | 'callback');
       }).toThrow('Unknown tie-breaker strategy');
     });
 
