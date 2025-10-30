@@ -15,13 +15,8 @@ export default defineConfig(({ command, mode }) => {
   if (command === 'serve') {
     return {
       plugins: [],
-      root: 'demo',
+      root: resolve(__dirname),
       publicDir: false,
-      resolve: {
-        alias: {
-          '@': resolve(__dirname, 'src'),
-        },
-      },
     };
   }
   
