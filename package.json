@@ -56,12 +56,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/erik5388/jquery.gracket.js.git"
+    "url": "https://github.com/Zettersten/jquery.gracket.js.git"
   },
   "bugs": {
-    "url": "https://github.com/erik5388/jquery.gracket.js/issues"
+    "url": "https://github.com/Zettersten/jquery.gracket.js/issues"
   },
-  "homepage": "https://github.com/erik5388/jquery.gracket.js#readme",
+  "homepage": "https://github.com/Zettersten/jquery.gracket.js#readme",
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/eslint__js": "^8.42.3",

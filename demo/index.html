@@ -12,7 +12,7 @@
       }
 
       body {
-        font-family: 'BentonSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+        font-family: 'BentonSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
           'Helvetica Neue', Arial, sans-serif;
         background: #0d1117;
         min-height: 100vh;
@@ -385,13 +385,13 @@
         <h1>🏆 Tournament Brackets</h1>
         <p class="subtitle">Modern, Framework-Agnostic Bracket Library</p>
         <div class="header-links">
-          <a href="https://github.com/erik5388/jquery.gracket.js" class="header-link" target="_blank">
+          <a href="https://github.com/Zettersten/jquery.gracket.js" class="header-link" target="_blank">
             <span>⭐</span> GitHub
           </a>
           <a href="https://www.npmjs.com/package/gracket" class="header-link" target="_blank">
             <span>📦</span> NPM
           </a>
-          <a href="https://github.com/erik5388/jquery.gracket.js#readme" class="header-link" target="_blank">
+          <a href="https://github.com/Zettersten/jquery.gracket.js#readme" class="header-link" target="_blank">
             <span>📖</span> Docs
           </a>
         </div>
@@ -514,10 +514,10 @@ const options = ref({
   &lt;/head&gt;
   &lt;body&gt;
     &lt;div id="bracket"&gt;&lt;/div&gt;
-    
+
     &lt;script type="module"&gt;
       import { Gracket } from 'https://unpkg.com/gracket';
-      
+
       new Gracket('#bracket', {
         src: tournamentData,
         cornerRadius: 15
@@ -563,9 +563,9 @@ const options = ref({
     <footer>
       <p>
         Made with ❤️ by Erik Zettersten<br>
-        <a href="https://github.com/erik5388/jquery.gracket.js">GitHub</a> | 
-        <a href="https://www.npmjs.com/package/gracket">NPM</a> | 
-        <a href="https://github.com/erik5388/jquery.gracket.js#readme">Documentation</a>
+        <a href="https://github.com/Zettersten/jquery.gracket.js">GitHub</a> |
+        <a href="https://www.npmjs.com/package/gracket">NPM</a> |
+        <a href="https://github.com/Zettersten/jquery.gracket.js#readme">Documentation</a>
       </p>
       <p style="margin-top: 1rem; font-size: 0.9rem;">
         Version 2.0.0 | MIT License | Built with TypeScript & Vite
@@ -606,13 +606,13 @@ const options = ref({
         if (!container) return;
 
         currentData = data;
-        
+
         gracket = new Gracket(container, {
           src: data,
           cornerRadius: 15,
           canvasLineColor: '#667eea',
           canvasLineWidth: 2,
-          roundLabels: data === sampleTournamentData 
+          roundLabels: data === sampleTournamentData
             ? ['Round 1', 'Round 2', 'Semi Finals', 'Finals', 'Winner']
             : data.length === 3
             ? ['Semi Finals', 'Finals', 'Champion']
@@ -660,7 +660,7 @@ const options = ref({
           canvasLineColor: styleToggle ? '#764ba2' : '#667eea',
           canvasLineWidth: styleToggle ? 3 : 2,
           canvasLineCap: styleToggle ? 'square' : 'round',
-          roundLabels: currentData === sampleTournamentData 
+          roundLabels: currentData === sampleTournamentData
             ? ['Round 1', 'Round 2', 'Semi Finals', 'Finals', 'Winner']
             : currentData.length === 3
             ? ['Semi Finals', 'Finals', 'Champion']
