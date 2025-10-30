@@ -40,7 +40,7 @@ export const GracketSolid: Component<GracketSolidProps> = (props) => {
     if (!containerRef || !merged.data?.length) return;
 
     try {
-      const { data, onInit, onError, class: _, style: __, ...options } = merged;
+      const { data, class: _class, style: _style, ...options } = merged;
       
       gracketInstance = new Gracket(containerRef, {
         ...options,

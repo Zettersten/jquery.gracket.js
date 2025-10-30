@@ -11,7 +11,6 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   inject,
-  effect,
   signal,
 } from '@angular/core';
 import { Gracket } from '../core/Gracket';
