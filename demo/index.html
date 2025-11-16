@@ -354,6 +354,125 @@
         color: #c8102e;
       }
 
+      /* Double Elimination Styles */
+      .double-elim-container {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+        margin-top: 2rem;
+        position: relative;
+      }
+
+      .bracket-section {
+        position: relative;
+        background: #0d1117;
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 2rem;
+        overflow-x: auto;
+        overflow-y: visible;
+      }
+
+      .bracket-title {
+        color: #ffffff;
+        font-size: 1.5rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 3px solid #c8102e;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .winners-bracket {
+        border-color: #2ea043;
+        box-shadow: 0 0 20px rgba(46, 160, 67, 0.1);
+      }
+
+      .winners-bracket .bracket-title {
+        border-bottom-color: #2ea043;
+      }
+
+      .losers-bracket {
+        border-color: #f85149;
+        box-shadow: 0 0 20px rgba(248, 81, 73, 0.1);
+      }
+
+      .losers-bracket .bracket-title {
+        border-bottom-color: #f85149;
+      }
+
+      .grand-finals {
+        max-width: 900px;
+        margin: 0 auto;
+        background: linear-gradient(180deg, #1a1d29 0%, #0d1117 100%);
+        border-color: #ffd700;
+        border-width: 3px;
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.3), inset 0 0 60px rgba(255, 215, 0, 0.05);
+      }
+
+      .grand-finals .bracket-title {
+        border-bottom-color: #ffd700;
+        text-align: center;
+        font-size: 1.8rem;
+      }
+
+      .bracket-wrapper-inner {
+        background: transparent;
+        border-radius: 6px;
+        padding: 1rem;
+        min-height: 400px;
+        position: relative;
+      }
+
+      /* Visual connectors between brackets */
+      .bracket-section::before,
+      .bracket-section::after {
+        content: '';
+        position: absolute;
+        width: 3px;
+        z-index: 5;
+        pointer-events: none;
+      }
+
+      .winners-bracket::after {
+        bottom: -4rem;
+        left: 50%;
+        height: 4rem;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, #2ea043 0%, rgba(46, 160, 67, 0.3) 50%, transparent 100%);
+        box-shadow: 0 0 10px rgba(46, 160, 67, 0.4);
+      }
+
+      .losers-bracket::before {
+        top: -4rem;
+        left: 50%;
+        height: 4rem;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, transparent 0%, rgba(248, 81, 73, 0.3) 50%, #f85149 100%);
+        box-shadow: 0 0 10px rgba(248, 81, 73, 0.4);
+      }
+
+      .losers-bracket::after {
+        bottom: -4rem;
+        left: 50%;
+        height: 4rem;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, #f85149 0%, rgba(248, 81, 73, 0.3) 50%, transparent 100%);
+        box-shadow: 0 0 10px rgba(248, 81, 73, 0.4);
+      }
+
+      .grand-finals::before {
+        top: -4rem;
+        left: 50%;
+        height: 4rem;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, transparent 0%, rgba(255, 215, 0, 0.3) 50%, #ffd700 100%);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      }
+
       @media (max-width: 768px) {
         h1 {
           font-size: 2.5rem;
@@ -373,6 +492,18 @@
 
         button {
           width: 100%;
+        }
+
+        .double-elim-container {
+          gap: 2rem;
+        }
+
+        .bracket-section {
+          padding: 1.5rem;
+        }
+
+        .bracket-title {
+          font-size: 1.2rem;
         }
       }
     </style>
@@ -515,6 +646,39 @@
 
         <div class="log-output" id="complete-log">
           <div class="log-entry log-info">Click "Start New Tournament" to begin!</div>
+        </div>
+      </div>
+
+      <!-- Feature 5: Double Elimination Bracket -->
+      <div class="demo-section">
+        <h2>🏆 Double Elimination Bracket</h2>
+        <p class="demo-description">
+          A complete double elimination tournament visualization. Teams start in the Winners Bracket (top). 
+          Losers drop to the Losers Bracket (bottom). The Grand Finals pits the Winners Bracket champion 
+          against the Losers Bracket champion - the Winners Bracket champion must lose twice to be eliminated.
+        </p>
+        
+        <div class="double-elim-container">
+          <div class="bracket-section winners-bracket">
+            <h3 class="bracket-title">Winners Bracket</h3>
+            <div class="bracket-wrapper-inner">
+              <div id="winners-bracket"></div>
+            </div>
+          </div>
+          
+          <div class="bracket-section losers-bracket">
+            <h3 class="bracket-title">Losers Bracket</h3>
+            <div class="bracket-wrapper-inner">
+              <div id="losers-bracket"></div>
+            </div>
+          </div>
+          
+          <div class="bracket-section grand-finals">
+            <h3 class="bracket-title">Grand Finals</h3>
+            <div class="bracket-wrapper-inner">
+              <div id="grand-finals-bracket"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -984,6 +1148,106 @@
         });
         
         addLog('complete-log', '\\n' + report, 'success');
+      });
+
+      // ========================================================================
+      // Demo 5: Double Elimination Bracket
+      // ========================================================================
+
+      // 8-team double elimination tournament data
+      const doubleElimTeams = [
+        { name: 'Warriors', id: 'warriors', seed: 1 },
+        { name: 'Lakers', id: 'lakers', seed: 2 },
+        { name: 'Celtics', id: 'celtics', seed: 3 },
+        { name: 'Heat', id: 'heat', seed: 4 },
+        { name: 'Bucks', id: 'bucks', seed: 5 },
+        { name: 'Suns', id: 'suns', seed: 6 },
+        { name: 'Nets', id: 'nets', seed: 7 },
+        { name: 'Nuggets', id: 'nuggets', seed: 8 }
+      ];
+
+      // Winners Bracket (8 teams -> 4 -> 2 -> 1 champion)
+      const winnersBracketData = [
+        // Round 1: Quarterfinals (4 matches)
+        [
+          [{ name: 'Warriors', id: 'warriors', seed: 1, score: 105 }, { name: 'Nuggets', id: 'nuggets', seed: 8, score: 92 }],
+          [{ name: 'Lakers', id: 'lakers', seed: 2, score: 98 }, { name: 'Nets', id: 'nets', seed: 7, score: 110 }],
+          [{ name: 'Celtics', id: 'celtics', seed: 3, score: 108 }, { name: 'Suns', id: 'suns', seed: 6, score: 102 }],
+          [{ name: 'Heat', id: 'heat', seed: 4, score: 95 }, { name: 'Bucks', id: 'bucks', seed: 5, score: 112 }]
+        ],
+        // Round 2: Semifinals (2 matches)
+        [
+          [{ name: 'Warriors', id: 'warriors', seed: 1, score: 118 }, { name: 'Nets', id: 'nets', seed: 7, score: 105 }],
+          [{ name: 'Celtics', id: 'celtics', seed: 3, score: 115 }, { name: 'Bucks', id: 'bucks', seed: 5, score: 108 }]
+        ],
+        // Round 3: Finals (1 match)
+        [
+          [{ name: 'Warriors', id: 'warriors', seed: 1, score: 120 }, { name: 'Celtics', id: 'celtics', seed: 3, score: 115 }]
+        ],
+        // Round 4: Champion
+        [
+          [{ name: 'Warriors', id: 'warriors', seed: 1 }]
+        ]
+      ];
+
+      // Losers Bracket (losers from winners bracket feed in)
+      // Structure: Round 1 losers play each other, then winners play Round 2 losers, etc.
+      const losersBracketData = [
+        // Round 1: First round losers (4 teams -> 2)
+        [
+          [{ name: 'Nuggets', id: 'nuggets', seed: 8, score: 88 }, { name: 'Lakers', id: 'lakers', seed: 2, score: 95 }],
+          [{ name: 'Suns', id: 'suns', seed: 6, score: 102 }, { name: 'Heat', id: 'heat', seed: 4, score: 98 }]
+        ],
+        // Round 2: Losers from Winners Round 2 + Winners from Losers Round 1 (4 teams -> 2)
+        [
+          [{ name: 'Lakers', id: 'lakers', seed: 2, score: 92 }, { name: 'Nets', id: 'nets', seed: 7, score: 105 }],
+          [{ name: 'Suns', id: 'suns', seed: 6, score: 98 }, { name: 'Bucks', id: 'bucks', seed: 5, score: 110 }]
+        ],
+        // Round 3: Semifinals (2 teams -> 1)
+        [
+          [{ name: 'Nets', id: 'nets', seed: 7, score: 108 }, { name: 'Bucks', id: 'bucks', seed: 5, score: 112 }]
+        ],
+        // Round 4: Finals (loser plays winner from previous round)
+        [
+          [{ name: 'Nets', id: 'nets', seed: 7, score: 115 }, { name: 'Celtics', id: 'celtics', seed: 3, score: 118 }]
+        ],
+        // Round 5: Losers Bracket Champion
+        [
+          [{ name: 'Celtics', id: 'celtics', seed: 3 }]
+        ]
+      ];
+
+      // Grand Finals: Winners Bracket Champion vs Losers Bracket Champion
+      const grandFinalsData = [
+        // Grand Finals Match 1
+        [
+          [{ name: 'Warriors', id: 'warriors', seed: 1, score: 125 }, { name: 'Celtics', id: 'celtics', seed: 3, score: 120 }]
+        ],
+        // Grand Finals Match 2 (if needed - Warriors already won, so this is just for display)
+        [
+          [{ name: 'Warriors', id: 'warriors', seed: 1 }]
+        ]
+      ];
+
+      // Initialize Winners Bracket
+      const winnersBracket = new Gracket('#winners-bracket', {
+        src: winnersBracketData,
+        roundLabels: ['Quarterfinals', 'Semifinals', 'Finals', 'Champion'],
+        canvasLineColor: '#2ea043'
+      });
+
+      // Initialize Losers Bracket
+      const losersBracket = new Gracket('#losers-bracket', {
+        src: losersBracketData,
+        roundLabels: ['Round 1', 'Round 2', 'Semifinals', 'Finals', 'Champion'],
+        canvasLineColor: '#f85149'
+      });
+
+      // Initialize Grand Finals
+      const grandFinalsBracket = new Gracket('#grand-finals-bracket', {
+        src: grandFinalsData,
+        roundLabels: ['Grand Finals', 'Champion'],
+        canvasLineColor: '#ffd700'
       });
     </script>
   </body>
